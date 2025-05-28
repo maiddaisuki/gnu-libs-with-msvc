@@ -1,29 +1,34 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build PACKAGE
+# BUILD_SYSTEM: cmake
 
-## CMake options as of PACKAGE VERSION
+##
+# Build PACKAGE (options as of VERSION)
 #
-# (list options here)
+# List package-specific options, if any
 #
 
 PACKAGE_configure() {
 	print "${package}: configuring"
 
 	local options="
+		-DCMAKE_BUILD_TYPE=${cmake_build_type}
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${msvc_runtime_library}
+
+		-DBUILD_SHARED_LIBS=${build_shared_libs}
+
+		-DCMAKE_INSTALL_PREFIX=${prefix}
+		-DCMAKE_INSTALL_LIBDIR=lib
 	"
 
 	cmake -S "${srcdir}" -B . --fresh \
-		${options} \
-		-DBUILD_SHARED_LIBS=${build_shared_libs} \
-		-DCMAKE_BUILD_TYPE=${cmake_build_type} \
-		-DCMAKE_MSVC_RUNTIME_LIBRARY=${msvc_runtime_library} \
 		-DCMAKE_C_COMPILER="${c_compiler}" \
 		-DCMAKE_C_FLAGS="${CPPFLAGS} ${CFLAGS}" \
 		-DCMAKE_CXX_COMPILER="${cxx_compiler}" \
 		-DCMAKE_CXX_FLAGS="${CPPFLAGS} ${CXXFLAGS}" \
-		-DCMAKE_INSTALL_PREFIX="${prefix}" \
-		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_EXE_LINKER_FLAGS="${LDFLAGS}" \
+		-DCMAKE_SHARED_LINKER_FLAGS="${LDFLAGS}" \
+		${options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
