@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
+##
 # The devenv function
+#
 
 devenv() {
 	local devenv=${u_prefix}/devenv.sh

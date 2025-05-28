@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Generic functions for configure-based packages
+##
+# Generic functions for packages using make as their build system
+#
 
 _make_build() {
 	print "${package}: building"

@@ -1,8 +1,10 @@
-#!/bin/env sh
+#!/bin/sh
 
+##
 # Set stage-specific tool variables
+#
 
-# find GNU Automake's `compile` and `ar-lib` wrapper scripts
+# Find GNU Automake's `compile` and `ar-lib` wrapper scripts
 
 _automake_version=$(automake --version | sed -E '1s/.*([[:digit:]]+\.[[:digit:]]+)$/\1/ ; q')
 
@@ -13,7 +15,9 @@ if [ ! -f ${ar_lib} ] || [ ! -f ${compile} ]; then
 	die "failed to locate 'compile' and 'ar-lib' provided by GNU Automake"
 fi
 
-# tools to use with `configure`
+##
+# Tools to use with `configure`
+#
 
 if [ ${opt_toolchain} = msvc ]; then
 	c_compiler=cl.exe
@@ -64,10 +68,12 @@ elif [ ${opt_toolchain} = llvm ]; then
 	dlltool=llvm-dlltool.exe
 fi
 
-# set header and library search paths
+##
+# Set header and library search paths
 #
 # NOTE: `-external` flag tells cl.exe to treat headers in specified directory
 # as *external* (similar to *system* in gcc)
+#
 
 _incpath=
 _libpath=
@@ -83,7 +89,9 @@ elif [ ${stage} = 3 ]; then
 	_libpath="-L${u_programs_prefix}/lib -L${u_prefix}/lib"
 fi
 
-# compiler flags to use with `configure`
+##
+# Flags to use with `configure`
+#
 
 if ${opt_debug}; then
 	cppflags=

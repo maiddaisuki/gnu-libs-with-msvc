@@ -1,18 +1,15 @@
-#!/bin/env sh
-
-# Verify options
+#!/bin/sh
 
 ##
-## Make Msys2 behave
-##
+# Verify user config
+#
 
+# Make Msys2 behave
 export MSYS2_ARG_CONV_EXCL='-Tp;-Tc'
 
-##
-## Verify options
-##
-
 _die=false
+
+# Verify directories
 
 if [ -z "${PREFIX}" ]; then
 	_die=true
@@ -41,6 +38,8 @@ elif [ ! -d "${SRCDIR}" ]; then
 	_die=true
 	error "SRCDIR=${SRCDOR}: directory does not exist"
 fi
+
+# Unsupported packages
 
 if ${WITH_EMACS}; then
 	_die=true
@@ -72,8 +71,8 @@ if ${_die}; then
 fi
 
 ##
-## Shared and Static libraries
-##
+# Shared and Static libraries
+#
 
 if ${opt_debug}; then
 	cmake_build_type=Debug

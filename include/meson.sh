@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Generic functions for Meson-based packages
+##
+# Generic functions for packages using meson as their build system
+#
 
 _meson_build() {
 	print "${package}: building"

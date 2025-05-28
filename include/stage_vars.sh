@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
+##
 # The stage_vars function
+#
 
 # $1: builddir
 # $2: value of *_SRCDIR

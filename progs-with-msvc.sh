@@ -17,10 +17,6 @@ fi
 self=$(realpath "$0")
 selfdir=$(dirname "${self}")
 
-##
-## Helper functions
-##
-
 self_log=/dev/null
 
 print() {
@@ -45,8 +41,8 @@ die() {
 }
 
 ##
-## Parse options
-##
+# Parse options
+#
 
 opt_host=x86_64-w64-mingw32
 opt_env=${selfdir}/vs.sh
@@ -94,8 +90,8 @@ while [ $# -gt 0 ]; do
 done
 
 ##
-## Read configs
-##
+# Make sure required tools are in PATH
+#
 
 if [ -f "${opt_env}" ]; then
 	. ${opt_env}
@@ -108,31 +104,28 @@ if ! type cl.exe >/dev/null 2>&1; then
 	die "cl.exe is not found in PATH"
 fi
 
-. ${selfdir}/config/dirs.sh
-. ${selfdir}/config/flags.sh
-. ${selfdir}/config/options.sh
-. ${selfdir}/config/packages.sh
-
 ##
-## Read scripts with functions
-##
+# Read configs
+#
 
 dir_include=${selfdir}/include
 dir_packages=${selfdir}/packages
 
+# User configs
+. ${selfdir}/config/dirs.sh
+. ${selfdir}/config/flags.sh
+. ${selfdir}/config/options.sh
+. ${selfdir}/config/packages.sh
+# Internal configs
 . ${dir_include}/verify.sh
-
-# helpers
-
+# Functions
 . ${dir_include}/post_install.sh
 . ${dir_include}/stage_vars.sh
-
+# Functions for build systems
 . ${dir_include}/make.sh
 . ${dir_include}/cmake.sh
 . ${dir_include}/meson.sh
-
-# packages
-
+# Packages
 . ${dir_packages}/autoconf.sh
 . ${dir_packages}/automake.sh
 . ${dir_packages}/bison.sh
@@ -141,8 +134,8 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/m4.sh
 
 ##
-## Build
-##
+# Build programs
+#
 
 . ${dir_include}/stage3.sh
 
@@ -154,11 +147,19 @@ bison_main
 
 gettext_main
 
+##
+# Autotools
+#
+
 if ${opt_with_autotools}; then
 	autoconf_main
 	automake_main
 	libtool_main
 fi
+
+##
+# Finalize
+#
 
 post_install "${PROGRAMS_PREFIX}" "${u_programs_prefix}"
 

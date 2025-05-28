@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
+##
 # The post_install function
+#
 
 # $1: prefix (windows-style)
 # $2: prefix (unix_style)

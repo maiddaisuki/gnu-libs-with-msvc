@@ -1,6 +1,8 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Generic functions for CMake-based packages
+##
+# Generic functions for packages using cmake as their build system
+#
 
 _cmake_build() {
 	print "${package}: building"

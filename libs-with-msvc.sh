@@ -17,10 +17,6 @@ fi
 self=$(realpath "$0")
 selfdir=$(dirname "${self}")
 
-##
-## Helper functions
-##
-
 self_log=/dev/null
 
 print() {
@@ -45,8 +41,8 @@ die() {
 }
 
 ##
-## Parse options
-##
+# Parse options
+#
 
 opt_env=${selfdir}/vs.sh
 opt_host=x86_64-w64-mingw32
@@ -112,8 +108,8 @@ while [ $# -gt 0 ]; do
 done
 
 ##
-## Read configs
-##
+# Make sure required tools are in PATH
+#
 
 if [ -f "${opt_env}" ]; then
 	. ${opt_env}
@@ -127,35 +123,28 @@ if ! type cl.exe >/dev/null 2>&1; then
 fi
 
 ##
-## Read user-modifiable files
-##
-
-. ${selfdir}/config/dirs.sh
-. ${selfdir}/config/flags.sh
-. ${selfdir}/config/options.sh
-. ${selfdir}/config/packages.sh
-
-##
-## Read scripts with functions
-##
+# Read configs
+#
 
 dir_include=${selfdir}/include
 dir_packages=${selfdir}/packages
 
+# User configs
+. ${selfdir}/config/dirs.sh
+. ${selfdir}/config/flags.sh
+. ${selfdir}/config/options.sh
+. ${selfdir}/config/packages.sh
+# Internal configs
 . ${dir_include}/verify.sh
-
-# helpers
-
+# Functions
 . ${dir_include}/devenv.sh
 . ${dir_include}/post_install.sh
 . ${dir_include}/stage_vars.sh
-
+# Functions for build systems
 . ${dir_include}/make.sh
 . ${dir_include}/cmake.sh
 . ${dir_include}/meson.sh
-
-# packages
-
+# Packages
 . ${dir_packages}/bzip2.sh
 . ${dir_packages}/libasprintf.sh
 . ${dir_packages}/libiconv.sh
@@ -170,8 +159,8 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/winpthreads.sh
 
 ##
-## Build
-##
+# Stage 1
+#
 
 if ${opt_enable_stage1}; then
 	. ${dir_include}/stage1.sh
@@ -186,6 +175,10 @@ if ${opt_enable_stage1}; then
 		libtool_main
 	fi
 fi
+
+##
+# Stage 2
+#
 
 if ${opt_enable_stage2}; then
 	. ${dir_include}/stage2.sh
@@ -233,6 +226,10 @@ if ${opt_enable_stage2}; then
 
 	devenv
 fi
+
+##
+# Finalize
+#
 
 post_install "${PREFIX}" "${u_prefix}"
 

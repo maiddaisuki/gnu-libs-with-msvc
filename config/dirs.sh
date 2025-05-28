@@ -1,22 +1,21 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Set build, source and installation directories
+##
+# Specify build, source and installation directories
+#
 # Use windows-style filenames with forward slashes e.g. 'C:/some/dir'
+#
 
 # Installation prefix for libraries (libs-with-msvc.sh)
-#
 PREFIX=
 
 # Installation prefix for programs (progs-with-msvc.sh)
-#
 PROGRAMS_PREFIX=${PREFIX}/usr
 
 # Installation prefix to use during stage 1
-#
 BUILD_PREFIX=
 
 # Root for relative *_SRCDIR directories
-#
 SRCDIR=
 
 # Root for build directories
@@ -27,8 +26,11 @@ SRCDIR=
 BUILDDIR=${TEMP}
 
 ##
-## Source directories
-##
+# Source directories
+#
+# Absolute names are used as-is.
+# Relative names are appended to SRCDIR.
+#
 
 AUTOCONF_SRCDIR=     #
 AUTOMAKE_SRCDIR=     #
