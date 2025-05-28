@@ -1,10 +1,11 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build PACKAGE
+# BUILD_SYSTEM: BUILD SYSTEM
 
-## Configure options as of PACKAGE VERSION
+##
+# Build PACKAGE (options as of VERSION)
 #
-# (list options here)
+# List package-specific options, if any
 #
 
 PACKAGE_configure() {
@@ -30,7 +31,6 @@ PACKAGE_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -46,6 +46,7 @@ PACKAGE_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
