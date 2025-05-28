@@ -24,7 +24,7 @@ stage_vars() {
 
 	case ${stage} in
 	1)
-		prefix=${BUILD_PREFIX}
+		prefix=${build_prefix}
 		;;
 	2)
 		prefix=${PREFIX}

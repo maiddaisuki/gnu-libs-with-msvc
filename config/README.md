@@ -14,7 +14,6 @@ You should set following variables before running any script:
 - `PREFIX`: installation prefix for libraries
 - `PROGRAMS_PREFIX`: installation prefix for programs
   (may be the same as `PREFIX`)
-- `BUILD_PREFIX`: installation directory for stage-1 libraries and porgrams
 - `SRCDIR`: root directory for relative `{package}_SRCDIR` directories
 - `BUILDDIR`: directory to use as the build root
   (default is `${TEMP}`)

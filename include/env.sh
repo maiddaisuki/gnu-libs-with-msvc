@@ -30,12 +30,12 @@ export PKG_CONFIG_LIBDIR=
 export PKG_CONFIG_PATH=
 
 if [ ${stage} -eq 1 ]; then
-	CMAKE_PREFIX_PATH="${BUILD_PREFIX}"
-	PKG_CONFIG_LIBDIR="${BUILD_PREFIX}/lib/pkgconfig;${BUILD_PREFIX}/share/pkgconfig"
+	CMAKE_PREFIX_PATH="${build_prefix}"
+	PKG_CONFIG_LIBDIR="${build_prefix}/lib/pkgconfig;${build_prefix}/share/pkgconfig"
 elif [ ${stage} -eq 2 ]; then
-	CMAKE_PREFIX_PATH="${PREFIX};${BUILD_PREFIX}"
+	CMAKE_PREFIX_PATH="${PREFIX};${build_prefix}"
 	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"
-	PKG_CONFIG_PATH="${BUILD_PREFIX}/lib/pkgconfig;${BUILD_PREFIX}/share/pkgconfig"
+	PKG_CONFIG_PATH="${build_prefix}/lib/pkgconfig;${build_prefix}/share/pkgconfig"
 else # stage 3
 	CMAKE_PREFIX_PATH="${PREFIX}"
 	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"

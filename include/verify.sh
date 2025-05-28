@@ -18,11 +18,6 @@ if [ -z "${PROGRAMS_PREFIX}" ]; then
 	error "PROGRAMS_PREFIX is not set"
 fi
 
-if [ -z "${BUILD_PREFIX}" ]; then
-	_die=true
-	error "BUILD_PREFIX is not set"
-fi
-
 if [ -z "${BUILDDIR}" ]; then
 	_die=true
 	error "BUILDDIR is not set"
@@ -118,8 +113,7 @@ else
 	fi
 fi
 
-# unix-style values for PREFIX, PROGRAMS_PREFIX and BUILD_PREFIX
+# unix-style values for PREFIX and PROGRAMS_PREFIX
 
 u_prefix=$(cygpath -u "${PREFIX}")
 u_programs_prefix=$(cygpath -u "${PROGRAMS_PREFIX}")
-u_build_prefix=$(cygpath -u "${BUILD_PREFIX}")

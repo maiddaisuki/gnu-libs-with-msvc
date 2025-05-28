@@ -15,10 +15,10 @@ _incpath=
 _libpath=
 
 if [ ${stage} = 1 ]; then
-	_incpath="-I${u_build_prefix}/include -external:I${BUILD_PREFIX}/include -external:W0"
+	_incpath="-I${u_build_prefix}/include -external:I${build_prefix}/include -external:W0"
 	_libpath="-L${u_build_prefix}/lib"
 elif [ ${stage} = 2 ]; then
-	_incpath="-I${u_prefix}/include -external:I${PREFIX}/include -I${u_build_prefix}/include -external:I${BUILD_PREFIX}/include -external:W0"
+	_incpath="-I${u_prefix}/include -external:I${PREFIX}/include -I${u_build_prefix}/include -external:I${build_prefix}/include -external:W0"
 	_libpath="-L${u_prefix}/lib -L${u_build_prefix}/lib"
 elif [ ${stage} = 3 ]; then
 	_incpath="-I${u_programs_prefix}/include -external:I${PROGRAMS_PREFIX}/include -I${u_prefix}/include -external:I${PREFIX}/include -external:W0"

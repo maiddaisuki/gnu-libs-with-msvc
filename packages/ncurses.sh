@@ -334,7 +334,7 @@ ncurses_configure() {
 		with_libtool=--without-libtool
 		with_libtool_opts=--without-libtool-opts
 	else
-		libtool=$(cygpath -u "${BUILD_PREFIX}/bin/libtool")
+		libtool=${u_build_prefix}/bin/libtool
 
 		case ,${enable_shared},${enable_static}, in
 		,*enable*,*enable*,)

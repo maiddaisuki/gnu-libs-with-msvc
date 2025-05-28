@@ -12,9 +12,6 @@ PREFIX=
 # Installation prefix for programs (progs-with-msvc.sh)
 PROGRAMS_PREFIX=${PREFIX}/usr
 
-# Installation prefix to use during stage 1
-BUILD_PREFIX=
-
 # Root for relative *_SRCDIR directories
 SRCDIR=
 
