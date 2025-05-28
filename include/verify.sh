@@ -112,8 +112,3 @@ else
 		msvc_runtime_library=MultiThreadedDLL
 	fi
 fi
-
-# unix-style values for PREFIX and PROGRAMS_PREFIX
-
-u_prefix=$(cygpath -u "${PREFIX}")
-u_programs_prefix=$(cygpath -u "${PROGRAMS_PREFIX}")
