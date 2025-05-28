@@ -11,6 +11,10 @@
 PACKAGE_configure() {
 	print "${package}: configuring"
 
+	local c_args=$(meson_args ${CPPFLAGS} ${CFLAGS})
+	local cpp_args=$(meson_args ${CPPFLAGS} ${CXXFLAGS})
+	local link_args=$(meson_args ${LDFLAGS})
+
 	local options="
 		--buildtype ${buildtype}
 		--default-library ${default_library}
@@ -22,10 +26,10 @@ PACKAGE_configure() {
 	"
 
 	meson setup "${srcdir}" --vsenv --wipe \
-		-Dc_args="${CPPFLAGS} ${CFLAGS}" \
-		-Dc_link_args="${LDFLAGS}" \
-		-Dcpp_args="${CPPFLAGS} ${CXXFLAGS}" \
-		-Dcpp_link_args="${LDFLAGS}" \
+		-Dc_args="${c_args}" \
+		-Dc_link_args="${link_args}" \
+		-Dcpp_args="${cpp_args}" \
+		-Dcpp_link_args="${link_args}" \
 		${options} \
 		>>"${configure_log}" 2>&1
 

@@ -1,27 +1,36 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build winpthreads (Meson)
+# BUILD_SYSTEM: meson
 
-## Meson options as of winpthreads 1.0
+##
+# Build winpthreads (options as of 1.0)
 #
-# (no options)
+# No options
 #
 
 winpthreads_configure() {
 	print "${package}: configuring"
 
+	local c_args=$(meson_args ${CPPFLAGS} ${CFLAGS})
+	local cpp_args=$(meson_args ${CPPFLAGS} ${CXXFLAGS})
+	local link_args=$(meson_args ${LDFLAGS})
+
 	local options="
+		--buildtype ${buildtype}
+		--default-library ${default_library}
+
+		--prefix ${prefix}
+		--libdir lib
+
+		-Db_vscrt=${vscrt}
 	"
 
 	meson setup "${srcdir}" --vsenv --wipe \
+		-Dc_args="${c_args}" \
+		-Dc_link_args="${link_args}" \
+		-Dcpp_args="${cpp_args}" \
+		-Dcpp_link_args="${link_args}" \
 		${options} \
-		--prefix "${prefix}" \
-		--libdir lib \
-		--buildtype ${buildtype} \
-		--default-library ${default_library} \
-		-Db_vscrt=${vscrt} \
-		-Dc_args="${CPPFLAGS} ${CFLAGS}" \
-		-Dcpp_args="${CPPFLAGS} ${CXXFLAGS}" \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"

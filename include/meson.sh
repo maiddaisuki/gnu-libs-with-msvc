@@ -4,6 +4,20 @@
 # Generic functions for packages using meson as their build system
 #
 
+meson_args() {
+	local arg args
+
+	for arg in "$@"; do
+		if [ -z "${args}" ]; then
+			args="'${arg}'"
+		else
+			args="${args}, '${arg}'"
+		fi
+	done
+
+	printf '[%s]' "${args}"
+}
+
 _meson_build() {
 	print "${package}: building"
 
