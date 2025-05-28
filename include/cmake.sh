@@ -74,7 +74,7 @@ _cmake_main() {
 	local pkgdir
 	local pkgfile
 
-	stage_vars "${package}" "$2"
+	stage_vars "${package}" "$2" "${package}"
 
 	local _srcdir=$(cygpath -u "${srcdir}")
 	local _prefix=$(cygpath -u "${prefix}")

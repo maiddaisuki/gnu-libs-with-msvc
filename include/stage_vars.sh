@@ -4,13 +4,14 @@
 # The stage_vars function
 #
 
-# $1: builddir
-# $2: value of *_SRCDIR
+# $1: package name
+# $2: srcdir
+# $3: builddir
 #
 stage_vars() {
 
 	case $2 in
-	/* | ?:[\\/]*)
+	/* | [a-zA-Z]:[\\/]*)
 		srcdir=$2
 		;;
 	*)
@@ -19,21 +20,26 @@ stage_vars() {
 	esac
 
 	if [ ! -d "${srcdir}" ]; then
-		die "${package}: ${srcdir}: directory does not exist"
+		die "${package}: srcdir: ${srcdir}: directory does not exist"
 	fi
+
+	local buildroot=
 
 	case ${stage} in
 	1)
 		prefix=${build_prefix}
+		buildroot=${BUILDDIR}/stage1
 		;;
 	2)
 		prefix=${PREFIX}
+		buildroot=${BUILDDIR}/stage2
 		;;
 	3)
 		prefix=${PROGRAMS_PREFIX}
+		buildroot=${BUILDDIR}/stage3
 		;;
 	*)
-		die "invalid stage: ${stage}"
+		die "stage: ${stage}: invalid value"
 		;;
 	esac
 
@@ -44,25 +50,19 @@ stage_vars() {
 		test -d "${prefix}/${dir}" || install -d "${prefix}/${dir}" || exit
 	done
 
-	local stageroot=${BUILDDIR}/stage-${stage}
-
-	local buildroot=${stageroot}/build
-	local cacheroot=${stageroot}/cache
-	local destroot=${stageroot}/stage
-
-	builddir=${buildroot}/$1
+	builddir=${buildroot}/builddir/$3
 	test -d "${builddir}" || install -d "${builddir}" || exit
 
-	logdir=${cacheroot}/${package}
+	logdir=${buildroot}/logs/$1
 	test -d "${logdir}" || install -d "${logdir}" || exit
 
-	statedir=${cacheroot}/${package}
+	statedir=${buildroot}/state/$1
 	test -d "${statedir}" || install -d "${statedir}" || exit
 
-	destdir=${destroot}/${package}
+	destdir=${buildroot}/destdir/$1
 	test -d "${destdir}" || install -d "${destdir}" || exit
 
-	pkgdir=${cacheroot}/packages
+	pkgdir=${buildroot}/packages
 	test -d "${pkgdir}" || install -d "${pkgdir}" || exit
 
 	pkgfile=${pkgdir}/${package_tar_x}
