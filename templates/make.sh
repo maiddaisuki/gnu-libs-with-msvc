@@ -58,7 +58,7 @@ PACKAGE_build() {
 
 PACKAGE_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 

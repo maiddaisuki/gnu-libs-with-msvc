@@ -21,9 +21,9 @@ _make_test() {
 	print "${package}: running testsuite"
 
 	if [ $# -eq 0 ]; then
-		make check >>"${test_log}" 2>&1
+		make -k check >>"${test_log}" 2>&1
 	else
-		make "$@" >>"${test_log}" 2>&1
+		make -k "$@" >>"${test_log}" 2>&1
 	fi
 
 	if test $? -ne 0; then
