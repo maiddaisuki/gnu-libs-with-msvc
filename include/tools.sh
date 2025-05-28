@@ -1,8 +1,14 @@
 #!/bin/sh
 
 ##
-# Set stage-specific tool variables
+# Build tools
 #
+
+# make sure this file is only read once
+_need_tools=false
+
+# Make Msys2 behave
+export MSYS2_ARG_CONV_EXCL='-Tp;-Tc'
 
 # Find GNU Automake's `compile` and `ar-lib` wrapper scripts
 
@@ -16,13 +22,15 @@ if [ ! -f ${ar_lib} ] || [ ! -f ${compile} ]; then
 fi
 
 ##
-# Tools to use with `configure`
+# Select either msvc or llvm tools
 #
 
 if [ ${opt_toolchain} = msvc ]; then
+	# For use with cmake and meson
 	c_compiler=cl.exe
 	cxx_compiler=cl.exe
 
+	# For use with configure script
 	cc="${compile} cl.exe -nologo"
 	cxx="${compile} cl.exe -nologo"
 
@@ -47,11 +55,13 @@ if [ ${opt_toolchain} = msvc ]; then
 
 	dlltool=:
 elif [ ${opt_toolchain} = llvm ]; then
+	# For use with cmake and meson
 	c_compiler=clang-cl.exe
 	cxx_compiler=clang-cl.exe
 
-	cc="${compile} clang-cl.exe"
-	cxx="${compile} clang-cl.exe"
+	# For use with configure script
+	cc="${compile} clang-cl.exe -w"
+	cxx="${compile} clang-cl.exe -w"
 
 	as=llvm-as.exe
 	ld=lld-link.exe
@@ -67,75 +77,3 @@ elif [ ${opt_toolchain} = llvm ]; then
 
 	dlltool=llvm-dlltool.exe
 fi
-
-##
-# Set header and library search paths
-#
-# NOTE: `-external` flag tells cl.exe to treat headers in specified directory
-# as *external* (similar to *system* in gcc)
-#
-
-_incpath=
-_libpath=
-
-if [ ${stage} = 1 ]; then
-	_incpath="-I${u_build_prefix}/include -external:I${BUILD_PREFIX}/include -external:W0"
-	_libpath="-L${u_build_prefix}/lib"
-elif [ ${stage} = 2 ]; then
-	_incpath="-I${u_prefix}/include -external:I${PREFIX}/include -I${u_build_prefix}/include -external:I${BUILD_PREFIX}/include -external:W0"
-	_libpath="-L${u_prefix}/lib -L${u_build_prefix}/lib"
-elif [ ${stage} = 3 ]; then
-	_incpath="-I${u_programs_prefix}/include -external:I${PROGRAMS_PREFIX}/include -I${u_prefix}/include -external:I${PREFIX}/include -external:W0"
-	_libpath="-L${u_programs_prefix}/lib -L${u_prefix}/lib"
-fi
-
-##
-# Flags to use with `configure`
-#
-
-if ${opt_debug}; then
-	cppflags=
-	# work around libtool bug...
-	ldflags=-Wl,-Xlinker,-debug
-else
-	cppflags='-DNDEBUG'
-	ldflags=
-fi
-
-if ${opt_static}; then
-	if ${opt_debug}; then
-		cflags="-MTd -Od -Z7"
-	else
-		cflags="-MT -O2"
-	fi
-else
-	if ${opt_debug}; then
-		cflags="-MDd -Od -Z7"
-	else
-		cflags="-MD -O2"
-	fi
-fi
-
-cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
-cflags="${cflags} -utf-8"
-cxxflags="${cflags} -EHsc -permissive-"
-
-if [ ${opt_toolchain} = llvm ]; then
-	cflags="${cflags} -w"
-	cxxflags="${cxxflags} -w"
-fi
-
-# request specific C and C++ standards
-
-if ${opt_legacy}; then :; else
-	cppflags="${cppflags} -D_CRT_DECLARE_NONSTDC_NAMES"
-	cflags="${cflags} -std:c17 -Zc:__STDC__"
-	cxxflags="${cxxflags} -std:c++20 -Zc:__cplusplus"
-fi
-
-# Add user flags
-
-cppflags="${_incpath} ${cppflags} ${CPPFLAGS}"
-cflags="${cflags} ${CFLAGS}"
-cxxflags="${cxxflags} ${CXXFLAGS}"
-ldflags="${_libpath} ${ldflags} ${LDFLAGS}"

@@ -163,7 +163,8 @@ dir_packages=${selfdir}/packages
 #
 
 if ${opt_enable_stage1}; then
-	. ${dir_include}/stage1.sh
+	stage=1
+	. ${dir_include}/env.sh
 
 	# libiconv's `iconv.exe` has circular (optional) dependency on libintl
 
@@ -172,7 +173,7 @@ if ${opt_enable_stage1}; then
 
 	if ${opt_ncurses_static}; then :; else
 		# we build and install libtool to build ncurses in stage 2
-		libtool_main
+		: libtool_main
 	fi
 fi
 
@@ -181,7 +182,8 @@ fi
 #
 
 if ${opt_enable_stage2}; then
-	. ${dir_include}/stage2.sh
+	stage=2
+	. ${dir_include}/env.sh
 
 	# allow some packages use POSIX threading API instead of Win32 API
 

@@ -4,9 +4,6 @@
 # Verify user config
 #
 
-# Make Msys2 behave
-export MSYS2_ARG_CONV_EXCL='-Tp;-Tc'
-
 _die=false
 
 # Verify directories

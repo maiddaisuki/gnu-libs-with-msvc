@@ -137,7 +137,8 @@ dir_packages=${selfdir}/packages
 # Build programs
 #
 
-. ${dir_include}/stage3.sh
+stage=3
+. ${dir_include}/env.sh
 
 : perl_main
 
