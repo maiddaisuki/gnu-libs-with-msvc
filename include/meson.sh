@@ -49,6 +49,8 @@ _meson_pack() {
 
 	test $? -eq 0 || die "${package}: failed to craete ${package_tar_x}"
 	cd "${old_pwd}" || exit
+
+	rm -rf "${destdir}"
 }
 
 _meson_install() {
