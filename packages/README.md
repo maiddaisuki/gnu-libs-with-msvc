@@ -119,6 +119,13 @@ The `libs-with-msvc.sh` will patch installed `*.la` files to make library usable
 and rename import and static libraries to follow `libtool` conventions for MSVC
 tools.
 
+### winpthreads
+
+`WINPTHREADS_SRCDIR` must point to `mingw-w64-libraries/winpthreads`
+subdirectory of `mingw-w64` repository.
+
+Testsuite can only be run with static libraries.
+
 ## External Build System
 
 Some packages use build system which works poorly with MSVC tool or
@@ -138,12 +145,3 @@ with `;`, or simply remove them.
 
 You may also need to change value of `version` keyword in `project` call.
 Current value is `1.0.8`.
-
-### winpthreads
-
-mingw-64's `winpthreads` only support `GNU Autotools` as a build system.
-It works poorly with MSVC tools. You will need to use provided `meson.build` and
-to build it.
-
-Copy [patches/winpthreads/meson.build](/patches/winpthreads/meson.build) to
-`mingw-w64-libraries/winpthreads` directory of cloned `mingw-w64` repository.

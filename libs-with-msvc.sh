@@ -166,7 +166,8 @@ dir_packages=${selfdir}/packages
 #. ${dir_packages}/libxml2.sh
 . ${dir_packages}/libxml2.cmake.sh
 . ${dir_packages}/ncurses.sh
-. ${dir_packages}/winpthreads.sh
+. ${dir_packages}/winpthreads.autotools.sh
+#. ${dir_packages}/winpthreads.meson.sh
 
 ##
 # Stage 1
@@ -194,8 +195,6 @@ fi
 if ${opt_enable_stage2}; then
 	stage=2
 	. ${dir_include}/env.sh
-
-	# allow some packages use POSIX threading API instead of Win32 API
 
 	${WITH_WINPTHREADS} && winpthreads_main
 
