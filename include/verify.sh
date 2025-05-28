@@ -6,6 +6,18 @@
 
 _die=false
 
+# Command-line options
+
+case ${opt_buildtype} in
+release | small-release | debug)
+	:
+	;;
+*)
+	_die=true
+	error "--buildtype: ${opt_buildtype}: invalid value"
+	;;
+esac
+
 # Verify directories
 
 if [ -z "${PREFIX}" ]; then

@@ -73,6 +73,8 @@ Some details are given in [BUILD.md](./BUILD.md).
 Following options are accepted by both `libs-with-msvc.sh` and
 `progs-with-msvc.sh`:
 
+- `--buildtype={release|small-release|debug}`:
+  see [Build Type](/BUILD.md#build-type) in `BUILD.md`
 - `--debug`: link against debug version of CRT  
   see [Debug](./BUILD.md#debug) in `BUILD.md`
 - `--env=FILENAME`: see [Environment](./BUILD.md#environment) in `BUILD.md`

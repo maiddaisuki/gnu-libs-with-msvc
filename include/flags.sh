@@ -51,26 +51,47 @@ cflags="${cflags} -utf-8"
 cxxflags="${cflags} -EHsc -permissive-"
 ldflags="${ldflags}"
 
-# CRT type, optimizations and debug info
+##
+# CRT type
+#
 
-if ${opt_debug}; then
-	ldflags="${ldflags} ${_Wl}-debug"
-
-	if ${opt_static}; then
-		cflags="${cflags} -MTd -Od -Z7"
+if ${opt_static}; then
+	if ${opt_debug}; then
+		cflags="${cflags} -MTd"
 	else
-		cflags="${cflags} -MDd -Od -Z7"
+		cflags="${cflags} -MT"
 	fi
 else
-	cppflags="${cppflags} -DNDEBUG"
-	ldflags="${ldflags} ${_Wl}-release"
-
-	if ${opt_static}; then
-		cflags="${cflags} -MT -O2"
+	if ${opt_debug}; then
+		cflags="${cflags} -MDd"
 	else
-		cflags="${cflags} -MD -O2"
+		cflags="${cflags} -MD"
 	fi
 fi
+
+##
+# Build type: optimizations and debug info
+#
+
+case ${opt_buildtype} in
+release)
+	cppflags="${cppflags} -DNDEBUG"
+	cflags="${cflags} -O2 -Ob2"
+	cxxflags="${cxxflags} -O2 -Ob2"
+	ldflags="${ldflags} ${_Wl}-release"
+	;;
+small-release)
+	cppflags="${cppflags} -DNDEBUG"
+	cflags="${cflags} -O1 -Ob1"
+	cxxflags="${cxxflags} -O1 -Ob1"
+	ldflags="${ldflags} ${_Wl}-release"
+	;;
+debug)
+	cflags="${cflags} -Od -Ob0 -Z7"
+	cxxflags="${cxxflags} -Od -Ob0 -Z7"
+	ldflags="${ldflags} ${_Wl}-debug"
+	;;
+esac
 
 # Add user-supplied flags
 

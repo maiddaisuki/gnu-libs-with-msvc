@@ -11,9 +11,9 @@
 PACKAGE_configure() {
 	print "${package}: configuring"
 
-	local c_args=$(meson_args ${CPPFLAGS} ${CFLAGS})
-	local cpp_args=$(meson_args ${CPPFLAGS} ${CXXFLAGS})
-	local link_args=$(meson_args ${LDFLAGS})
+	local c_args=$(meson_args ${build_cppflags} ${build_cflags} ${CPPFLAGS} ${CFLAGS})
+	local cpp_args=$(meson_args ${build_cppflags} ${build_cxxflags} ${CPPFLAGS} ${CXXFLAGS})
+	local link_args=$(meson_args ${build_ldflags} ${LDFLAGS})
 
 	local options="
 		--buildtype plain
@@ -22,7 +22,8 @@ PACKAGE_configure() {
 		--prefix ${prefix}
 		--libdir lib
 
-		-Db_vscrt=${vscrt}
+		-Db_vscrt=${b_vscrt}
+		-Db_ndebug=${b_ndebug}
 	"
 
 	meson setup "${srcdir}" --vsenv --wipe \

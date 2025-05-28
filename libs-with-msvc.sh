@@ -49,6 +49,7 @@ opt_host=x86_64-w64-mingw32
 
 opt_toolchain=msvc
 
+opt_buildtype=release
 opt_debug=false
 opt_legacy=false
 opt_static=false
@@ -63,6 +64,13 @@ while [ $# -gt 0 ]; do
 	opt=$1 && shift
 
 	case ${opt} in
+	--buildtype=*)
+		opt_buildtype=${opt#--buildtype=}
+		;;
+	--buildtype)
+		opt_buildtype=$1
+		shift || die "${opt}: missing argument"
+		;;
 	--debug)
 		opt_debug=true
 		;;

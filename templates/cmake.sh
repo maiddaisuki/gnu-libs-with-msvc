@@ -24,10 +24,12 @@ PACKAGE_configure() {
 	cmake -S "${srcdir}" -B . --fresh \
 		-DCMAKE_C_COMPILER="${c_compiler}" \
 		-DCMAKE_C_FLAGS="${CPPFLAGS} ${CFLAGS}" \
+		-DCMAKE_C_FLAGS_RELEASE="${build_cppflags} ${build_cflags}" \
 		-DCMAKE_CXX_COMPILER="${cxx_compiler}" \
 		-DCMAKE_CXX_FLAGS="${CPPFLAGS} ${CXXFLAGS}" \
-		-DCMAKE_EXE_LINKER_FLAGS="${LDFLAGS}" \
-		-DCMAKE_SHARED_LINKER_FLAGS="${LDFLAGS}" \
+		-DCMAKE_CXX_FLAGS_RELEASE="${build_cppflags} ${build_cxxflags}" \
+		-DCMAKE_EXE_LINKER_FLAGS="${build_ldflags} ${LDFLAGS}" \
+		-DCMAKE_SHARED_LINKER_FLAGS="${build_ldflags} ${LDFLAGS}" \
 		${options} \
 		>>"${configure_log}" 2>&1
 

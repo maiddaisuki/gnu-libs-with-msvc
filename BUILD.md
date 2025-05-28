@@ -37,43 +37,21 @@ The `--debug` option.
 When `--debug` option is passed, the scripts arrange to pass required options
 to the build system to link against debug verions of CRTs.
 
-## Interaction between `--debug` and `--static`
+## Build Type
 
-The following tables summarize which compiler options and build system
-options are passed depending on state of `--debug` and `--static` options.
+The `--buildtype` option.
 
-For `configure`:
+This option controls optimizations and generation of debug info.
 
-|         | default               | --static              |
-| ------- | --------------------- | --------------------- |
-| default | C[XX]FLAGS=`-MD -O2`  | C[XX]FLAGS=`-MT -O2`  |
-| --debug | C[XX]FLAGS=`-MDd -Od` | C[XX]FLAGS=`-MTd -Od` |
+| Value         | CPPFLAGS | C[XX]FLAGS   | LDFLAGS  |
+| ------------- | -------- | ------------ | -------- |
+| release       | -DNDEBUG | -O2 -Ob2     | -release |
+| small-release | -DNDEBUG | -O1 -Ob1     | -release |
+| debug         |          | -Od -Ob0 -Z7 | -debug   |
 
-For `CMake` two variables are affected:
-
-- `CMAKE_BUILD_TYPE`
-- `CMAKE_MSVC_RUNTIME_LIBRARY`
-
-The `CMAKE_BUILD_TYPE` is set as follows:
-
-|         | default | --static |
-| ------- | ------- | -------- |
-| default | Release | Release  |
-| --debug | Debug   | Debug    |
-
-The `CMAKE_MSVC_RUNTIME_LIBRARY` is set as follows:
-
-|         | default               | --static           |
-| ------- | --------------------- | ------------------ |
-| default | MultiThreadedDLL      | MultiThreaded      |
-| --debug | MultiThreadedDebugDLL | MultiThreadedDebug |
-
-For `Meson`:
-
-|         | default                          | --static                         |
-| ------- | -------------------------------- | -------------------------------- |
-| default | --buildtype release -Db_vscrt=md | --buildtype release -Db_vscrt=mt |
-| --debug | --buildtype debug -Db_vscrt=mdd  | --buildtype debug -Db_vscrt=mtd  |
+When buildtype is `debug`, object files will be compiled with `-Z7`, which will
+store debug info in object files. Note, however, that `.pdb` files will only be
+generated if `-debug` option is passed to the linker.
 
 ## Legacy
 
