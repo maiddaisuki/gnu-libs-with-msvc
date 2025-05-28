@@ -119,6 +119,7 @@ dir_packages=${selfdir}/packages
 # Internal configs
 . ${dir_include}/verify.sh
 . ${dir_include}/dirs.sh
+. ${dir_include}/options.sh
 # Functions
 . ${dir_include}/post_install.sh
 . ${dir_include}/stage_vars.sh
