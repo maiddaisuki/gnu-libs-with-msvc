@@ -1,27 +1,32 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build PACKAGE
+# BUILD_SYSTEM: meson
 
-## Meson options as of PACKAGE VERSION
+##
+# Build PACKAGE (options as of VERSION)
 #
-# (list options here)
+# List package-specific options, if any
 #
 
 PACKAGE_configure() {
 	print "${package}: configuring"
 
 	local options="
+		--buildtype ${buildtype}
+		--default-library ${default_library}
+
+		--prefix ${prefix}
+		--libdir lib
+
+		-Db_vscrt=${vscrt}
 	"
 
 	meson setup "${srcdir}" --vsenv --wipe \
-		${options} \
-		--prefix "${prefix}" \
-		--libdir lib \
-		--buildtype ${buildtype} \
-		--default-library ${default_library} \
-		-Db_vscrt=${vscrt} \
 		-Dc_args="${CPPFLAGS} ${CFLAGS}" \
+		-Dc_link_args="${LDFLAGS}" \
 		-Dcpp_args="${CPPFLAGS} ${CXXFLAGS}" \
+		-Dcpp_link_args="${LDFLAGS}" \
+		${options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
