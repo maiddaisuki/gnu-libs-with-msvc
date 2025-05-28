@@ -4,12 +4,6 @@
 # Shared and Static libraries
 #
 
-if ${opt_debug}; then
-	buildtype=debug
-else
-	buildtype=release
-fi
-
 if ${opt_static}; then
 	enable_static=--enable-static
 	enable_shared=--disable-shared

@@ -16,7 +16,7 @@ PACKAGE_configure() {
 	local link_args=$(meson_args ${LDFLAGS})
 
 	local options="
-		--buildtype ${buildtype}
+		--buildtype plain
 		--default-library ${default_library}
 
 		--prefix ${prefix}
