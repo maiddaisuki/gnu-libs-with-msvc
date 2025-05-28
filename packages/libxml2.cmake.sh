@@ -60,41 +60,50 @@
 libxml2_configure() {
 	print "${package}: configuring"
 
-	local with_programs=ON
-
+	# Optional dependencies
 	local with_lzma=OFF
+	local with_zlib=OFF
 
 	if ${WITH_LZMA}; then
 		with_lzma=ON
 	fi
 
-	local with_zlib=OFF
-
 	if ${WITH_ZLIB}; then
 		with_zlib=ON
 	fi
 
-	local options="
-		-DLIBXML2_WITH_PROGRAMS=${with_programs}
-		-DLIBXML2_WITH_PYTHON=OFF
+	# Features
+	local with_programs=ON
 
-		-DLIBXML2_WITH_LZMA=${with_lzma}
-		-DLIBXML2_WITH_ZLIB=${with_zlib}
+	local options="
+		-DCMAKE_BUILD_TYPE=Release
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${msvc_runtime_library}
+
+		-DBUILD_SHARED_LIBS=${build_shared_libs}
+
+		-DCMAKE_INSTALL_PREFIX=${prefix}
+		-DCMAKE_INSTALL_LIBDIR=lib
 
 		-DLIBXML2_WITH_THREADS=ON
 		-DLIBXML2_WITH_THREAD_ALLOC=ON
 		-DLIBXML2_WITH_TLS=ON
+
+		-DLIBXML2_WITH_PROGRAMS=${with_programs}
+
+		-DLIBXML2_WITH_LZMA=${with_lzma}
+		-DLIBXML2_WITH_ZLIB=${with_zlib}
+
+		-DLIBXML2_WITH_PYTHON=OFF
 	"
 
 	cmake -S "${srcdir}" -B . --fresh \
-		${options} \
-		-DBUILD_SHARED_LIBS=${build_shared_libs} \
-		-DCMAKE_BUILD_TYPE=${cmake_build_type} \
-		-DCMAKE_MSVC_RUNTIME_LIBRARY=${msvc_runtime_library} \
 		-DCMAKE_C_COMPILER="${c_compiler}" \
-		-DCMAKE_C_FLAGS_RELEASE="${CPPFLAGS} ${CFLAGS}" \
-		-DCMAKE_INSTALL_PREFIX="${prefix}" \
-		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_C_FLAGS="${CPPFLAGS} ${CFLAGS}" \
+		-DCMAKE_CXX_COMPILER="${cxx_compiler}" \
+		-DCMAKE_CXX_FLAGS="${CPPFLAGS} ${CXXFLAGS}" \
+		-DCMAKE_EXE_LINKER_FLAGS="${LDFLAGS}" \
+		-DCMAKE_SHARED_LINKER_FLAGS="${LDFLAGS}" \
+		${options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"

@@ -12,7 +12,7 @@ PACKAGE_configure() {
 	print "${package}: configuring"
 
 	local options="
-		-DCMAKE_BUILD_TYPE=${cmake_build_type}
+		-DCMAKE_BUILD_TYPE=Release
 		-DCMAKE_MSVC_RUNTIME_LIBRARY=${msvc_runtime_library}
 
 		-DBUILD_SHARED_LIBS=${build_shared_libs}

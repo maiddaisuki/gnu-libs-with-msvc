@@ -5,10 +5,8 @@
 #
 
 if ${opt_debug}; then
-	cmake_build_type=Debug
 	buildtype=debug
 else
-	cmake_build_type=Release
 	buildtype=release
 fi
 
