@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libunistring
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options as of libunistring 1.3
+##
+# Build libunistring (options as of version 1.3)
 #
 # --enable-cross-guesses=conservative|risky
 # --enable-relocatable
@@ -14,6 +15,8 @@
 #
 # --enable-threads=isoc|posix|isoc+posix|windows
 #
+## Dependencies
+#
 # --with-libiconv-prefix[=DIR]
 # --without-libiconv-prefix
 #
@@ -21,12 +24,12 @@
 libunistring_configure() {
 	print "${package}: configuring"
 
+	# Features
 	local enable_threads=windows
 
 	if [ ${stage} = 2 ]; then
 		if ${WITH_WINPTHREADS}; then
 			enable_threads=posix
-			local cppflags="${cppflags} -FIpthread_compat.h"
 		fi
 	fi
 
@@ -52,7 +55,6 @@ libunistring_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -68,6 +70,7 @@ libunistring_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -79,7 +82,7 @@ libunistring_build() {
 
 libunistring_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 

@@ -62,6 +62,11 @@ with `progs-with-msvc.sh`.
 
 Required by `libgnurx` (`libsystre`) which is not yet supported.
 
+### libunistring
+
+Building `libunistring-1.3` from source tarball fails due to a `libtool` bug.
+Use any later version, release `1.2`, or build from `master`.
+
 ### libxml2
 
 Supports both `GNU Autotools` and `CMake` build systems.
