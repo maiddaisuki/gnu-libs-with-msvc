@@ -68,8 +68,22 @@ winpthreads_stage() {
 	_make_stage
 }
 
+winpthreads_pack_hook() {
+	# make libtool happy
+	local dll link
+
+	for dll in $(dir bin); do
+		case ${dll} in
+		*winpthread*.dll)
+			link=$(printf %s ${dll} | sed 's|winpthread|pthread|')
+			(cd bin && ln ${dll} ${link}) || exit
+			;;
+		esac
+	done
+}
+
 winpthreads_pack() {
-	_make_pack
+	_make_pack winpthreads_pack_hook
 }
 
 winpthreads_install() {
