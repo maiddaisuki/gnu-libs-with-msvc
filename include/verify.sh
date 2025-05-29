@@ -70,6 +70,60 @@ if ${WITH_ZLIB}; then
 	error "WITH_ZLIB=true; package not supported"
 fi
 
+# Verify dependencies
+
+if ${WITH_LIBTEXTSTYLE}; then
+	if ! ${WITH_NCURSES}; then
+		_die=true
+		error "libtextstyle: missing dependency: ncurses"
+	fi
+fi
+
+if ${WITH_BISON}; then
+	if ! ${WITH_M4}; then
+		_die=true
+		error "bison: missing dependency: m4"
+	fi
+fi
+
+if ${WITH_GETTEXT}; then
+	if ! ${WITH_NCURSES}; then
+		_die=true
+		error "gettext: missing dependency: ncurses"
+	fi
+	if ! ${WITH_LIBUNISTRING}; then
+		_die=true
+		error "gettext: missing dependency: libunistring"
+	fi
+	if ! ${WITH_LIBXML2}; then
+		_die=true
+		error "gettext: missing dependency: libxml2"
+	fi
+fi
+
+if ${WITH_AUTOCONF}; then
+	if ! ${WITH_M4}; then
+		_die=true
+		error "autoconf: missing dependency: m4"
+	fi
+fi
+
+if ${WITH_LIBTOOL}; then
+	if ! ${WITH_AUTOCONF}; then
+		_die=true
+		error "libtool: missing dependency: autoconf"
+	fi
+fi
+
+if ${WITH_AUTOMAKE}; then
+	if ! ${WITH_AUTOCONF}; then
+		_die=true
+		error "libtool: missing dependency: autoconf"
+	fi
+fi
+
+# Abort if errors detected
+
 if ${_die}; then
 	die "invalid configuration"
 fi
