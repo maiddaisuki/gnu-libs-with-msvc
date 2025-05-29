@@ -1,45 +1,47 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build bison
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options for bison 3.8.2
+##
+# Build bison (options as of version 3.8.2)
+#
+# --enable-nls
+# --enable-yacc
+#
+## gnulib
 #
 # --enable-cross-guesses=conservative|risky
+# --enable-largefile
 # --enable-relocatable
-#
-# --disable-largefile
-# --disable-year2038
-#
-# --disable-nls
 # --enable-threads=isoc|posix|isoc+posix|windows
+# --enable-year2038
 #
-# --disable-yacc
+## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
-#
 # --with-libintl-prefix[=DIR]
-# --without-libintl-prefix
-#
 # --with-libreadline-prefix[=DIR]
-# --without-libreadline-prefix
-#
 # --with-libtextstyle-prefix[=DIR]
-# --without-libtextstyle-prefix
+#
+## Developer options
 #
 # --enable-gcc-warnings
-# --disable-assert
+# --enable-assert
 #
 
 bison_configure() {
 	print "${package}: configuring"
 
-	local enable_nls=--enable-nls
+	# Features
+	local enable_assert=--disable-assert
 	local enable_threads=windows
+
+	if [ ${opt_buildtype} = debug ]; then
+		enable_assert=--enable-assert
+	fi
 
 	if ${WITH_WINPTHREADS}; then
 		enable_threads=posix
-		local cppflags="${cppflags} -FIpthread_compat.h"
 	fi
 
 	local configure_options="
@@ -53,10 +55,9 @@ bison_configure() {
 
 		--enable-yacc
 
-		${enable_nls}
+		${enable_assert}
+		--enable-nls
 		--enable-threads=${enable_threads}
-
-		--disable-assert
 	"
 
 	if [ -f Makefile ]; then
@@ -66,8 +67,7 @@ bison_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		M4="$(cygpath -m "${PREFIX}/bin/m4.exe")" \
-		${configure_options} \
+		M4="$(cygpath -m "${PROGRAMS_PREFIX}/bin/m4.exe")" \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -83,9 +83,12 @@ bison_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
+	# Fix for out-of-tree build
+	test -d examples || cp -Rp ${_srcdir}/examples -t . || exit
 }
 
 bison_build() {
@@ -94,7 +97,7 @@ bison_build() {
 
 bison_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 

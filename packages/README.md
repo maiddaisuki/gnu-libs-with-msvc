@@ -24,14 +24,9 @@ The `autoconf`, `automake` and `libtool` packages are built by
 
 ### Bison
 
-Cannot be built from tarball with at least latest MSVC tools due to `gnulib`
-issues.
+Building `bison-3.8.2` fails. Older versions may work.
 
-If you build `bison` from git, you may use `gnulib`'s tag `stable-202301` which
-seems to at least allow package to build.
-
-However, testsuite fails horribly and I cannot confirm that built `bison`
-functions properly.
+Testsuite seems to fail a lot.
 
 ### Gettext
 
