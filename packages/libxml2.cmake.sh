@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libxml2 (CMake)
+# BUILD_SYSTEM: cmake
 
-## options as of libxml2 2.13.5
+##
+# Build libxml2 (options as of version 2.13.5)
 #
 # LIBXML2_WITH_PROGRAMS [ON]
 # LIBXML2_WITH_TESTS [ON]
@@ -125,25 +126,24 @@ libxml2_stage() {
 	_cmake_stage
 }
 
-libxml2_pack_patch() {
-
+libxml2_pack_hook() {
 	# make libtool happy
 
 	if [ -f bin/libxml2.dll ]; then
-		(cd bin && ln libxml2.dll xml2.dll)
+		(cd bin && ln libxml2.dll xml2.dll) || exit
 
 		if [ -f lib/libxml2.lib ]; then
-			(cd lib && ln libxml2.lib xml2.dll.lib)
+			(cd lib && ln libxml2.lib xml2.dll.lib) || exit
 		fi
 	fi
 
 	if [ -f lib/libxml2s.lib ]; then
-		(cd lib && ln libxml2s.lib xml2.lib)
+		(cd lib && ln libxml2s.lib xml2.lib) || exit
 	fi
 }
 
 libxml2_pack() {
-	_cmake_pack libxml2_pack_patch
+	_cmake_pack libxml2_pack_hook
 }
 
 libxml2_install() {

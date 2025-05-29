@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libxml2 (Autotools)
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## Configure options as of libxml2 2.13.5
+##
+# Build libxml2 (options as of version 2.13.5)
 #
 # --enable-ipv6=yes|no [yes]
 #
@@ -68,13 +69,13 @@
 libxml2_configure() {
 	print "${package}: configuring"
 
+	# Optional dependencies
 	local with_zlib=--without-zlib
+	local with_lzma=--without-lzma
 
 	if ${WITH_LZMA}; then
 		with_lzma=--with-zlib
 	fi
-
-	local with_lzma=--without-lzma
 
 	if ${WITH_ZLIB}; then
 		with_zlib=--with-lzma
@@ -109,7 +110,6 @@ libxml2_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -125,6 +125,7 @@ libxml2_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -136,7 +137,7 @@ libxml2_build() {
 
 libxml2_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
