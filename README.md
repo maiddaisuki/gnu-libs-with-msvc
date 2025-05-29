@@ -98,12 +98,6 @@ for details about following options:
 - `--ncurses-workaround`
 - `--ncurses-static`
 
-### `progs-with-msvc.sh`'s options
-
-The `libs-with-msvc.sh` accepts following command line options:
-
-- `--with-autotools`: configure and install `autoconf`, `automake` and `libtool`.
-
 ## Source Tree Structure
 
 Most of subdirectories contain supporting scripts which are sourced with `.`

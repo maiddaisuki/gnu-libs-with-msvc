@@ -53,8 +53,6 @@ opt_buildtype=release
 opt_static=false
 opt_legacy=false
 
-opt_with_autotools=false
-
 while [ $# -gt 0 ]; do
 	opt=$1 && shift
 
@@ -87,9 +85,6 @@ while [ $# -gt 0 ]; do
 		;;
 	--host=*)
 		opt_host=${opt#--host=}
-		;;
-	--with-autotools)
-		opt_with_autotools=true
 		;;
 	*)
 		die "${opt}: unrecognized option"
@@ -152,21 +147,18 @@ stage=3
 
 : perl_main
 
-m4_main
-bison_main
+${WITH_M4} && m4_main
+${WITH_BISON} && bison_main
 : flex_main
-
-gettext_main
+${WITH_GETTEXT} && gettext_main
 
 ##
 # Autotools
 #
 
-if ${opt_with_autotools}; then
-	autoconf_main
-	automake_main
-	libtool_main
-fi
+${WITH_AUTOCONF} && autoconf_main
+${WITH_LIBTOOL} && libtool_main
+${WITH_AUTOMAKE} && automake_main
 
 ##
 # Finalize

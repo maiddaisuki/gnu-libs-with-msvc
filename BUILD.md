@@ -121,10 +121,9 @@ The natively built `m4` and `bison` do not seem to function well:
 - `m4`'s testsuite seems to fail a lot.
 - `bison`'s testsuite fails completely.
 
-The `Autoconf`, `Automake` and `Libtool` may be configured and installed by
-passing `--with-autotools` option. Keep in mind that `Autoconf` and `Libtool`
-are shell scripts and cannot be "native". `Automake` is a `perl` script and
-I am unsure if it works with natively built `perl`.
+Keep in mind that `Autoconf` and `Libtool` are shell scripts and cannot be
+"native". `Automake` is a `perl` script and I am unsure if it works with
+natively built `perl`.
 
 I did not try to build `make` and `perl` with MSVC tools. Also, natively built
 `make` will not work with `Autotools`.

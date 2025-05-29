@@ -177,14 +177,11 @@ if ${opt_enable_stage1}; then
 	stage=1
 	. ${dir_include}/env.sh
 
-	# libiconv's `iconv.exe` has circular (optional) dependency on libintl
-
 	libiconv_main
 	libintl_main
 
-	if ${opt_ncurses_static}; then :; else
-		# we build and install libtool to build ncurses in stage 2
-		: libtool_main
+	if ${WITH_NCURSES} && ! ${opt_ncurses_static}; then
+		libtool_main
 	fi
 fi
 
@@ -198,44 +195,26 @@ if ${opt_enable_stage2}; then
 
 	${WITH_WINPTHREADS} && winpthreads_main
 
-	# almost everything depends on libiconv and libintl
-
 	libiconv_main
 	libintl_main
 
-	# nothing depends on libasprintf
-
-	libasprintf_main
-
-	# libgnurx (libsystre) is an optional dependency of ncurses
-
-	libtre_main
+	${WITH_TRE} && libtre_main
 	: libgnurx_main # not implemented
 
-	# ncurses is a dependency of readline
-	# ncurses is an optional dependency of libtextstyle and gettext
-	#
-	# libtextstyle is in turn a dependency of gettext
-
 	${WITH_NCURSES} && ncurses_main
-
 	${WITH_READLINE} && : readline_main # not implemented
-	libtextstyle_main
 
-	# lzma and zlib are optional dependencies for libxml2
+	${WITH_LIBASPRINTF} && libasprintf_main
+	if ${WITH_LIBTEXTSTYLE} || ${WITH_GETTEXT}; then
+		libtextstyle_main
+	fi
+	${WITH_LIBUNISTRING} && libunistring_main
 
 	${WITH_BZIP2} && bzip2_main
 	${WITH_LZMA} && : lzma_main # not implemented
 	${WITH_ZLIB} && : zlib_main # not implemented
 
-	# optional dependencies for gettext
-
-	libunistring_main
-	libxml2_main
-
-	# write PREFIX/devenv.sh
-
-	devenv
+	${WITH_LIBXML2} && libxml2_main
 fi
 
 ##
@@ -243,5 +222,8 @@ fi
 #
 
 post_install "${PREFIX}" "${u_prefix}"
+
+# Write PREFIX/devenv.sh
+devenv
 
 exit 0
