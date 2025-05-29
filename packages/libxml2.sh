@@ -3,59 +3,52 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libxml2 (options as of version 2.13.5)
+# Build libxml2 (options as of version 2.14.3)
 #
-# --enable-ipv6=yes|no [yes]
+# --with-minimum      [off]
+# --with-legacy       [off]
 #
-# --with-debug [on]
+# --with-reader       [on]
+# --with-writer       [on]
 #
-## Features
+# --with-html         [on]
+# --with-http         [off]
 #
-# --with-minimum [off]
-# --with-legacy [off]
+# --with-c14n         [on]
+# --with-catalog      [on]
+# --with-modules      [on]
+# --with-output       [on]
+# --with-pattern      [on]
+# --with-push         [on]
+# --with-regexps      [on]
+# --with-relaxng      [on]
+# --with-sax1         [on]
+# --with-schemas      [on]
+# --with-schematron   [on]
+# --with-tree         [on]
+# --with-valid        [on]
+# --with-xinclude     [on]
+# --with-xpath        [on]
+# --with-xptr         [on]
 #
-# --with-reader [on]
-# --with-writer [on]
+# --with-debug        [on]
 #
-# --with-xptr [on]
-# --with-xptr-locs [off]
-#
-# --with-ftp [off]
-# --with-html [on]
-# --with-http [off]
-#
-# --with-c14n [on]
-# --with-catalog [on]
-# --with-modules [on]
-# --with-output [on]
-# --with-pattern [on]
-# --with-push [on]
-# --with-regexps [on]
-# --with-sax1 [on]
-# --with-schemas [on]
-# --with-schematron [on]
-# --with-tree [on]
-# --with-valid [on]
-# --with-xinclude [on]
-# --with-xpath [on]
-#
-# --with-threads [on]
+# --with-threads      [on]
 # --with-thread-alloc [off]
-# --with-tls [off]
+# --with-tls          [off]
 #
-# --with-history [off]
+# --with-history      [off]
 #
-
 ## Dependencies
 #
 # --with-readline[=DIR]
 #
 # --with-iconv[=DIR] [on]
-# --with-iso8859x [on]
-# --with-icu [off]
+# --with-iso8859x    [on]
+# --with-icu         [off]
 #
-# --with-lzma[=DIR] [off]
-# --with-zlib[=DIR] [off]
+# --with-lzma[=DIR]  [off]
+# --with-zlib[=DIR]  [off]
 #
 ## Python
 #
@@ -70,11 +63,16 @@ libxml2_configure() {
 	print "${package}: configuring"
 
 	# Optional dependencies
-	local with_zlib=--without-zlib
 	local with_lzma=--without-lzma
+	local with_readline=--without-readline
+	local with_zlib=--without-zlib
 
 	if ${WITH_LZMA}; then
 		with_lzma=--with-zlib
+	fi
+
+	if ${WITH_READLINE}; then
+		with_readline=--with-readline
 	fi
 
 	if ${WITH_ZLIB}; then
@@ -100,6 +98,7 @@ libxml2_configure() {
 		--with-tls
 
 		${with_lzma}
+		${with_readline}
 		${with_zlib}
 	"
 
