@@ -48,7 +48,7 @@ fi
 
 cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
 cflags="${cflags} -utf-8"
-cxxflags="${cflags} -EHsc -permissive-"
+cxxflags="${cxxflags} -utf-8 -EHsc -permissive-"
 ldflags="${ldflags}"
 
 ##
@@ -58,14 +58,18 @@ ldflags="${ldflags}"
 if ${opt_static}; then
 	if ${opt_debug}; then
 		cflags="${cflags} -MTd"
+		cxxflags="${cxxflags} -MTd"
 	else
 		cflags="${cflags} -MT"
+		cxxflags="${cxxflags} -MT"
 	fi
 else
 	if ${opt_debug}; then
 		cflags="${cflags} -MDd"
+		cxxflags="${cxxflags} -MDd"
 	else
 		cflags="${cflags} -MD"
+		cxxflags="${cxxflags} -MD"
 	fi
 fi
 
