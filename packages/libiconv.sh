@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libiconv
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options as of libiconv 1.18
+##
+# Build libiconv (options as of version 1.18)
 #
 # --enable-cross-guesses=conservative|risky
 # --enable-relocatable
@@ -12,6 +13,8 @@
 #
 # --enable-extra-encodings
 # --disable-nls
+#
+## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
 # --without-libiconv-prefix
@@ -56,7 +59,6 @@ libiconv_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -72,6 +74,7 @@ libiconv_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -83,7 +86,7 @@ libiconv_build() {
 
 libiconv_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
