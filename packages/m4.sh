@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build m4 (options as of version 1.4.19)
+# Build m4 (options as of version 1.4.20)
 #
 # --with-packager
 # --with-packager-version
@@ -13,14 +13,12 @@
 #
 # --disable-largefile
 # --disable-year2038
-#
-# --disable-nls
 # --enable-threads=isoc|posix|isoc+posix|windows
 #
 # --enable-c++
-#
 # --enable-changeword
-# --with-dmalloc
+#
+# --disable-nls
 #
 # --with-syscmd-shell=FILENAME
 #
@@ -38,7 +36,11 @@
 # --with-libsigsegv-prefix[=DIR]
 # --without-libsigsegv-prefix
 #
-## Other
+# --with-gnulib-prefix=DIR
+#
+# --with-dmalloc
+#
+## Developer options
 #
 # --enable-gcc-warnings
 # --disable-assert
