@@ -50,6 +50,7 @@ opt_env=${selfdir}/vs.sh
 opt_toolchain=msvc
 
 opt_buildtype=release
+opt_debug=false
 opt_static=false
 opt_legacy=false
 
@@ -63,6 +64,9 @@ while [ $# -gt 0 ]; do
 	--buildtype)
 		opt_buildtype=$1
 		shift || die "${opt}: missing argument"
+		;;
+	--debug)
+		opt_debug=true
 		;;
 	--env=*)
 		opt_env=${opt#--env=}
