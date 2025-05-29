@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libtre
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options for libtre 0.9.0
+##
+# Build tre (options as of version 0.9.0)
 #
 # --disable-nls
 #
@@ -40,8 +41,6 @@
 libtre_configure() {
 	print "${package}: configuring"
 
-	local enable_nls=--enable-nls
-
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -54,7 +53,7 @@ libtre_configure() {
 		${enable_shared}
 		${enable_static}
 
-		${enable_nls}
+		--enable-nls
 		--disable-agrep
 
 		--without-alloca
@@ -67,7 +66,6 @@ libtre_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -83,6 +81,7 @@ libtre_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -94,7 +93,7 @@ libtre_build() {
 
 libtre_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
