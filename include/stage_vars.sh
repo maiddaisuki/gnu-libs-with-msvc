@@ -36,7 +36,7 @@ stage_vars() {
 		;;
 	3)
 		prefix=${PROGRAMS_PREFIX}
-		buildroot=${BUILDDIR}/stage3
+		buildroot=${BUILDDIR}/stage2
 		;;
 	*)
 		die "stage: ${stage}: invalid value"
