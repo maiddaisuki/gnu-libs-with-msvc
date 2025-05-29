@@ -217,7 +217,7 @@ if ${opt_enable_stage2}; then
 	#
 	# libtextstyle is in turn a dependency of gettext
 
-	${WITH_NCURESE} && ncurses_main
+	${WITH_NCURSES} && ncurses_main
 
 	${WITH_READLINE} && : readline_main # not implemented
 	libtextstyle_main
