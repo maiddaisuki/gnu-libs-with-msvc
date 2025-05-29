@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build m4
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options as of m4 1.4.19
+##
+# Build m4 (options as of version 1.4.19)
 #
 # --with-packager
 # --with-packager-version
@@ -46,21 +47,25 @@
 m4_configure() {
 	print "${package}: configuring"
 
-	local enable_nls=--enable-nls
-
-	local enable_threads=windows
-	local libs=
-
-	if ${WITH_WINPTHREADS}; then
-		enable_threads=posix
-		local cppflags="${cppflags} -FIpthread_compat.h"
-		libs=-lpthread
-	fi
-
+	# Optional dependencies
 	local with_libsigsegv=--without-libsigsegv
 
 	if ${WITH_LIBSIGSEGV}; then
 		with_libsigsegv=--with-libsigsegv
+	fi
+
+	# Features
+	local enable_assert=--disable-assert
+	local enable_threads=windows
+	local libs=
+
+	if [ ${opt_buildtype} = debug ]; then
+		enable_assert=--enable-assert
+	fi
+
+	if ${WITH_WINPTHREADS}; then
+		enable_threads=posix
+		libs=-lpthread
 	fi
 
 	local configure_options="
@@ -72,13 +77,12 @@ m4_configure() {
 		--prefix=${_prefix}
 		--libdir=${_prefix}/lib
 
-		${enable_nls}
+		${enable_assert}
+		--enable-nls
 		--enable-threads=${enable_threads}
 
 		--with-syscmd-shell=$(cygpath -m $(which cmd.exe))
 		${with_libsigsegv}
-
-		--disable-assert
 	"
 
 	if [ -f Makefile ]; then
@@ -88,9 +92,8 @@ m4_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags} -DWINPTHREADS_USE_DLLIMPORT" \
+		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
 		CXX="${cxx}" \
 		CXXFLAGS="${cxxflags} -Oi-" \
@@ -105,6 +108,7 @@ m4_configure() {
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
 		LIBS="${libs}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -116,7 +120,7 @@ m4_build() {
 
 m4_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 

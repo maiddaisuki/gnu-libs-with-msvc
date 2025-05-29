@@ -73,7 +73,9 @@ Supports both `GNU Autotools` and `CMake` build systems.
 
 ### M4
 
-Many tests in testsuite fail. May not work properly.
+Building `m4-1.4.20` fails. Older versions may work.
+
+Testsuite seems to fail a lot.
 
 ### Ncurses
 
