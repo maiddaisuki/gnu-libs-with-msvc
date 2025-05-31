@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libtool
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options as of libtool 2.5.4
+##
+# Build libtool (options as of version 2.5.4)
 #
 #  --enable-cross-guesses=conservative|risky
 #
@@ -13,10 +14,11 @@
 libtool_configure() {
 	print "${package}: configuring"
 
-	local enable_ltld=--disable-ltdl-install
+	# Features
+	local enable_ltdl=--disable-ltdl-install
 
 	if [ ${stage} = 3 ]; then
-		enable_ltld=--enable-ltdl-install
+		enable_ltdl=--enable-ltdl-install
 	fi
 
 	local configure_options="
@@ -31,7 +33,7 @@ libtool_configure() {
 		${enable_shared}
 		${enable_static}
 
-		${enable_ltld}
+		${enable_ltdl}
 	"
 
 	if [ -f Makefile ]; then
@@ -41,7 +43,6 @@ libtool_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -57,6 +58,7 @@ libtool_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -67,8 +69,8 @@ libtool_build() {
 }
 
 libtool_test() {
-	if ${MAKE_CHECK}; then
-		_make_test -i check
+	if [ ${stage} -eq 3 ] && ${MAKE_CHECK}; then
+		_make_test
 	fi
 }
 
