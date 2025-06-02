@@ -1,35 +1,24 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build ncurses
+# BUILD_SYSTEM: autotools (autoconf + libtool)
 
-## configure options as of ncurses 6.5
+##
+# Build ncurses (options as of version 6.5)
 #
-# These are required for native windows build:
+
+## Options required for native Windows build:
 #
 # --enable-exp-win32
 # --enable-term-driver
 #
-## Other
-#
-# --with-config-suffix=X
-# --with-x11-rgb=FILE
-#
-## ???
-#
-# --with-rcs-ids
-#
 
 ## Features
 #
-# --disable-largefile
-#
 # --disable-ext-funcs
-#
 # --enable-ext-colors
 # --enable-ext-mouse
 # --enable-ext-putwin
 #
-# --enable-const
 # --enable-sp-funcs
 #
 # --enable-tcap-names
@@ -38,12 +27,18 @@
 # --enable-no-padding
 #
 # --disable-hashmap
-# --disable-scroll-hints (to be used with --disable-hashmap)
+# --disable-scroll-hints
 #
 # --enable-check-size
 # --enable-hard-tabs
 # --enable-wgetch-events (experemental)
 # --enable-xmc-glitch (experemental)
+#
+# --disable-big-core
+# --disable-big-strings
+#
+# --disable-largefile
+# --enable-string-hacks
 #
 # [compatibility options]
 #
@@ -61,7 +56,9 @@
 #
 # --enable-sigwinch
 #
-## (not for windows)
+## Other (not for Windows)
+#
+# --with-x11-rgb=FILE
 #
 # --disable-root-environ
 # --disable-root-access
@@ -73,6 +70,7 @@
 #
 # --disable-lp64
 #
+# --enable-const
 # --enable-stdnoreturn
 #
 # --disable-opaque-curses
@@ -108,15 +106,19 @@
 #
 # --disable-widec
 #
+# --without-cxx
+# --without-cxx-binding
+#
+# --without-ada
+#
+# [cannot be used on Windows]
+#
 # --with-termlib
 # --with-ticlib
 #
 # --disable-tic-depends
 #
-# --without-cxx
-# --without-cxx-binding
-#
-# --without-ada
+## Header files
 #
 # --without-curses-h
 #
@@ -152,7 +154,7 @@
 #
 # --disable-pkg-ldflags
 #
-## Other (not for windows)
+## Other (not for Windows)
 #
 # --with-shlib-version[={rel|abi}]
 # --with-export-syms[=FILENAME]
@@ -185,6 +187,8 @@
 #
 # --disable-echo
 #
+# --with-rcs-ids
+#
 ## Ada
 #
 # --with-ada-compiler[=CMD]
@@ -204,24 +208,17 @@
 # --with-build-ldflags=XXX
 # --with-build-libs=XXX
 #
-## Other
-#
-# --enable-string-hacks
-#
-# --disable-big-core
-# --disable-big-strings
-#
 
 ## Dependencies
 #
 # --with-pcre2
 #
-# [linux]
+# [Linux]
 #
 # --with-gpm
 # --without-dlsym
 #
-# [bsd]
+# [BSD]
 #
 # --with-hashed-db
 #
@@ -274,6 +271,8 @@
 
 ## Installation
 #
+# --with-config-suffix=SUFFIX
+#
 # --disable-stripping
 # --with-strip-program=XX
 #
@@ -318,12 +317,15 @@ ncurses_configure() {
 
 	print "${package}: configuring"
 
+	# Library types
 	local with_normal
 	local with_shared
 
+	# libtool and options
 	local libtool
 	local libtool_opts
 
+	# Options to pass to `configure`
 	local with_libtool
 	local with_libtool_opts
 
@@ -370,16 +372,12 @@ ncurses_configure() {
 		with_libtool_opts="--with-libtool-opts=${libtool_opts}"
 	fi
 
-	#	--with-ticlib
-	#	--with-termlib
-	#
-	#	--with-terminfo-dirs=${prefix}/share/terminfo
-	#
-	#	--host=${opt_host}
-
 	local configure_options="
 		--prefix=${_prefix}
 		--libdir=${_prefix}/lib
+
+		${with_normal}
+		${with_shared}
 
 		--without-debug
 		--without-profile
@@ -392,28 +390,31 @@ ncurses_configure() {
 		--with-cxx
 		--with-cxx-binding
 
-		${with_normal}
-		${with_shared}
-
 		--enable-exp-win32
 		--enable-term-driver
 
+		--enable-ext-funcs
 		--disable-ext-colors
 
 		--enable-sp-funcs
 		--enable-interop
 
+		--enable-opaque-curses
+		--enable-opaque-form
+		--enable-opaque-menu
+		--enable-opaque-panel
+
 		--enable-overwrite
 		--enable-widec
 		--disable-lib-suffixes
-
-		--enable-pc-files
 
 		--disable-termcap
 		--with-default-terminfo-dir=${_prefix}/share/terminfo
 
 		--enable-mixed-case
 		--disable-symlinks
+
+		--enable-pc-files
 	"
 
 	if [ -f Makefile ]; then
@@ -421,11 +422,8 @@ ncurses_configure() {
 		make distclean >/dev/null 2>&1
 	fi
 
-	PATH_SEPARATOR=';' ${_srcdir}/configure \
+	${_srcdir}/configure \
 		-C \
-		${configure_options} \
-		"${with_libtool}" \
-		"${with_libtool_opts}" \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -442,6 +440,11 @@ ncurses_configure() {
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
 		LIBS='-Wl,user32.lib' \
+		PKG_CONFIG_LIBDIR="${u_prefix}/lib/pkgconfig:${u_prefix}/share/pkgconfig" \
+		PKG_CONFIG_PATH= \
+		${configure_options} \
+		"${with_libtool}" \
+		"${with_libtool_opts}" \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -453,9 +456,6 @@ ncurses_build() {
 
 ncurses_test() {
 	if ${MAKE_CHECK}; then
-		note "${package}: testsuite is interactive"
-		touch "${test_stamp}"
-
 		: _make_test
 	fi
 }
@@ -464,59 +464,47 @@ ncurses_stage() {
 	_make_stage install
 }
 
-ncurses_pack_patch() {
-
-	# windows-style filenames are broken with DESTDIR installation
-
-	if test -d "${destdir}${prefix}/share/terminfo"; then
-		mv "${destdir}${prefix}/share/terminfo" -t share || exit
-		rm -rf "${destdir}${prefix}"
-	fi
-
+ncurses_pack_hook() {
+	# Fix whatever is going on when using installed libtool
 	local old_pwd=$(pwd)
 
-	# Fix whatever is going on when using installed libtool
-
 	if ${opt_ncurses_static}; then
-
-		# rename libNAME.a -> NAME.lib
-
+		# Rename libNAME.a -> NAME.lib
 		local lib libname
+
 		for lib in lib/*.a; do
 			libname=$(basename $lib | sed -E 's|^lib(.+)\.a$|\1.lib|')
 			mv $lib lib/$libname || exit
 		done
-
 	else
-
-		rm -f lib/lib*.lib
-
-		# remove symbolic links
-
+		# Remove symbolic links
 		local file
+
 		for file in lib/*; do
 			test -h $file && rm -f $file
 		done
 
-		# move shared libraries to bin
+		if ! ${opt_static}; then
+			# move DLLs to bin
+			local dll
 
-		local dll dll_basename
-		for dll in lib/*.dll; do
-			#dll_basename=$(printf %s $(basename $dll) | sed -E 's|(lib)?(.+).dll|\2.dll|')
-			dll_basename=$(basename $dll)
-			mv $dll bin/$dll_basename
-		done
+			for dll in lib/*.dll; do
+				mv $dll bin/$(basename $dll) || exit
+			done
+		fi
 
+		# Rename libraries to follow libtool's conventions.
+		#
 		# Automake's compile wrapper looks for -lNAME as follows:
 		#
 		# - NAME.dll.lib
 		# - NAME.lib
 		# - libNAME.a
 		#
-		# if not found, it passes plain NAME.lib
+		# If not found, it passes plain NAME.lib to linker.
 		#
-
 		local lib lib_basename
+
 		for lib in ${builddir}/lib/.libs/*.lib; do
 			lib_basename=$(basename $lib)
 
@@ -525,30 +513,32 @@ ncurses_pack_patch() {
 			fi
 
 			# strip lib prefix so `compile` will find it during configure as
-			# -lncurses, -lpanel atc.
+			# -lncurses, -lpanel etc.
 			lib_basename=$(printf %s $lib_basename | sed -E 's|(lib)?(.+).lib|\2.lib|')
 
-			cp ${lib} lib/$lib_basename
+			cp ${lib} lib/$lib_basename || exit
 		done
 
-		# patch .la files
-
+		# Patch libtool libraries
 		local la la_libname
+
 		for la in lib/*.la; do
-			la_libname=$(printf %s $(basename $la) | sed -E 's/(lib)?(.+).la/\2/')
+			la_libname=$(printf %s $(basename $la) | sed -E 's|(lib)?(.+).la|\2|')
 			# escape ncurses++
 			la_libname=$(printf %s $la_libname | sed 's|+|\\&|g')
 
+			# Remove DLL from `library_names`
 			sed -i -E "/^library_names=/ s|(lib)?${la_libname}[[:digit:]-]*.dll[[:space:]]+||" $la
+			# Fix name of import library stored in `library_names`
 			sed -i -E "/^library_names=/ s|(lib)?(${la_libname}).lib|\2.dll.lib|" $la
-
+			# Strip lib prefix from library names
 			sed -i -E "s|lib${la_libname}(.dll)?.lib|${la_libname}\1.lib|g" $la
 		done
 	fi
 
-	# replace symlinks with files they refer to
-
+	# Cygwin: Replace symbolic links with files they refer to
 	local dir link target
+
 	for dir in $(find $(pwd) -type d); do
 		cd $dir || exit
 
@@ -559,11 +549,11 @@ ncurses_pack_patch() {
 		done
 	done
 
-	cd $old_pwd || exit
+	cd "${old_pwd}" || exit
 }
 
 ncurses_pack() {
-	_make_pack ncurses_pack_patch
+	_make_pack ncurses_pack_hook
 }
 
 ncurses_install() {
