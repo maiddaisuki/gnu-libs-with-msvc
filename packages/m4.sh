@@ -9,41 +9,37 @@
 # --with-packager-version
 # --with-packager-bug-reports
 #
-# --enable-cross-guesses=conservative|risky
-#
-# --disable-largefile
-# --disable-year2038
-# --enable-threads=isoc|posix|isoc+posix|windows
-#
 # --enable-c++
 # --enable-changeword
-#
-# --disable-nls
+# --enable-nls
 #
 # --with-syscmd-shell=FILENAME
 #
-## Dependencies
+## gnulib options
 #
-# --without-included-regex
-#
-# --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
-#
-# --with-libintl-prefix[=DIR]
-# --without-libintl-prefix
-#
-# --with-libsigsegv
-# --with-libsigsegv-prefix[=DIR]
-# --without-libsigsegv-prefix
+# --enable-cross-guesses=conservative|risky
+# --enable-largefile
+# --enable-year2038
+# --enable-threads=isoc|posix|isoc+posix|windows
 #
 # --with-gnulib-prefix=DIR
+#
+## Dependencies
+#
+# --with-libsigsegv
+#
+# --with-libiconv-prefix[=DIR]
+# --with-libintl-prefix[=DIR]
+# --with-libsigsegv-prefix[=DIR]
+#
+# --with-included-regex
 #
 # --with-dmalloc
 #
 ## Developer options
 #
+# --enable-assert
 # --enable-gcc-warnings
-# --disable-assert
 #
 
 m4_configure() {
