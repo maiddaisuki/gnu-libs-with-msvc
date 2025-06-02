@@ -5,24 +5,22 @@
 ##
 # Build libiconv (options as of version 1.18)
 #
-# --enable-cross-guesses=conservative|risky
-# --enable-relocatable
+# --enable-extra-encodings
+# --enable-nls
 #
-# --disable-largefile
+## gnulib options
+#
+# --enable-cross-guesses=conservative|risky
+# --enable-largefile
+# --enable-relocatable
 # --enable-year2038
 #
-# --enable-extra-encodings
-# --disable-nls
+# --with-gnulib-prefix=DIR
 #
 ## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
-#
 # --with-libintl-prefix[=DIR]
-# --without-libintl-prefix
-#
-# --with-gnulib-prefix=DIR
 #
 
 libiconv_configure() {
