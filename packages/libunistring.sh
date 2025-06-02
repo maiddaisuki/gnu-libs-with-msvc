@@ -5,20 +5,19 @@
 ##
 # Build libunistring (options as of version 1.3)
 #
+# --enable-namespacing
+#
+## gnulib options
+#
 # --enable-cross-guesses=conservative|risky
 # --enable-relocatable
-#
-# --disable-namespacing
-#
-# --disable-largefile
-# --enable-year2038
-#
+# --enable-largefile
 # --enable-threads=isoc|posix|isoc+posix|windows
+# --enable-year2038
 #
 ## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
 #
 
 libunistring_configure() {
