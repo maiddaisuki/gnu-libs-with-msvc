@@ -166,7 +166,7 @@ dir_packages=${selfdir}/packages
 #. ${dir_packages}/libxml2.sh
 . ${dir_packages}/libxml2.cmake.sh
 . ${dir_packages}/ncurses.sh
-. ${dir_packages}/winpthreads.autotools.sh
+. ${dir_packages}/winpthreads.sh
 #. ${dir_packages}/winpthreads.meson.sh
 
 ##
