@@ -1,30 +1,37 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libintl
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options for libintl as of gettext 0.23
+##
+# Build libintl (options as of gettext 0.25)
+#
+# --enable-c++
+# --enable-csharp[=mono|dotnet]
+# --enable-d
+# --enable-java
+# --enable-modula2
+#
+# --enable-libasprintf
+# --enable-nls
+#
+## gnulib options
 #
 # --enable-cross-guesses=conservative|risky
+# --enable-largefile
 # --enable-relocatable
-#
-# --disable-largefile
 # --enable-year2038
-#
-# --disable-c++
-# --enable-csharp[=mono|dotnet]
-# --disable-java
-#
-# --disable-nls
 # --enable-threads=isoc|posix|isoc+posix|windows
 #
-# --disable-libasprintf
+# --with-gnulib-prefix=DIR
+#
+## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
+# --with-libintl-prefix[=DIR]
 #
 # --with-included-gettext
-# --with-libintl-prefix[=DIR]
-# --without-libintl-prefix
+#
+## Developer options
 #
 # --enable-more-warnings
 #
@@ -32,12 +39,12 @@
 libintl_configure() {
 	print "${package}: configuring"
 
+	# Features
 	local enable_threads=windows
 
 	if [ ${stage} = 2 ]; then
 		if ${WITH_WINPTHREADS}; then
 			enable_threads=posix
-			local cppflags="${cppflags} -FIpthread_compat.h"
 		fi
 	fi
 
@@ -57,7 +64,9 @@ libintl_configure() {
 
 		--enable-c++
 		--disable-csharp
+		--disable-d
 		--disable-java
+		--disable-modula2
 
 		--enable-nls
 		--enable-threads=${enable_threads}
@@ -70,7 +79,6 @@ libintl_configure() {
 
 	${_srcdir}/gettext-runtime/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -86,6 +94,7 @@ libintl_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -97,7 +106,7 @@ libintl_build() {
 
 libintl_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
@@ -114,5 +123,5 @@ libintl_install() {
 }
 
 libintl_main() {
-	_make_main libintl "${GETTEXT_SRCDIR}" gettext-runtime
+	_make_main libintl "${GETTEXT_SRCDIR}" gettext/gettext-runtime
 }

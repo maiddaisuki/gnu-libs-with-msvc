@@ -1,58 +1,50 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libtextstyle
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options for libtextstyle as of gettext 0.23
+##
+# Build libtextstyle (options as of gettext 0.25)
+#
+# --enable-curses
+# --enable-namespacing
+#
+## gnulib options
 #
 # --enable-cross-guesses=conservative|risky
-#
-# --disable-namespacing
-#
-# --disable-largefile
+# --enable-largefile
 # --enable-year2038
-#
 # --enable-threads=isoc|posix|isoc+posix|windows
-# --disable-curses
 #
-# --enable-more-warnings
+# --with-gnulib-prefix=DIR
 #
 ## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
-#
 # --with-libtermcap-prefix[=DIR]
-# --without-libtermcap-prefix
-#
 # --with-libcurses-prefix[=DIR]
-# --without-libcurses-prefix
-#
 # --with-libncurses-prefix[=DIR]
-# --without-libncurses-prefix
-#
 # --with-libxcurses-prefix[=DIR]
-# --without-libxcurses-prefix
+#
+## Developer options
+#
+# --enable-more-warnings
 #
 
 libtextstyle_configure() {
 	print "${package}: configuring"
 
-	local enable_curses=--disable-curses
+	# Dependencies
 	local libs=
 
-	if ${WITH_NCURSES}; then
-		enable_curses=--enable-curses
-
-		if ${opt_ncurses_static}; then
-			libs="-Wl,user32.lib"
-		fi
+	if ${opt_static} || ${opt_ncurses_static}; then
+		libs="-Wl,user32.lib"
 	fi
 
+	# Features
 	local enable_threads=windows
 
 	if ${WITH_WINPTHREADS}; then
 		enable_threads=posix
-		local cppflags="${cppflags} -FIpthread_compat.h"
 	fi
 
 	local configure_options="
@@ -67,7 +59,7 @@ libtextstyle_configure() {
 		${enable_shared}
 		${enable_static}
 
-		${enable_curses}
+		--enable-curses
 		--enable-threads=${enable_threads}
 	"
 
@@ -78,7 +70,6 @@ libtextstyle_configure() {
 
 	${_srcdir}/libtextstyle/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -95,6 +86,7 @@ libtextstyle_configure() {
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
 		LIBS="${libs}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -106,7 +98,7 @@ libtextstyle_build() {
 
 libtextstyle_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
@@ -123,5 +115,5 @@ libtextstyle_install() {
 }
 
 libtextstyle_main() {
-	_make_main libtextstyle "${GETTEXT_SRCDIR}"
+	_make_main libtextstyle "${GETTEXT_SRCDIR}" gettext/libtextstyle
 }

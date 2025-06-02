@@ -30,21 +30,13 @@ Testsuite seems to fail a lot.
 
 ### Gettext
 
-Save youself troubles trying to build from `git`. Use source tarball.
+Starting with release `0.23`, `gettextlib.dll` and `gettextsrc.dll` are
+affected by a bug which causes programs linked against them crash at runtime.
 
-With latest MSVC tools, `gettext 23.0` programs crash at startup when built with
-shared `libgettext*` libraries. A possible solution is to pass
-`--enable-static --disable-shared` to `configure` in [gettext.sh](/packages/gettext.sh).
+To build working programs, `gettext-tools` will be configured with
+`--disable-shared --enable-static`.
 
-Linking of `src/msgfilter.c` fails with unresolved reference to `unsetenv`.
-This is most likely `gnulib` bug. Solution is to add following lines after the
-last `#include` directive in the file:
-
-```c
-static int unsetenv(const char *varname) {
-	return _putenv_s(varname, "");
-}
-```
+Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
 ### Libtool
 

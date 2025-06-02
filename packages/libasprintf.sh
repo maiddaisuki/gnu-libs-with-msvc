@@ -1,10 +1,15 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build libasprintf
+# BUILD_SYSTEM: autotools (automake + libtool)
 
-## configure options for libasprintf as of gettext 0.23
+##
+# Build libasprintf (options as of gettext 0.25)
+#
+## gnulib options
 #
 # --enable-cross-guesses={conservative|risky}
+#
+## Developer options
 #
 # --enable-more-warnings
 #
@@ -32,7 +37,6 @@ libasprintf_configure() {
 
 	${_srcdir}/gettext-runtime/libasprintf/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \
@@ -48,6 +52,7 @@ libasprintf_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -59,7 +64,7 @@ libasprintf_build() {
 
 libasprintf_test() {
 	if ${MAKE_CHECK}; then
-		_make_test -i check
+		_make_test
 	fi
 }
 
@@ -76,5 +81,5 @@ libasprintf_install() {
 }
 
 libasprintf_main() {
-	_make_main libasprintf "${GETTEXT_SRCDIR}" gettext-runtime/libasprintf
+	_make_main libasprintf "${GETTEXT_SRCDIR}" gettext/gettext-runtime/libasprintf
 }
