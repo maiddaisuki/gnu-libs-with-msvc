@@ -17,9 +17,9 @@ libtool_configure() {
 	# Features
 	local enable_ltdl=--disable-ltdl-install
 
-	if [ ${stage} = 3 ]; then
-		enable_ltdl=--enable-ltdl-install
-	fi
+	# if [ ${stage} = 3 ]; then
+	# 	enable_ltdl=--enable-ltdl-install
+	# fi
 
 	local configure_options="
 		--disable-silent-rules

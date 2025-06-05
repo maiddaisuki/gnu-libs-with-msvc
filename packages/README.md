@@ -46,8 +46,10 @@ Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
 Installed `libtool` script does not work properly.
 
-The `libtool` package comes with `libltdl` library. It is built and installed
-with `progs-with-msvc.sh`.
+Building `libltdl` fails due to a bug. `libtool` will be configured with
+`--disable-ltdl-install`.
+
+This will be changed once bug is fixed.
 
 ### libtre
 
