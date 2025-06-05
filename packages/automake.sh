@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build automake
+# BUILD_SYSTEM: autotools
 
-## configure options as of automake 2.72
+##
+# Build automake (options as of version 1.18)
 #
 ## Variables
 #
@@ -28,9 +29,15 @@
 #
 # GNU_GCJ
 # GNU_GCJFLAGS
+#
 
 automake_configure() {
 	print "${package}: configuring"
+
+	# Maybe one day we will have a native POSIX shell for Windows
+	local m4=/usr/bin/m4      #$(cygpath -m "${_prefix}/bin/m4.exe")
+	local perl=/usr/bin/perl  #$(cygpath -m "$(which perl.exe)")
+	local shell=/usr/bin/bash #$(cygpath -m "$(which bash.exe)")
 
 	local configure_options="
 		--disable-silent-rules
@@ -48,15 +55,14 @@ automake_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		${configure_options} \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags}" \
+		CPPFLAGS="" \
+		CFLAGS="-MD" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags}" \
+		CXXFLAGS="-MD" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -64,6 +70,10 @@ automake_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		M4="${m4}" \
+		PERL="${perl}" \
+		SHELL="${shell}" \
+		${configure_options} \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
