@@ -101,12 +101,12 @@ if ${WITH_GETTEXT}; then
 	fi
 fi
 
-if ${WITH_AUTOCONF}; then
-	if ! ${WITH_M4}; then
-		_die=true
-		error "autoconf: missing dependency: m4"
-	fi
-fi
+# if ${WITH_AUTOCONF}; then
+# 	if ! ${WITH_M4}; then
+# 		_die=true
+# 		error "autoconf: missing dependency: m4"
+# 	fi
+# fi
 
 if ${WITH_LIBTOOL}; then
 	if ! ${WITH_AUTOCONF}; then

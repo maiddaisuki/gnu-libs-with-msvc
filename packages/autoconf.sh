@@ -1,8 +1,9 @@
-#!/bin/env sh
+#!/bin/sh
 
-# Build autoconf
+# BUILD_SYSTEM: autotools
 
-## configure options as of autoconf 2.72
+##
+# Build autoconf (options as of version 2.72)
 #
 # --with-lispdir
 #
@@ -16,6 +17,12 @@
 
 autoconf_configure() {
 	print "${package}: configuring"
+
+	# Maybe one day we will have a native POSIX shell for Windows
+	local emacs=false         # TODO
+	local m4=/usr/bin/m4      #$(cygpath -m "${_prefix}/bin/m4.exe")
+	local perl=/usr/bin/perl  #$(cygpath -m "$(which perl.exe)")
+	local shell=/usr/bin/bash #$(cygpath -m "$(which bash.exe)")
 
 	local configure_options="
 		--disable-silent-rules
@@ -33,22 +40,11 @@ autoconf_configure() {
 
 	${_srcdir}/configure \
 		-C \
+		EMACS="${emacs}" \
+		M4="${m4}" \
+		PERL="${perl}" \
+		SHELL="${shell}" \
 		${configure_options} \
-		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags}" \
-		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags}" \
-		AS="${as}" \
-		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
-		AR="${ar}" \
-		RANLIB="${ranlib}" \
-		NM="${nm}" \
-		OBJDUMP="${objdump}" \
-		OBJCOPY="${objcopy}" \
-		STRIP="${strip}" \
-		DLLTOOL="${dlltool}" \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"

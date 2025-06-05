@@ -22,6 +22,10 @@ The `autoconf`, `automake` and `libtool` packages are built by
 
 ## Supported Packages
 
+### Autoconf
+
+Native Windows build is not supported. Native POSIX shell is required.
+
 ### Bison
 
 Building `bison-3.8.2` fails. Older versions may work.
