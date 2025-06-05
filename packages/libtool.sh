@@ -17,9 +17,9 @@ libtool_configure() {
 	# Features
 	local enable_ltdl=--disable-ltdl-install
 
-	# if [ ${stage} = 3 ]; then
-	# 	enable_ltdl=--enable-ltdl-install
-	# fi
+	if [ ${stage} = 3 ]; then
+		enable_ltdl=--enable-ltdl-install
+	fi
 
 	local configure_options="
 		--disable-silent-rules
@@ -48,6 +48,8 @@ libtool_configure() {
 		CFLAGS="${cflags} -Oi-" \
 		CXX="${cxx}" \
 		CXXFLAGS="${cxxflags} -Oi-" \
+		F77=no \
+		FC=no \
 		AS="${as}" \
 		LD="${ld}" \
 		LDFLAGS="${ldflags}" \

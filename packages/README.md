@@ -50,11 +50,6 @@ Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
 Installed `libtool` script does not work properly.
 
-Building `libltdl` fails due to a bug. `libtool` will be configured with
-`--disable-ltdl-install`.
-
-This will be changed once bug is fixed.
-
 ### libtre
 
 Required by `libgnurx` (`libsystre`) which is not yet supported.
