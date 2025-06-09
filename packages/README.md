@@ -46,6 +46,17 @@ To build working programs, `gettext-tools` will be configured with
 
 Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
+### libtextstyle
+
+Part of `gettext` package.
+
+`libtextstyle` is required for `gettext-tools` and will always be built with
+`WITH_GETTEXT=true` regardless of `WITH_LIBTEXTSTYLE`.
+
+Optional dependencies:
+
+- ncurses
+
 ### Libtool
 
 Installed `libtool` script does not work properly.

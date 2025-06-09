@@ -72,13 +72,6 @@ fi
 
 # Verify dependencies
 
-if ${WITH_LIBTEXTSTYLE}; then
-	if ! ${WITH_NCURSES}; then
-		_die=true
-		error "libtextstyle: missing dependency: ncurses"
-	fi
-fi
-
 if ${WITH_BISON}; then
 	if ! ${WITH_M4}; then
 		_die=true
@@ -87,10 +80,6 @@ if ${WITH_BISON}; then
 fi
 
 if ${WITH_GETTEXT}; then
-	if ! ${WITH_NCURSES}; then
-		_die=true
-		error "gettext: missing dependency: ncurses"
-	fi
 	if ! ${WITH_LIBUNISTRING}; then
 		_die=true
 		error "gettext: missing dependency: libunistring"

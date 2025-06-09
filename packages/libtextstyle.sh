@@ -34,10 +34,15 @@ libtextstyle_configure() {
 	print "${package}: configuring"
 
 	# Dependencies
+	local enable_curses=--disable-curses
 	local libs=
 
-	if ${opt_static} || ${opt_ncurses_static}; then
-		libs="-Wl,user32.lib"
+	if ${WITH_NCURSES}; then
+		enable_curses=--enable-curses
+
+		if ${opt_static} || ${opt_ncurses_static}; then
+			libs="-Wl,user32.lib"
+		fi
 	fi
 
 	# Features
@@ -59,7 +64,7 @@ libtextstyle_configure() {
 		${enable_shared}
 		${enable_static}
 
-		--enable-curses
+		${enable_curses}
 		--enable-threads=${enable_threads}
 	"
 
