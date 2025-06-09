@@ -60,8 +60,8 @@ elif [ ${opt_toolchain} = llvm ]; then
 	cxx_compiler=clang-cl.exe
 
 	# For use with configure script
-	cc="${compile} clang-cl.exe -w"
-	cxx="${compile} clang-cl.exe -w"
+	cc="${compile} clang-cl.exe"
+	cxx="${compile} clang-cl.exe"
 
 	as=llvm-as.exe
 	ld=lld-link.exe
@@ -73,7 +73,7 @@ elif [ ${opt_toolchain} = llvm ]; then
 	nm=llvm-nm.exe
 
 	objcopy=llvm-objcopy.exe
-	strip=llvm-strip.exe
+	strip=: #llvm-strip.exe
 
 	dlltool=llvm-dlltool.exe
 fi

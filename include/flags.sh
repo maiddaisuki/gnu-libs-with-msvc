@@ -28,7 +28,10 @@ fi
 cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
 cflags="${cflags} -utf-8"
 cxxflags="${cxxflags} -utf-8 -EHsc -permissive-"
-ldflags="${ldflags}"
+
+if [ ${opt_toolchain} = llvm ]; then
+	ldflags="${ldflags} -fuse-ld=lld"
+fi
 
 ##
 # CRT type
