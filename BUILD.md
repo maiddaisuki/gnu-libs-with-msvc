@@ -1,47 +1,68 @@
 # BUILD.md
 
-This file describes effect of some options on the build process.
+This file describes how to run `libs-with-msvc.sh` and `progs-with-msvc.sh`.
 
-## Build Stages
+## Invocation
 
-The `libs-with-msvc.sh` internally has two build stages.
+Run the scripts directly from the source tree:
 
-The first stage is used to build some libraries and programs needed in stage 2.
+```shell
+./libs-with-msvc.sh [OPTIONS]
+```
 
-The second stage in when all libraries are actually built.
+### Options
 
-As of now, the first stage is used to:
+`libs-with-msvc.sh` and `progs-with-msvc.sh` accept the following options:
 
-- build `libiconv` and `libintl`  
-  This is done to resolve circular dependency: `libintl` depends on `libiconv`,
-  while `libiconv` has optional dependency on `libintl`.
-- configure and install `libtool` script  
-  Installed `libtool` script is used to build `ncurses`
+- `--buildtype=BUILDTYPE`: controls optimizations and
+  generation of debug information
+- `--debug`: link against debug version of CRT
+- `--env=FILENAME`
+- `--host=HOST`: value to pass with `configure`'s `--host` option
+  (by default `x86_64-w64-mingw32` is used)
+- `--legacy`: support older versions of build tools
+- `--llvm`: use LLVM tools instead of MSVC tools
+- `--static`: build only static libraries and link against static version of CRT
 
-Each stage may be disabled with `--disable-stage1` and `--disable-stage2`
-options.  
-These options are intended to aid debugging and testing the script.
+See below for more details on each option.
 
-## Linking Against Static CRT
+The `libs-with-msvc.sh` also accepts the following options:
 
-The `--static` option.
+- `--disable-stage1`: disable stage 1 of the build
+- `--disable-stage2`: disable stage 2 of the build
 
-When `--static` option is passed, the scripts arrange to pass required options
-to the build system or, in case of `configure`, compiler flags to link
-against static version of CRT.
+### Building Programs (`progs-with-msvc.sh`)
 
-## Debug
+Not many packages are supported yet, and in most cases it is easier to install
+them from `Msys2` or `Cygwin`. More packages may be added in the future.
+
+## Linking Against Debug Version of CRT
 
 The `--debug` option.
 
-When `--debug` option is passed, the scripts arrange to pass required options
-to the build system to link against debug verions of CRTs.
+When `--debug` option is passed, the scripts will pass required options
+to the build systems to link against debug verion of CRT.
+
+This option is useful if you're building debug versions of you projects with
+`-MDd` or `-MTd` options. Note that you should not mix object files and
+libraries compiled for different flavors of CRT (e.g. debug vs non-debug).
+
+## Linking Against Static Version of CRT
+
+The `--static` option.
+
+When `--static` option is passed, the scripts will pass required options
+to the build systems to link against static version of CRT.
+
+See [STATIC.md](/STATIC.md) for more details.
 
 ## Build Type
 
-The `--buildtype` option.
+The `--buildtype=BUILDTYPE` option.  
+This option controls optimizations and generation of debug information.
 
-This option controls optimizations and generation of debug info.
+The following table list supported values for `BUILDTYPE` and compiler/linker
+flags used:
 
 | Value         | CPPFLAGS | C[XX]FLAGS   | LDFLAGS  |
 | ------------- | -------- | ------------ | -------- |
@@ -53,11 +74,11 @@ When buildtype is `debug`, object files will be compiled with `-Z7`, which will
 store debug info in object files. Note, however, that `.pdb` files will only be
 generated if `-debug` option is passed to the linker.
 
-## Legacy
+## Older Versions of Tools
 
 The `--legacy` options.
 
-The scripts assumes you use at least `Visual Studio 2017`.  
+The scripts assumes that you use at least `Visual Studio 2017`.  
 By default, they will pass extra flags to `configure` scripts.
 
 `CFLAGS`:
@@ -93,37 +114,24 @@ By default `vs2sh.sh` produces file named `vs.sh`. This is the default file
 the scripts attempt to read.  
 Use `--env` option to specify a different file.
 
-## Building Programs
+## Internals
 
-Details about `progs-with-msvc.sh`.
+### Build Stages
 
-Not many packages are supported yet, and in most cases it is easier to install
-them from `Msys2` or `Cygwin`. More packages may be added later and this script
-will be more useful.
+The `libs-with-msvc.sh` internally has two build stages.
 
-I plan to add support for building `pkg-config` and `pkgconf`. I think this is
-the most useful programs this script may build.
+The first stage is used to build some libraries and programs needed in stage 2.
 
-### Autotools
+The second stage in when all libraries are actually built.
 
-Original idea was to allow build common GNU development tools, this includes:
+As of now, the first stage is used to:
 
-- `autoconf` (needs `m4`)
-- `automake` (needs `perl`)
-- `bison` (depends on `m4`)
-- `gettext`
-- `libtool` (needs `m4`)
-- `m4`
-- `make`
+- build `libiconv` and `libintl`  
+  This is done to resolve circular dependency: `libintl` depends on `libiconv`,
+  while `libiconv` has optional dependency on `libintl`.
+- configure and install `libtool` script  
+  Installed `libtool` script is used to build `ncurses`
 
-The natively built `m4` and `bison` do not seem to function well:
-
-- `m4`'s testsuite seems to fail a lot.
-- `bison`'s testsuite fails completely.
-
-Keep in mind that `Autoconf` and `Libtool` are shell scripts and cannot be
-"native". `Automake` is a `perl` script and I am unsure if it works with
-natively built `perl`.
-
-I did not try to build `make` and `perl` with MSVC tools. Also, natively built
-`make` will not work with `Autotools`.
+Each stage may be disabled with `--disable-stage1` and `--disable-stage2`
+options.  
+These options are intended to aid debugging and testing the script.
