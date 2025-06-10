@@ -78,7 +78,7 @@ gettext_configure() {
 	# Dependencies
 	local libs=
 
-	if ${opt_static} || ${opt_ncurses_static}; then
+	if ${opt_static}; then
 		libs="-Wl,user32.lib"
 	fi
 

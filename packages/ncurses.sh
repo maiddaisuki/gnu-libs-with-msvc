@@ -311,10 +311,6 @@
 #
 
 ncurses_configure() {
-	if ${opt_ncurses_workaround}; then
-		return
-	fi
-
 	print "${package}: configuring"
 
 	# Library types
@@ -322,57 +318,42 @@ ncurses_configure() {
 	local with_shared
 
 	# libtool and options
-	local libtool
+	local libtool=${u_build_prefix}/bin/libtool
 	local libtool_opts
 
-	# Options to pass to `configure`
-	local with_libtool
-	local with_libtool_opts
+	case ,${enable_shared},${enable_static}, in
+	,*enable*,*enable*,)
+		libtool_opts='-no-undefined'
+		;;
+	,*disable*,*,)
+		libtool_opts="-static"
+		;;
+	,*enable*,*,)
+		libtool_opts="-no-undefined -shared"
+		;;
+	esac
 
-	if ${opt_ncurses_static}; then
-		with_normal=--with-normal
+	case ${enable_shared} in
+	*enable*)
+		with_shared='--with-shared --with-cxx-shared'
+		;;
+	*disable*)
 		with_shared='--without-shared --without-cxx-shared'
+		;;
+	esac
 
-		with_libtool=--without-libtool
-		with_libtool_opts=--without-libtool-opts
-	else
-		libtool=${u_build_prefix}/bin/libtool
-
-		case ,${enable_shared},${enable_static}, in
-		,*enable*,*enable*,)
-			libtool_opts='-no-undefined'
-			;;
-		,*disable*,*,)
-			libtool_opts="-static"
-			;;
-		,*enable*,*,)
-			libtool_opts="-no-undefined -shared"
-			;;
-		esac
-
-		case ${enable_shared} in
-		*enable*)
-			with_shared='--with-shared --with-cxx-shared'
-			;;
-		*disable*)
-			with_shared='--without-shared --without-cxx-shared'
-			;;
-		esac
-
-		case ${enable_static} in
-		*enable*)
-			with_normal=--with-normal
-			;;
-		*disable)
-			with_normal=--without-normal
-			;;
-		esac
-
-		with_libtool="--with-libtool=${libtool}"
-		with_libtool_opts="--with-libtool-opts=${libtool_opts}"
-	fi
+	case ${enable_static} in
+	*enable*)
+		with_normal=--with-normal
+		;;
+	*disable)
+		with_normal=--without-normal
+		;;
+	esac
 
 	local configure_options="
+		--host=${opt_host}
+
 		--prefix=${_prefix}
 		--libdir=${_prefix}/lib
 
@@ -443,8 +424,8 @@ ncurses_configure() {
 		PKG_CONFIG_LIBDIR="${u_prefix}/lib/pkgconfig:${u_prefix}/share/pkgconfig" \
 		PKG_CONFIG_PATH= \
 		${configure_options} \
-		"${with_libtool}" \
-		"${with_libtool_opts}" \
+		--with-libtool="${libtool}" \
+		--with-libtool-opts="${libtool_opts}" \
 		>>"${configure_log}" 2>&1
 
 	test $? -eq 0 || die "${package}: configure failed"
@@ -465,76 +446,7 @@ ncurses_stage() {
 }
 
 ncurses_pack_hook() {
-	# Fix whatever is going on when using installed libtool
 	local old_pwd=$(pwd)
-
-	if ${opt_ncurses_static}; then
-		# Rename libNAME.a -> NAME.lib
-		local lib libname
-
-		for lib in lib/*.a; do
-			libname=$(basename $lib | sed -E 's|^lib(.+)\.a$|\1.lib|')
-			mv $lib lib/$libname || exit
-		done
-	else
-		# Remove symbolic links
-		local file
-
-		for file in lib/*; do
-			test -h $file && rm -f $file
-		done
-
-		if ! ${opt_static}; then
-			# move DLLs to bin
-			local dll
-
-			for dll in lib/*.dll; do
-				mv $dll bin/$(basename $dll) || exit
-			done
-		fi
-
-		# Rename libraries to follow libtool's conventions.
-		#
-		# Automake's compile wrapper looks for -lNAME as follows:
-		#
-		# - NAME.dll.lib
-		# - NAME.lib
-		# - libNAME.a
-		#
-		# If not found, it passes plain NAME.lib to linker.
-		#
-		local lib lib_basename
-
-		for lib in ${builddir}/lib/.libs/*.lib; do
-			lib_basename=$(basename $lib)
-
-			if [ -f lib/$lib_basename ] || [ -h lib/$lib_basename ]; then
-				rm -f lib/$lib_basename
-			fi
-
-			# strip lib prefix so `compile` will find it during configure as
-			# -lncurses, -lpanel etc.
-			lib_basename=$(printf %s $lib_basename | sed -E 's|(lib)?(.+).lib|\2.lib|')
-
-			cp ${lib} lib/$lib_basename || exit
-		done
-
-		# Patch libtool libraries
-		local la la_libname
-
-		for la in lib/*.la; do
-			la_libname=$(printf %s $(basename $la) | sed -E 's|(lib)?(.+).la|\2|')
-			# escape ncurses++
-			la_libname=$(printf %s $la_libname | sed 's|+|\\&|g')
-
-			# Remove DLL from `library_names`
-			sed -i -E "/^library_names=/ s|(lib)?${la_libname}[[:digit:]-]*.dll[[:space:]]+||" $la
-			# Fix name of import library stored in `library_names`
-			sed -i -E "/^library_names=/ s|(lib)?(${la_libname}).lib|\2.dll.lib|" $la
-			# Strip lib prefix from library names
-			sed -i -E "s|lib${la_libname}(.dll)?.lib|${la_libname}\1.lib|g" $la
-		done
-	fi
 
 	# Cygwin: Replace symbolic links with files they refer to
 	local dir link target
@@ -545,7 +457,7 @@ ncurses_pack_hook() {
 		for link in $(find -maxdepth 1 -type l); do
 			target=$(readlink $link)
 			rm -f $link
-			cp $target $link || exit
+			cp -RL $target $link || exit
 		done
 	done
 

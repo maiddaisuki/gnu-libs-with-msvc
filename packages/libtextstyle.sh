@@ -40,7 +40,7 @@ libtextstyle_configure() {
 	if ${WITH_NCURSES}; then
 		enable_curses=--enable-curses
 
-		if ${opt_static} || ${opt_ncurses_static}; then
+		if ${opt_static}; then
 			libs="-Wl,user32.lib"
 		fi
 	fi

@@ -86,48 +86,11 @@ The build system is purely `autoconf`-based and does not use `automake` and
 `libtool`.  
 However, it allows to use installed `libtool` script to build libraries.
 
-Unfortunately, installed `libtool` script does not work properly, but it still
-can be used to build libraries.
+We will install `libtool` script configured to be used with MSVC/LLVM tools,
+and will use it to build `ncurses`.
 
-We provide two ways to build `ncurses`.
-
-First option is to use `--ncurses-static`. This will build `ncurses` as a static
-library only regardless of `--static` option. However, in this case`libtool` will refuse to
-create shared libraries which link against it.
-
-This is a `libtool` issue and this behavior is annoying and probably
-should be changed.
-
-Another solution is to configure and install `libtool` for MSVC tools.
-Unfortunately, installed `libtool` script will create invalid `*.la` files which
-will make library unusable. This will cause build to fail.
-
-You will need to manually edit generated `*.la` files during the build process.
-
-Once build fails, navigate to `${BUILDDIR}/stage-2/build/ncurses/lib`
-and edit all `*.la` files by replacing
-
-```text
-library_names='lib{NAME}.dll lib{NAME}.lib'
-```
-
-with
-
-```text
-library_names'lib{NAME}.dll lib{NAME}.dll.lib`
-```
-
-After this run `libs-with-msvc.sh` with `--ncurses-workaround` option:
-
-```shell
-./libs-with-msvc.sh --ncurses-workaround
-```
-
-You will need to repeat this process at least twice.
-
-The `libs-with-msvc.sh` will patch installed `*.la` files to make library usable
-and rename import and static libraries to follow `libtool` conventions for MSVC
-tools.
+This means that you need to obtain source code for `libtool` if you want to
+build `ncurses`.
 
 ### winpthreads
 

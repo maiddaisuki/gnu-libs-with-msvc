@@ -57,9 +57,6 @@ opt_static=false
 opt_enable_stage1=true
 opt_enable_stage2=true
 
-opt_ncurses_workaround=false
-opt_ncurses_static=false
-
 while [ $# -gt 0 ]; do
 	opt=$1 && shift
 
@@ -99,12 +96,6 @@ while [ $# -gt 0 ]; do
 		;;
 	--llvm)
 		opt_toolchain=llvm
-		;;
-	--ncurses-workaround)
-		opt_ncurses_workaround=true
-		;;
-	--ncurses-static)
-		opt_ncurses_static=true
 		;;
 	--static)
 		opt_static=true
@@ -180,7 +171,7 @@ if ${opt_enable_stage1}; then
 	libiconv_main
 	libintl_main
 
-	if ${WITH_NCURSES} && ! ${opt_ncurses_static}; then
+	if ${WITH_NCURSES}; then
 		libtool_main
 	fi
 fi

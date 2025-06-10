@@ -15,8 +15,8 @@ As of now, the first stage is used to:
 - build `libiconv` and `libintl`  
   This is done to resolve circular dependency: `libintl` depends on `libiconv`,
   while `libiconv` has optional dependency on `libintl`.
-- build and install `libtool` script  
-  It is used to build `ncurses` unless `--ncurses-static` is passed
+- configure and install `libtool` script  
+  Installed `libtool` script is used to build `ncurses`
 
 Each stage may be disabled with `--disable-stage1` and `--disable-stage2`
 options.  

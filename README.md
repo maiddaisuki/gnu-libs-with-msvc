@@ -92,12 +92,6 @@ The `libs-with-msvc.sh` accepts following command line options:
 - `--disable-stage1`: disable stage 1 of the build
 - `--disable-stage2`: disable stage 2 of the build
 
-Please see [Ncurses](./packages/README.md#ncurses) in `packages/README.md`
-for details about following options:
-
-- `--ncurses-workaround`
-- `--ncurses-static`
-
 ## Source Tree Structure
 
 Most of subdirectories contain supporting scripts which are sourced with `.`
