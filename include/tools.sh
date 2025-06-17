@@ -63,14 +63,16 @@ elif [ ${opt_toolchain} = llvm ]; then
 	cc="${compile} clang-cl.exe"
 	cxx="${compile} clang-cl.exe"
 
-	as=llvm-as.exe
+	as=llvm-ml.exe
 	ld=lld-link.exe
 
 	ar=llvm-ar.exe
 	ranlib=llvm-ranlib.exe
 
 	objdump=llvm-objdump.exe
-	nm=llvm-nm.exe
+	# llvm-nm.exe cannot be used
+	# https://lists.gnu.org/archive/html/bug-gnulib/2025-06/msg00086.html
+	nm='dumpbin.exe -nologo -symbols'
 
 	objcopy=llvm-objcopy.exe
 	strip=: #llvm-strip.exe
