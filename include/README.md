@@ -44,4 +44,4 @@ The `devenv.sh` defines `devenv` function which writes script named
 ```
 
 to set varaibles like `PATH`, `CMAKE_PREFIX_PATH` and `PKG_CONFIG_LIBDIR`
-to include `PREFIX` and `PROGRAMS_PREFIX`.
+to include `PREFIX`.

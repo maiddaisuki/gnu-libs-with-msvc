@@ -16,16 +16,6 @@ devenv() {
 	local infopath=${u_prefix}/share/info
 	local manpath=${u_prefix}/share/man
 
-	if [ ${u_prefix} != ${u_programs_prefix} ]; then
-		path="${path}:${u_programs_prefix}/bin"
-
-		cmake_prefix_path="${cmake_prefix_path};${PROGRAMS_PREFIX}"
-		pkg_config_path=${PROGRAMS_PREFIX}
-
-		infopath="${infopath}:${u_programs_prefix}/share/info"
-		manpath="${manpath}:${u_programs_prefix}/share/man"
-	fi
-
 	local _pkg_config_libdir
 	local _pkg_config_path
 

@@ -31,27 +31,20 @@ if [ ${stage} -eq 1 ]; then
 	LIB="${build_prefix}/lib;${LIB}"
 	CMAKE_PREFIX_PATH="${build_prefix}"
 	PKG_CONFIG_LIBDIR="${build_prefix}/lib/pkgconfig;${build_prefix}/share/pkgconfig"
-elif [ ${stage} -eq 2 ]; then
-	PATH=${u_prefix}/bin:${u_build_prefix}/bin:${PATH}
-	INCLUDE="${PREFIX}/include;${build_prefix}/include;${INCLUDE}"
-	LIB="${PREFIX}/lib;${build_prefix}/lib;${LIB}"
-	CMAKE_PREFIX_PATH="${PREFIX};${build_prefix}"
-	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"
-	PKG_CONFIG_PATH="${build_prefix}/lib/pkgconfig;${build_prefix}/share/pkgconfig"
-else # stage 3
+else # stage 2 and 3
+	if [ ${stage} -eq 2 ]; then
+		PATH=${u_build_prefix}/bin:${PATH}
+		INCLUDE="${build_prefix}/include;${INCLUDE}"
+		LIB="${build_prefix}/lib;${LIB}"
+		CMAKE_PREFIX_PATH="${build_prefix}"
+		PKG_CONFIG_PATH="${build_prefix}/lib/pkgconfig;${build_prefix}/share/pkgconfig"
+	fi
+
 	PATH=${u_prefix}/bin:${PATH}
 	INCLUDE="${PREFIX}/include;${INCLUDE}"
 	LIB="${PREFIX}/lib;${LIB}"
 	CMAKE_PREFIX_PATH="${PREFIX}"
 	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"
-
-	if [ ! "${PREFIX}" -ef "${PROGRAMS_PREFIX}" ]; then
-		PATH=${u_programs_prefix}/bin:${PATH}
-		INCLUDE="${PROGRAMS_PREFIX}/include;${INCLUDE}"
-		LIB="${PROGRAMS_PREFIX}/lib;${LIB}"
-		CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH};${PROGRAMS_PREFIX}"
-		PKG_CONFIG_PATH="${PROGRAMS_PREFIX}/lib/pkgconfig;${PROGRAMS_PREFIX}/share/pkgconfig"
-	fi
 fi
 
 # Compiler and Linker flags for configure-based packages

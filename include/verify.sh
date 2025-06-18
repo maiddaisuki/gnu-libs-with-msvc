@@ -25,11 +25,6 @@ if [ -z "${PREFIX}" ]; then
 	error "PREFIX is not set"
 fi
 
-if [ -z "${PROGRAMS_PREFIX}" ]; then
-	_die=true
-	error "PROGRAMS_PREFIX is not set"
-fi
-
 if [ -z "${BUILDDIR}" ]; then
 	_die=true
 	error "BUILDDIR is not set"

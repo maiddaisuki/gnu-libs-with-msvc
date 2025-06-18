@@ -11,9 +11,7 @@ This file is used to set build, source and installation directories.
 
 You should set following variables before running any script:
 
-- `PREFIX`: installation prefix for libraries
-- `PROGRAMS_PREFIX`: installation prefix for programs
-  (may be the same as `PREFIX`)
+- `PREFIX`: installation prefix
 - `SRCDIR`: root directory for relative `{package}_SRCDIR` directories
 - `BUILDDIR`: directory to use as the build root
   (default is `${TEMP}`)

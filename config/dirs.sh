@@ -6,11 +6,8 @@
 # Use windows-style filenames with forward slashes e.g. 'C:/some/dir'
 #
 
-# Installation prefix for libraries (libs-with-msvc.sh)
+# Installation prefix
 PREFIX=
-
-# Installation prefix for programs (progs-with-msvc.sh)
-PROGRAMS_PREFIX=${PREFIX}/usr
 
 # Root for relative *_SRCDIR directories
 SRCDIR=

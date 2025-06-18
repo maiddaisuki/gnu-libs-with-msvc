@@ -67,7 +67,7 @@ bison_configure() {
 
 	${_srcdir}/configure \
 		-C \
-		M4="$(cygpath -m "${PROGRAMS_PREFIX}/bin/m4.exe")" \
+		M4="$(cygpath -m "${PREFIX}/bin/m4.exe")" \
 		CC="${cc}" \
 		CPPFLAGS="${cppflags}" \
 		CFLAGS="${cflags} -Oi-" \

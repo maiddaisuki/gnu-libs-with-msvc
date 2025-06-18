@@ -168,6 +168,6 @@ ${WITH_AUTOMAKE} && automake_main
 # Finalize
 #
 
-post_install "${PROGRAMS_PREFIX}" "${u_programs_prefix}"
+post_install "${PREFIX}" "${u_prefix}"
 
 exit 0

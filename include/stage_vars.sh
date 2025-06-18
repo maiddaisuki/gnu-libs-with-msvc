@@ -30,12 +30,8 @@ stage_vars() {
 		prefix=${build_prefix}
 		buildroot=${BUILDDIR}/stage1
 		;;
-	2)
+	2 | 3)
 		prefix=${PREFIX}
-		buildroot=${BUILDDIR}/stage2
-		;;
-	3)
-		prefix=${PROGRAMS_PREFIX}
 		buildroot=${BUILDDIR}/stage2
 		;;
 	*)
