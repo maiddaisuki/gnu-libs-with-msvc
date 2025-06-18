@@ -58,9 +58,7 @@ winpthreads_build() {
 
 winpthreads_test() {
 	if ${MAKE_CHECK}; then
-		if ${opt_static} || ${ENABLE_STATIC}; then
-			_make_test
-		fi
+		_make_test
 	fi
 }
 

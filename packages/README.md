@@ -97,8 +97,6 @@ build `ncurses`.
 `WINPTHREADS_SRCDIR` must point to `mingw-w64-libraries/winpthreads`
 subdirectory of `mingw-w64` repository.
 
-Testsuite can only be run with static libraries.
-
 ## External Build System
 
 Some packages use build system which works poorly with MSVC tool or
