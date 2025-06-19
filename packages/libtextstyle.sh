@@ -51,13 +51,6 @@ libtextstyle_configure() {
 		fi
 	fi
 
-	# Features
-	local enable_threads=windows
-
-	if ${WITH_WINPTHREADS}; then
-		enable_threads=posix
-	fi
-
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -71,7 +64,7 @@ libtextstyle_configure() {
 		${enable_static}
 
 		${enable_curses}
-		--enable-threads=${enable_threads}
+		--enable-threads=windows
 	"
 
 	if [ -f Makefile ]; then

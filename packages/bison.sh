@@ -42,14 +42,9 @@ bison_configure() {
 
 	# Features
 	local enable_assert=--disable-assert
-	local enable_threads=windows
 
 	if [ ${opt_buildtype} = debug ]; then
 		enable_assert=--enable-assert
-	fi
-
-	if ${WITH_WINPTHREADS}; then
-		enable_threads=posix
 	fi
 
 	local configure_options="
@@ -65,7 +60,7 @@ bison_configure() {
 
 		${enable_assert}
 		--enable-nls
-		--enable-threads=${enable_threads}
+		--enable-threads=windows
 	"
 
 	if [ -f Makefile ]; then

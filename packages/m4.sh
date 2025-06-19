@@ -62,15 +62,9 @@ m4_configure() {
 
 	# Features
 	local enable_assert=--disable-assert
-	local enable_threads=windows
 
 	if [ ${opt_buildtype} = debug ]; then
 		enable_assert=--enable-assert
-	fi
-
-	if ${WITH_WINPTHREADS}; then
-		enable_threads=posix
-		libs="${libs} -lpthread"
 	fi
 
 	local configure_options="
@@ -84,7 +78,7 @@ m4_configure() {
 
 		${enable_assert}
 		--enable-nls
-		--enable-threads=${enable_threads}
+		--enable-threads=windows
 
 		--with-syscmd-shell=$(cygpath -m $(which cmd.exe))
 		${with_libsigsegv}

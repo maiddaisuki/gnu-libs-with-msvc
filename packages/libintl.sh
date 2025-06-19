@@ -39,15 +39,6 @@
 libintl_configure() {
 	print "${package}: configuring"
 
-	# Features
-	local enable_threads=windows
-
-	if [ ${stage} = 2 ]; then
-		if ${WITH_WINPTHREADS}; then
-			enable_threads=posix
-		fi
-	fi
-
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -69,7 +60,7 @@ libintl_configure() {
 		--disable-modula2
 
 		--enable-nls
-		--enable-threads=${enable_threads}
+		--enable-threads=windows
 	"
 
 	if [ -f Makefile ]; then
