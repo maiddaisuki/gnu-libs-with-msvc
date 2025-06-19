@@ -314,42 +314,28 @@ ncurses_configure() {
 	print "${package}: configuring"
 
 	# Library types
-	local with_normal
-	local with_shared
+	local with_normal='--without-normal'
+	local with_shared='--without-shared --without-cxx-shared'
 
 	# libtool and options
 	local libtool=${u_build_prefix}/bin/libtool
 	local libtool_opts
 
-	case ,${enable_shared},${enable_static}, in
-	,*enable*,*enable*,)
+	if ${build_shared} && ${build_static}; then
 		libtool_opts='-no-undefined'
-		;;
-	,*disable*,*,)
-		libtool_opts="-static"
-		;;
-	,*enable*,*,)
+	elif ${build_shared}; then
 		libtool_opts="-no-undefined -shared"
-		;;
-	esac
+	else # only static
+		libtool_opts="-static"
+	fi
 
-	case ${enable_shared} in
-	*enable*)
+	if ${build_shared}; then
 		with_shared='--with-shared --with-cxx-shared'
-		;;
-	*disable*)
-		with_shared='--without-shared --without-cxx-shared'
-		;;
-	esac
+	fi
 
-	case ${enable_static} in
-	*enable*)
+	if ${build_static}; then
 		with_normal=--with-normal
-		;;
-	*disable)
-		with_normal=--without-normal
-		;;
-	esac
+	fi
 
 	local configure_options="
 		--host=${opt_host}
@@ -420,7 +406,7 @@ ncurses_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS='-Wl,user32.lib' \
+		LIBS='-luser32' \
 		PKG_CONFIG_LIBDIR="${u_prefix}/lib/pkgconfig:${u_prefix}/share/pkgconfig" \
 		PKG_CONFIG_PATH= \
 		${configure_options} \

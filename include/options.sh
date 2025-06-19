@@ -4,27 +4,40 @@
 # Shared and Static libraries
 #
 
+# true if building shared libraries
+build_shared=${ENABLE_SHARED}
+# true if building static libraries
+build_static=${ENABLE_STATIC}
+
+# --static
 if ${opt_static}; then
-	enable_static=--enable-static
-	enable_shared=--disable-shared
+	build_shared=false
+	build_static=true
+fi
 
-	build_static_libs=ON
-	build_shared_libs=OFF
-
-	default_library=static
-else
+if ${build_shared}; then
 	enable_shared=--enable-shared
 	build_shared_libs=ON
+else
+	enable_shared=--disable-shared
+	build_shared_libs=OFF
+fi
 
-	if ${ENABLE_STATIC}; then
-		enable_static=--enable-static
-		build_static_libs=ON
-		default_library=both
-	else
-		enable_static=--disable-static
-		build_static_libs=OFF
-		default_library=shared
-	fi
+if ${build_static}; then
+	enable_static=--enable-static
+	build_static_libs=ON
+else
+	enable_static=--disable-static
+	build_static_libs=OFF
+fi
+
+# For meson
+if ${build_shared} && ${build_static}; then
+	default_library=both
+elif ${build_shared}; then
+	default_library=shared
+else
+	default_library=static
 fi
 
 ##

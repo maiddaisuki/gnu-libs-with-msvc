@@ -76,10 +76,16 @@ gettext_configure() {
 	print "${package}: configuring"
 
 	# Dependencies
-	local libs=
+	local libxml2_cflags=
+	local libxml2_ldflags=
 
-	if ${opt_static}; then
-		libs="-Wl,user32.lib"
+	# FIXME: pkgconf may be not a native tool
+	if ${build_shared}; then
+		libxml2_cflags=$(pkgconf --cflags libxml-2.0)
+		libxml2_ldflags=$(pkgconf --libs libxml-2.0)
+	else
+		libxml2_cflags=$(pkgconf --static --cflags libxml-2.0)
+		libxml2_ldflags=$(pkgconf --static --libs libxml-2.0)
 	fi
 
 	# Features
@@ -137,7 +143,7 @@ gettext_configure() {
 	${_srcdir}/gettext-tools/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
+		CPPFLAGS="${cppflags} ${libxml2_cflags}" \
 		CFLAGS="${cflags} -Oi-" \
 		CXX="${cxx}" \
 		CXXFLAGS="${cxxflags} -Oi-" \
@@ -151,6 +157,7 @@ gettext_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		LIBS="${libxml2_ldflags}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 

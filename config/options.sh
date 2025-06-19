@@ -4,6 +4,10 @@
 # Build options
 #
 
+# Whether to build shared libraries (has no effect with --static)
+#
+ENABLE_SHARED=true
+
 # Whether to build static libraries (has no effect with --static)
 #
 # See STATIC.md for details

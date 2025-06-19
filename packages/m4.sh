@@ -45,6 +45,14 @@
 m4_configure() {
 	print "${package}: configuring"
 
+	# Dependencies
+	local libs=
+
+	# FIXME: required to link against static libintl
+	if ! ${build_shared}; then
+		libs='-ladvapi32'
+	fi
+
 	# Optional dependencies
 	local with_libsigsegv=--without-libsigsegv
 
@@ -55,7 +63,6 @@ m4_configure() {
 	# Features
 	local enable_assert=--disable-assert
 	local enable_threads=windows
-	local libs=
 
 	if [ ${opt_buildtype} = debug ]; then
 		enable_assert=--enable-assert
@@ -63,7 +70,7 @@ m4_configure() {
 
 	if ${WITH_WINPTHREADS}; then
 		enable_threads=posix
-		libs=-lpthread
+		libs="${libs} -lpthread"
 	fi
 
 	local configure_options="

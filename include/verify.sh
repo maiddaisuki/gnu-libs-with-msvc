@@ -38,6 +38,14 @@ elif [ ! -d "${SRCDIR}" ]; then
 	error "SRCDIR=${SRCDOR}: directory does not exist"
 fi
 
+# Build options
+
+# NOTE: --static overrides ENABLE_SHARED and ENABLE_STATIC
+if ! ${ENABLE_SHARED} && ! ${ENABLE_STATIC} && ! ${opt_static}; then
+	_die=true
+	error "either ENABLE_SHARED or ENABLE_STATIC must be enabled"
+fi
+
 # Unsupported packages
 
 if ${WITH_EMACS}; then

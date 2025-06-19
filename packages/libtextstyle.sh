@@ -35,13 +35,19 @@ libtextstyle_configure() {
 
 	# Dependencies
 	local enable_curses=--disable-curses
-	local libs=
+	local ncurses_cflags=
+	local ncurses_ldflags=
 
 	if ${WITH_NCURSES}; then
 		enable_curses=--enable-curses
 
-		if ${opt_static}; then
-			libs="-Wl,user32.lib"
+		# FIXME: pkgconf may be not a native tool
+		if ${build_shared}; then
+			ncurses_cflags=$(pkgconf --cflags ncurses)
+			ncurses_ldflags=$(pkgconf --libs ncurses)
+		else
+			ncurses_cflags=$(pkgconf --static --cflags ncurses)
+			ncurses_ldflags=$(pkgconf --static --libs ncurses)
 		fi
 	fi
 
@@ -76,7 +82,7 @@ libtextstyle_configure() {
 	${_srcdir}/libtextstyle/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
+		CPPFLAGS="${cppflags} ${ncurses_cflags}" \
 		CFLAGS="${cflags} -Oi-" \
 		CXX="${cxx}" \
 		CXXFLAGS="${cxxflags} -Oi-" \
@@ -90,7 +96,7 @@ libtextstyle_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS="${libs}" \
+		LIBS="${ncurses_ldflags}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 

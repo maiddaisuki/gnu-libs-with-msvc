@@ -1,113 +1,113 @@
 # Static Libraries and MSVC
 
 By default, the scripts will build only shared libraries.
-
 You may request build of static libraries by setting `ENABLE_STATIC=true` in
-[config/options.sh](/config/options.sh).
+[config/options.sh](/config/options.sh). Also, by default the scripts will link
+against shared version of CRT.
 
-Also, by default the scripts will link against shared version of CRT
-(with `-MD` compiler option).
-
-The `--static` option tells the scripts to:
+You may also use `--static` option to:
 
 - disable build of shared libraries
-- enable build of static libraries (regardless of value of `ENABLE_STATIC`)
-- link against static version of CRT (`-MT` compiler option)
+- enable build of static libraries
+- link against static version of CRT
 
-This documents explains some details and the reasoning for default choice.
+This documents explains some details and the reasoning for the default choice.
 
 ## Shared and Static CRT
 
-By default, `cl.exe` links with static version of CRT (as if `-MT` was used).
+By default, `cl.exe` links against static version of CRT (as if `-MT` was used).
+This means that every iamge contains its own version of CRT.
+As the result, global state such as locale, open `FILE` objects, `errno` value,
+memory allocations, etc. are local to each such image.
 
-This means that every executable and DLL contains its own version of CRT.
-Think of it as if you would staticly `-lc` into them. This results in whole lot
-of issues.
+On the other hand, `-MD` option makes `link.exe` link against shared version of
+CRT. All iamges use the same shared version of CRT.
+Global state is shared among all such images within a process.
 
-On the other hand, `-MD` option makes `link.exe` link agains shared version of
-CRT.  
-This is what we normally want: all programs and libraries use the same shared
-version of the C Library.
-
-Also keep in mind that there is no way to link Microsoft's C++ Library staticly.
-
-The `-MT` and `-MD` do not affect code generation unlike common `gcc` options
+The `-MT` and `-MD` do not affect code generation unlike common options
 such as `-fPIC` and `-fPIE`. They simply store name of CRT library to link
 against in object files.
 
 The `-MD` option also defines `_DLL` preprocessor macro used by system
-header files to decorate functions with `declspec(dllimport)`.
+header files to decorate symbols with `__declspec(dllimport)`.
 
-Mixing object files compiled with `-MT` and `-MD` will likely make applications
-crash at runtime, or worse result in hard-to-spot bugs.
+Mixing object files compiled with `-MT` and `-MD` is possible but strongly
+discouraged.
 
-### `-MT`
+## Interaction Between Static and Shared Libraries
 
-Since `-MT` links against static version of CRT it makes absolutely no sense
-to build shared libraries with this option.
+Interaction between static and shared libraries may be surprising.
 
-The `--static` option allows you to create static libraries and
-applications linked against static version of CRT.
+Keep in mind the following:
 
-### `-MD`
+- when you build shared version of a library you need to decorate exported
+  functions and variables with `__declspec(dllexport)`
+- when you build static version you should not decorate them
 
-This option tells `link.exe` to link against shared version of CRT.  
-This is the way to go when we use shared libraries.
+Now, consider the following case:
 
-But interaction with static libraries compiled with `-MD` may be not as obvious.  
-Think of this:
+- There are two libraries: `liba` and `libb`, and `libb` depends on `liba`
+- Both have static and shared version
+- You want to:
+  1. link against static `libb` but shared `liba`
+  2. link against shared `libb` but static `liba`
 
-- when you build shared version of a library you need to decorate functions with
-  `declspec(dllimport)`
-- when you build static version you should not decorate functions
+On Windows, the outcome of two cases above depends on how static `libb` was
+build: were `liba`'s symbols decorated with `__declspec(dllimport)` or not?
 
-This not the issue.  
-The issue may appear if try to mix shared and static libraries with
-interdependencies.
+If `libb` is referencing decorated symbols from `liba`
 
-#### Example
+- linking against static `liba` will fail, since symbols in static `liba`
+  were not decorated with `__declspec(dllexport)` when it was built
+- linking against shared `liba` will succeed
 
-Imagine you have `liba` and `libb`.  
-Both have static and shared version, and `libb` depends on `liba`.
+If `libb` is referencing undecorated symbols from `liba`
 
-Now, imagine you want to link against static version of `libb` but
-shared version of `liba`.
+- linking against static `liba` will succeed
+- linking against shared `liba` will succeed, however if `libb` references
+  any exported variable from `liba`, it will most likely cause crash at runtime
 
-On Linux, you could do this with something like this:
+On Linux, you would simply do something like this:
 
 ```shell
 gcc ... -Wl,--push-state,-static,-lb,--pop-state -la
 ```
 
-There is no need to think about `declspec(...)` interactions.
-
-But when we built static `libb` on windows, what kind of symbols from `liba`
-was used? Were they decorated with `declspec(...)` or not?
-
-The obvious solution is to use non-decorated symbols when building the
-static library.
-
-#### Auto Import
-
-While `declspec(dllexport)` must be used when building a shared library, the
-`declspec(dllimport)` is optional when we link against shared library.
-
-The `link.exe` will be able to resolve those function calls, however,
-it comes at cost of one extra jump instruction at runtime.
-
-`NOTE`: in order to access data objects (e.g. varaibles) from the DLL they still
-must be declared with `declspec(dllimport)`.
-
-So, for example, both
+or
 
 ```shell
-link.exe ... libb.lib liba.dll.lib
+gcc ... -lb -Wl,--push-state,-static,-la,--pop-state
 ```
 
-and
+You do not have to care about `__declspec()`.
 
-```shell
-link.exe ... libb.lib liba.lib
-```
+### Possible Solutions
 
-will work if static `libb.lib` references non-decorated symbols from `liba`.
+In most cases, we would want to do the following:
+
+- When building a shared library, link it against shared libraries:
+  we want header files of libraries we link against to decorate their symbols
+  with `__declspec(dllimport)`
+- When building a static library, _link_ it against static libraries:
+  we want header files of libraries we link against to omit
+  `__declspec(dllimport)` from declarations
+
+This way, static libraries will not have references to decorated symbols in
+libraries they depond on.
+
+Currently none of `libtool`, `cmake` and `meson` provide a way to accomplish
+this. When you build `libb`, both static and shared version will reference
+the same kind of symbols from `liba`.
+
+Take another example: You want to embed a static library into an executable
+or a shared library
+
+In this case "link static against static" may not work.
+If both executable/library and static library in question share the same
+dependency, you may want them to use the shared version of it. If static library
+references undecorated symbols of that dependency, you may get improperly
+imported variables which will result in crash at runtime.
+
+Unless you have a special case like above example and you can control what kind
+of library is used during the compilation and linking, it is strongly encouraged
+to build only shared or static libraries, not both at the same time.

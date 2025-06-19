@@ -26,6 +26,15 @@
 libiconv_configure() {
 	print "${package}: configuring"
 
+	# Dependencies
+	local libs=
+
+	# FIXME: required to link against static libintl
+	if ! ${build_shared}; then
+		libs='-ladvapi32'
+	fi
+
+	# Features
 	local enable_nls=--disable-nls
 	local enable_extra_encodings=--disable-extra-encodings
 
@@ -72,6 +81,7 @@ libiconv_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
+		LIBS="${libs}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 
