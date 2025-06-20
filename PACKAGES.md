@@ -46,6 +46,11 @@ To build working programs, `gettext-tools` will be configured with
 
 Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
+Optional dependencies:
+
+- libunistring
+- libxml2
+
 ### libtextstyle
 
 Part of `gettext` package.

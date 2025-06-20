@@ -82,17 +82,6 @@ if ${WITH_BISON}; then
 	fi
 fi
 
-if ${WITH_GETTEXT}; then
-	if ! ${WITH_LIBUNISTRING}; then
-		_die=true
-		error "gettext: missing dependency: libunistring"
-	fi
-	if ! ${WITH_LIBXML2}; then
-		_die=true
-		error "gettext: missing dependency: libxml2"
-	fi
-fi
-
 # if ${WITH_AUTOCONF}; then
 # 	if ! ${WITH_M4}; then
 # 		_die=true

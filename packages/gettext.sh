@@ -76,16 +76,26 @@ gettext_configure() {
 	print "${package}: configuring"
 
 	# Dependencies
+	local with_libunistring=--with-included-libunistring
+	local with_libxml2=--with-included-libxml
 	local libxml2_cflags=
 	local libxml2_ldflags=
 
-	# FIXME: pkgconf may be not a native tool
-	if ${build_shared}; then
-		libxml2_cflags=$(pkgconf --cflags libxml-2.0)
-		libxml2_ldflags=$(pkgconf --libs libxml-2.0)
-	else
-		libxml2_cflags=$(pkgconf --static --cflags libxml-2.0)
-		libxml2_ldflags=$(pkgconf --static --libs libxml-2.0)
+	if ${WITH_LIBUNISTRING}; then
+		with_libunistring=--without-included-libunistring
+	fi
+
+	if ${WITH_LIBXML2}; then
+		with_libxml2=--without-included-libxml
+
+		# FIXME: pkgconf may be not a native tool
+		if ${build_shared}; then
+			libxml2_cflags=$(pkgconf --cflags libxml-2.0)
+			libxml2_ldflags=$(pkgconf --libs libxml-2.0)
+		else
+			libxml2_cflags=$(pkgconf --static --cflags libxml-2.0)
+			libxml2_ldflags=$(pkgconf --static --libs libxml-2.0)
+		fi
 	fi
 
 	# Features
