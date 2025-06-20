@@ -136,6 +136,8 @@ gettext_configure() {
 		--enable-threads=windows
 
 		${with_emacs}
+		${with_libunistring}
+		${with_libxml2}
 	"
 
 	if [ -f Makefile ]; then
