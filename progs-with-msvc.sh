@@ -168,6 +168,6 @@ ${WITH_AUTOMAKE} && automake_main
 # Finalize
 #
 
-post_install "${PREFIX}" "${u_prefix}"
+post_install
 
 exit 0

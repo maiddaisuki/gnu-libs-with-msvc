@@ -212,7 +212,7 @@ fi
 # Finalize
 #
 
-post_install "${PREFIX}" "${u_prefix}"
+post_install
 
 # Write PREFIX/devenv.sh
 devenv

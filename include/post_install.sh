@@ -3,32 +3,33 @@
 ##
 # The post_install function
 #
-
-# $1: prefix (windows-style)
-# $2: prefix (unix_style)
+# Convert unix-style paths in *.la and *.pc files to windows-style paths.
+# Run install-info to make info manuals in PREFIX/share/info usable.
 #
 post_install() {
-	local w_prefix=$1
-	local u_prefix=$2
+	test -d ${u_prefix} || return
 
 	local la pc i
 
-	test -d ${u_prefix} || return
-
-	for la in $(find ${u_prefix}/lib -name '*.la'); do
-		sed -i "s|${u_prefix}|${w_prefix}|g" $la
+	for la in $(find "${u_prefix}/lib" -name '*.la'); do
+		sed -i "s|${u_prefix}|${PREFIX}|g" $la
 	done
 
-	if test -d ${u_prefix}/lib/pkgconfig; then
-		for pc in $(find ${u_prefix}/lib/pkgconfig -name '*.pc'); do
-			sed -i "s|${u_prefix}|${w_prefix}|g" $pc
-			sed -i -E "s|-Wl,([^[:space:]]+).lib|-l\1|g" $pc
+	if test -d "${u_prefix}/lib/pkgconfig"; then
+		for pc in $(find "${u_prefix}/lib/pkgconfig" -name '*.pc'); do
+			sed -i "s|${u_prefix}|${PREFIX}|g" $pc
 		done
 	fi
 
-	if test -d ${u_prefix}/share/info; then
+	if test -d "${u_prefix}/share/pkgconfig"; then
+		for pc in $(find "${u_prefix}/share/pkgconfig" -name '*.pc'); do
+			sed -i "s|${u_prefix}|${PREFIX}|g" $pc
+		done
+	fi
+
+	if test -d "${u_prefix}/share/info"; then
 		if type install-info >/dev/null 2>&1; then
-			for i in ${u_prefix}/share/info/*.info; do
+			for i in $(find "${u_prefix}/share/info" -name '*.info'); do
 				install-info $i ${u_prefix}/share/info/dir
 			done
 		fi
