@@ -19,13 +19,13 @@ ldflags=
 # Request specific C and C++ standards
 if ! ${opt_legacy}; then
 	cppflags="-external:W0 -external:env:INCLUDE -D_CRT_DECLARE_NONSTDC_NAMES"
-	cflags="-std:c17 -Zc:__STDC__"
-	cxxflags="-std:c++20 -Zc:__cplusplus"
+	cflags="-utf-8 -std:c17 -Zc:__STDC__"
+	cxxflags="-utf-8 -std:c++20 -Zc:__cplusplus"
 fi
 
 cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
-cflags="${cflags} -utf-8"
-cxxflags="${cxxflags} -utf-8 -EHsc -permissive-"
+cflags="${cflags}"
+cxxflags="${cxxflags} -EHsc -permissive-"
 
 # Use llvm linker with --llvm
 if [ ${opt_toolchain} = llvm ]; then
