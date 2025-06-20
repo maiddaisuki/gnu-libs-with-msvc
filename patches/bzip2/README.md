@@ -1,11 +1,21 @@
 # meson.build for bzip2
 
-This subdirectory contains [meson.build](./meson.build) which allows to build
-`libbz2` library using `Meson` build system.
+This subdirectory contains `meson.build` which allows to build `bzip2`
+using `Meson` build system.
+
+## Building
+
+Copy `meson.build` to the root of `bzip2`'s source tree.
+
+You need to modify file `libbz2.def`: prepend the first two lines with `;`,
+or simply remove them.
+
+You may also need to change value of `version` keyword in `project` call.
+Current value is `1.0.8`.
 
 ## Targets
 
-This `meson.build` difines following targets:
+This `meson.build` defines the following targets:
 
 - `bz2` library
 - `bzip2` executable

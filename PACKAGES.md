@@ -2,41 +2,39 @@
 
 The following packages are supported:
 
-- [Autoconf](https://www.gnu.org/software/autoconf)
-- [Automake](https://www.gnu.org/software/automake)
-- [Bison](https://www.gnu.org/software/bison)
+- [autoconf](https://www.gnu.org/software/autoconf)
+- [automake](https://www.gnu.org/software/automake)
+- [bison](https://www.gnu.org/software/bison)
 - [bzip2](https://sourceware.org/bzip2)
-- [Gettext](https://www.gnu.org/software/gettext)
+- [gettext](https://www.gnu.org/software/gettext)
   (`libintl`, `libasprintf`, `libtextstyle` and `gettext`)
 - [libiconv](https://www.gnu.org/software/libiconv)
 - [libtool](https://www.gnu.org/software/libtool)
 - [libtre](https://laurikari.net/tre)
 - [libunistring](https://www.gnu.org/software/libunistring)
 - [libxml2](https://gitlab.gnome.org/GNOME/libxml2)
-- [M4](https://www.gnu.org/software/m4)
+- [m4](https://www.gnu.org/software/m4)
 - [ncurses](https://invisible-island.net/ncurses)
 - [mingw-w64's](https://www.mingw-w64.org) `winpthreads`
 
-The `autoconf`, `automake` and `libtool` packages are built by
-`progs-with-msvc.sh` only if `--with-autotools` option is passed.
-
 ## Supported Packages
 
-### Autoconf
+### autoconf
 
-Native Windows build is not supported. Native POSIX shell is required.
+Native Windows build is not supported.
 
-### Automake
+### automake
 
-Native Windows build is not supported. Native POSIX shell is required.
+Native Windows build is not supported.
 
-### Bison
+### bison
 
-Building `bison-3.8.2` fails. Older versions may work.
+Building `bison-3.8.2` fails.
+You can build from `master` with recent enough `gnulib` sources.
 
-Testsuite seems to fail a lot.
+Warning: `bison` does not function properly on native Windows.
 
-### Gettext
+### gettext
 
 Starting with release `0.23`, `gettextlib.dll` and `gettextsrc.dll` are
 affected by a bug which causes programs linked against them crash at runtime.
@@ -51,9 +49,23 @@ Optional dependencies:
 - libunistring
 - libxml2
 
-### libtextstyle
+### libasprintf
+
+Optional part of `gettext` package.
+
+### libiconv
 
 Part of `gettext` package.
+
+Always built.
+
+### libintl
+
+Always built.
+
+### libtextstyle
+
+Optional part of `gettext` package.
 
 `libtextstyle` is required for `gettext-tools` and will always be built with
 `WITH_GETTEXT=true` regardless of `WITH_LIBTEXTSTYLE`.
@@ -62,9 +74,9 @@ Optional dependencies:
 
 - ncurses
 
-### Libtool
+### libtool
 
-Installed `libtool` script does not work properly.
+Also installs `libltdl` library.
 
 ### libtre
 
@@ -77,15 +89,22 @@ Use any later version, release `1.2`, or build from `master`.
 
 ### libxml2
 
-Supports both `GNU Autotools` and `CMake` build systems.
+Will be configured to use `libiconv`.
 
-### M4
+Optional dependencies:
 
-Building `m4-1.4.20` fails. Older versions may work.
+- lzma (TODO)
+- readline (TODO)
+- zlib (TODO)
 
-Testsuite seems to fail a lot.
+### m4
 
-### Ncurses
+Building `m4-1.4.20` fails. You can build from `master` or a recent stable tag
+with recent enough `gnulib` sources.
+
+Warning: `m4` seems to have issues on native Windows.
+
+### ncurses
 
 The build system is purely `autoconf`-based and does not use `automake` and
 `libtool`.  
@@ -110,14 +129,7 @@ you can use to build recent versions of those packages.
 
 ### bzip2
 
-By default, `bzip2` provides Makefiles for `make` and `nmake`. We provide
-`meson.build` to build it.
+`bzip2` provides Makefiles for `make` and `nmake`.
+We provide `meson.build` to build it.
 
-Copy [patches/bzip2/meson.build](/patches/bzip2/meson.build) to the root of
-cloned `bzip2` repository or extracted source tarball.
-
-You will also need to modify file `libbz2.def`. Prepend the first two lines
-with `;`, or simply remove them.
-
-You may also need to change value of `version` keyword in `project` call.
-Current value is `1.0.8`.
+See [patches/bzip2/README.md](/patches/bzip2/README.md) for details.
