@@ -1,4 +1,4 @@
-# packages/README.md
+# Packages
 
 The following packages are supported:
 

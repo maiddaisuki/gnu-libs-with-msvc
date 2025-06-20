@@ -46,39 +46,23 @@ Visual Studio's `cmake` and `ninja` work well, but you still might need `meson`.
 
 See [BUILD.md](/BUILD.md) for details.
 
-## Source Tree Structure
+## Supported Packages
 
-Most of subdirectories contain supporting scripts which are sourced with `.`
-command.
+See [PACKAGES.md](/PACKAGES.md) for information about supported packages.
 
-### `config/`
+## Build Options
 
-This subdirectory contains files intended to be modified by user to customize
-the build process, for example:
+The `config` subdirectory contains configs intended to be modified by user.
 
-- add compiler flags with `CFLAGS` and `CXXFLAGS`
-- specify source and build directories
-- select optional packages to build
+You must set `PREFIX`, `SRCDIR` and `BUILDDIR` in `config/dirs.sh`.
 
-See [config/README.md](./config/README.md) for details.
+You can modify build options in `config/options.sh`. For example, you may
+set `ENABLE_STATIC=true` to build static libraries.
 
-### `include/`
+You can select packages to build in `config/packages.sh`. You need to set
+`*_SRCDIR` in `config/dirs.sh` for each selected package.
 
-This subdirectory contains support scripts.
-
-See [include/README.md](./include/README.md) for details.
-
-### `packages/`
-
-This subdirectory contains scripts to build specific packages.
-
-See [packages/README.md](./packages/README.md) for details.
-
-### `templates/`
-
-This subdirectory contains template scripts for new packages.
-
-See [templates/README.md](./templates/README.md) for details.
+You can add compiler and linker flags in `config/flags.sh`.
 
 ## Adding New Packages
 

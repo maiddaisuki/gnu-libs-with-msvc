@@ -1,4 +1,4 @@
-# patches/README.md
+# Patches
 
 This subdirectory contains extra files required to build some packages.
 

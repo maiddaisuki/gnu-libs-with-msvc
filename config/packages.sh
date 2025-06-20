@@ -3,7 +3,7 @@
 ##
 # Select packages to build
 #
-# See packages/README.md for package-specific details and known issues.
+# See PACKAGES.md for package-specific details and known issues.
 #
 
 WITH_AUTOCONF=false
