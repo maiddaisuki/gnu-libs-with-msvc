@@ -85,5 +85,5 @@ See [templates/README.md](./templates/README.md) for details.
 In addition to already supported packages, it should be easy to add support for
 more packages.
 
-See [BUILD.md](./BUILD.md) and [templates/README.md](./templates/README.md)
+See [BUILD.md](./BUILD.md) and [templates/TEMPLATES.md](./templates/TEMPLATES.md)
 for details.
