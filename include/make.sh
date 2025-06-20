@@ -47,6 +47,31 @@ _make_stage() {
 	test $? -eq 0 || die "${package}: staged installation failed"
 }
 
+##
+# Convert unix-style paths in *.la and *.pc files to windows-style paths.
+#
+_make_pack_hook() {
+	local file
+
+	if test -d lib; then
+		for file in $(find lib -name '*.la'); do
+			sed -i "s|${_prefix}|${prefix}|g" $file
+		done
+	fi
+
+	if test -d lib/pkgconfig; then
+		for file in $(find lib/pkgconfig -name '*.pc'); do
+			sed -i "s|${_prefix}|${prefix}|g" $file
+		done
+	fi
+
+	if test -d share/pkgconfig; then
+		for file in $(find share/pkgconfig -name '*.pc'); do
+			sed -i "s|${_prefix}|${prefix}|g" $file
+		done
+	fi
+}
+
 _make_pack() {
 	print "${package}: creating ${package_tar_x}"
 
@@ -58,6 +83,7 @@ _make_pack() {
 		cd "${destdir}${prefix}" || exit
 	fi
 
+	_make_pack_hook
 	test ${1+y} && $1
 
 	tar -c -f ${package_tar} -h $(dir) &&
