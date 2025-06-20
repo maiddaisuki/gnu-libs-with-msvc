@@ -4,31 +4,30 @@
 # Set compiler and linker flags
 #
 
+# workaround libtool bug...
+_Wl="-Wl,-Xlinker,"
+
+cppflags=
+cflags=
+cxxflags=
+ldflags=
+
 ##
 # Compiler and Linker flags
 #
 
-# workaround libtool bug...
-_Wl="-Wl,-Xlinker,"
-
 # Request specific C and C++ standards
-
-if ${opt_legacy}; then
-	cppflags=
-	cflags=
-	cxxflags=
-	ldflags=
-else
+if ! ${opt_legacy}; then
 	cppflags="-external:W0 -external:env:INCLUDE -D_CRT_DECLARE_NONSTDC_NAMES"
 	cflags="-std:c17 -Zc:__STDC__"
 	cxxflags="-std:c++20 -Zc:__cplusplus"
-	ldflags=
 fi
 
 cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
 cflags="${cflags} -utf-8"
 cxxflags="${cxxflags} -utf-8 -EHsc -permissive-"
 
+# Use llvm linker with --llvm
 if [ ${opt_toolchain} = llvm ]; then
 	ldflags="${ldflags} -fuse-ld=lld"
 fi
@@ -79,9 +78,15 @@ debug)
 	;;
 esac
 
+##
 # Add user-supplied flags
+#
 
 cppflags="${cppflags} ${CPPFLAGS}"
 cflags="${cflags} ${CFLAGS}"
 cxxflags="${cxxflags} ${CXXFLAGS}"
-ldflags="${ldflags} ${LDFLAGS}"
+
+# Prepend "-Wl," to each linker flag listed in LDFLAGS
+for i in ${LDFLAGS}; do
+	ldflags="${ldflags} ${_Wl}$i"
+done
