@@ -1,25 +1,27 @@
 #!/bin/sh
 
 ##
-# Select optional packages to build
+# Select packages to build
+#
+# See packages/README.md for package-specific details and known issues.
 #
 
-WITH_AUTOCONF=false     #
-WITH_AUTOMAKE=false     #
-WITH_BZIP2=false        # See details in packages/README.md
-WITH_EMACS=false        # not implemented yet
-WITH_GETTEXT=false      # See details in packages/README.md
-WITH_LIBASPRINTF=false  #
-WITH_LIBSIGSEGV=false   # not implemented yet; 32-bit only
-WITH_LIBTEXTSTYLE=false #
-WITH_LIBTOOL=false      #
-WITH_LIBUNISTRING=false #
-WITH_LIBXML2=false      #
-WITH_LZMA=false         # not implemented yet
-WITH_M4=false           #
-WITH_BISON=false        #
-WITH_NCURSES=false      # See details in packages/README.md
-WITH_READLINE=false     # not implemented yet; need to try mingw-w64 port
-WITH_TRE=false          #
-WITH_WINPTHREADS=false  # See details in packages/README.md
-WITH_ZLIB=false         # not implemented yet
+WITH_AUTOCONF=false
+WITH_AUTOMAKE=false
+WITH_BISON=false
+WITH_BZIP2=false
+WITH_EMACS=false # TODO
+WITH_GETTEXT=false
+WITH_LIBASPRINTF=false
+WITH_LIBSIGSEGV=false # TODO: only 32-bit windows is supported
+WITH_LIBTEXTSTYLE=false
+WITH_LIBTOOL=false
+WITH_LIBUNISTRING=false
+WITH_LIBXML2=false
+WITH_LZMA=false # TODO
+WITH_M4=false
+WITH_NCURSES=false
+WITH_READLINE=false # TODO: try mingw-w64 port
+WITH_TRE=false
+WITH_WINPTHREADS=false
+WITH_ZLIB=false # TODO
