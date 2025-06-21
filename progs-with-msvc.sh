@@ -149,6 +149,12 @@ dir_packages=${selfdir}/packages
 stage=3
 . ${dir_include}/env.sh
 
+if ${WITH_PKGCONF}; then
+	PKG_CONFIG=${PREFIX}/bin/pkgconf.exe
+else
+	PKG_CONFIG=pkgconf.exe
+fi
+
 : perl_main
 
 ${WITH_M4} && m4_main

@@ -41,13 +41,12 @@ libtextstyle_configure() {
 	if ${WITH_NCURSES}; then
 		enable_curses=--enable-curses
 
-		# FIXME: pkgconf may be not a native tool
 		if ${build_shared}; then
-			ncurses_cflags=$(pkgconf --cflags ncurses)
-			ncurses_ldflags=$(pkgconf --libs ncurses)
+			ncurses_cflags=$(${PKG_CONFIG} --cflags ncurses)
+			ncurses_ldflags=$(${PKG_CONFIG} --libs ncurses)
 		else
-			ncurses_cflags=$(pkgconf --static --cflags ncurses)
-			ncurses_ldflags=$(pkgconf --static --libs ncurses)
+			ncurses_cflags=$(${PKG_CONFIG} --static --cflags ncurses)
+			ncurses_ldflags=$(${PKG_CONFIG} --static --libs ncurses)
 		fi
 	fi
 

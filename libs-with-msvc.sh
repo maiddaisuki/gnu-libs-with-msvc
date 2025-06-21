@@ -193,6 +193,12 @@ if ${opt_enable_stage2}; then
 
 	${WITH_PKGCONF} && pkgconf_main
 
+	if ${WITH_PKGCONF}; then
+		PKG_CONFIG=${PREFIX}/bin/pkgconf.exe
+	else
+		PKG_CONFIG=pkgconf.exe
+	fi
+
 	${WITH_TRE} && libtre_main
 	: libgnurx_main # not implemented
 

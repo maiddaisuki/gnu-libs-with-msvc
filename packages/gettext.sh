@@ -88,13 +88,12 @@ gettext_configure() {
 	if ${WITH_LIBXML2}; then
 		with_libxml2=--without-included-libxml
 
-		# FIXME: pkgconf may be not a native tool
 		if ${build_shared}; then
-			libxml2_cflags=$(pkgconf --cflags libxml-2.0)
-			libxml2_ldflags=$(pkgconf --libs libxml-2.0)
+			libxml2_cflags=$(${PKG_CONFIG} --cflags libxml-2.0)
+			libxml2_ldflags=$(${PKG_CONFIG} --libs libxml-2.0)
 		else
-			libxml2_cflags=$(pkgconf --static --cflags libxml-2.0)
-			libxml2_ldflags=$(pkgconf --static --libs libxml-2.0)
+			libxml2_cflags=$(${PKG_CONFIG} --static --cflags libxml-2.0)
+			libxml2_ldflags=$(${PKG_CONFIG} --static --libs libxml-2.0)
 		fi
 	fi
 
