@@ -21,6 +21,7 @@ WITH_LIBXML2=false
 WITH_LZMA=false # TODO
 WITH_M4=false
 WITH_NCURSES=false
+WITH_PKGCONF=false
 WITH_READLINE=false # TODO: try mingw-w64 port
 WITH_TRE=false
 WITH_WINPTHREADS=false

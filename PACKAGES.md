@@ -15,6 +15,7 @@ The following packages are supported:
 - [libxml2](https://gitlab.gnome.org/GNOME/libxml2)
 - [m4](https://www.gnu.org/software/m4)
 - [ncurses](https://invisible-island.net/ncurses)
+- [pkgconf](https://github.com/pkgconf/pkgconf)
 - [mingw-w64's](https://www.mingw-w64.org) `winpthreads`
 
 ## Supported Packages
@@ -115,6 +116,10 @@ and will use it to build `ncurses`.
 
 This means that you need to obtain source code for `libtool` if you want to
 build `ncurses`.
+
+### pkgconf
+
+While not required, it is highly recommended to build `pkgconf`.
 
 ### winpthreads
 

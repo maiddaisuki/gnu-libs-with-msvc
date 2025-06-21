@@ -157,6 +157,8 @@ dir_packages=${selfdir}/packages
 #. ${dir_packages}/libxml2.sh
 . ${dir_packages}/libxml2.cmake.sh
 . ${dir_packages}/ncurses.sh
+#. ${dir_packages}/pkgconf.sh
+. ${dir_packages}/pkgconf.meson.sh
 . ${dir_packages}/winpthreads.sh
 #. ${dir_packages}/winpthreads.meson.sh
 
@@ -188,6 +190,8 @@ if ${opt_enable_stage2}; then
 
 	libiconv_main
 	libintl_main
+
+	${WITH_PKGCONF} && pkgconf_main
 
 	${WITH_TRE} && libtre_main
 	: libgnurx_main # not implemented
