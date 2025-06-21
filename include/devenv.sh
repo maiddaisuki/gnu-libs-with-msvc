@@ -29,6 +29,21 @@ devenv() {
 
 		PATH="${u_prefix}/sbin:${u_prefix}/bin:\${PATH}"
 
+		if test \${INCLUDE+y}; then
+			INCLUDE='${PREFIX}/include'\;\${INCLUDE}
+		else
+			INCLUDE='${PREFIX}/include'
+		fi
+
+		if test \${LIB+y}; then
+			LIB='${PREFIX}/lib'\;\${LIB}
+		else
+			LIB='${PREFIX}/lib'
+		fi
+
+		export INCLUDE
+		export LIB
+
 		# If pkgconf/pkg-config is built, use it
 		if test -x '${pkgconf}'; then
 			PKG_CONFIG='${pkgconf}'
