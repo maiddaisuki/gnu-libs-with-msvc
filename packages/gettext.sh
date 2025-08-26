@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build gettext-tools (options as of gettext 0.25)
+# Build gettext-tools (options as of gettext 0.26)
 #
 # --enable-c++
 # --enable-csharp[=dotnet|mono]

@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libtextstyle (options as of gettext 0.25)
+# Build libtextstyle (options as of gettext 0.26)
 #
 # --enable-curses
 # --enable-namespacing
