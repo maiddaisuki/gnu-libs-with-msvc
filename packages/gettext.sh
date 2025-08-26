@@ -120,8 +120,8 @@ gettext_configure() {
 		--prefix=${_prefix}
 		--libdir=${_prefix}/lib
 
-		--disable-shared
-		--enable-static
+		${enable_shared}
+		${enable_static}
 
 		${enable_libasprintf}
 

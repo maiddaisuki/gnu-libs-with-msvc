@@ -37,11 +37,13 @@ Warning: `bison` does not function properly on native Windows.
 
 ### gettext
 
-Starting with release `0.23`, `gettextlib.dll` and `gettextsrc.dll` are
+In releases from `0.23` to `0.25`, `gettextlib.dll` and `gettextsrc.dll` are
 affected by a bug which causes programs linked against them crash at runtime.
+This bug has been fixed in release `0.26`.
 
-To build working programs, `gettext-tools` will be configured with
-`--disable-shared --enable-static`.
+If you need to build one of those versions, you need to pass
+`--disable-shared --enable-static` explicitly to `gettext`'s configure
+script in [gettext.sh](/packages/gettext.sh).
 
 Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
