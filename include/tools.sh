@@ -12,7 +12,7 @@ export MSYS2_ARG_CONV_EXCL='-Tp;-Tc'
 
 # Find GNU Automake's `compile` and `ar-lib` wrapper scripts
 
-_automake_version=$(automake --version | sed -E '1s/.*([[:digit:]]+\.[[:digit:]]+)$/\1/ ; q')
+_automake_version=$(automake --version | sed -E '1s/.* ([[:digit:]]+\.[[:digit:]]+)(\.[[:digit:]])*$/\1/ ; q')
 
 compile=/usr/share/automake-${_automake_version}/compile
 ar_lib=/usr/share/automake-${_automake_version}/ar-lib
