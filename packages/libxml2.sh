@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libxml2 (options as of version 2.14.3)
+# Build libxml2 (options as of version 2.14.5)
 #
 # --with-minimum      [off]
 # --with-legacy       [off]
@@ -25,7 +25,6 @@
 # --with-sax1         [on]
 # --with-schemas      [on]
 # --with-schematron   [on]
-# --with-tree         [on]
 # --with-valid        [on]
 # --with-xinclude     [on]
 # --with-xpath        [on]

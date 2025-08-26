@@ -3,12 +3,10 @@
 # BUILD_SYSTEM: cmake
 
 ##
-# Build libxml2 (options as of version 2.14.3)
+# Build libxml2 (options as of version 2.14.5)
 #
 # LIBXML2_WITH_PROGRAMS [ON]
 # LIBXML2_WITH_TESTS [ON]
-#
-# LIBXML2_XMLCONF_WORKING_DIR=DIR
 #
 ## Features
 #
@@ -31,7 +29,6 @@
 # LIBXML2_WITH_SAX1         [ON]
 # LIBXML2_WITH_SCHEMAS      [ON]
 # LIBXML2_WITH_SCHEMATRON   [ON]
-# LIBXML2_WITH_TREE         [ON]
 # LIBXML2_WITH_VALID        [ON]
 # LIBXML2_WITH_XINCLUDE     [ON]
 # LIBXML2_WITH_XPATH        [ON]
