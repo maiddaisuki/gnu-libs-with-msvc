@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build pkgconf (options as of 2.5.0)
+# Build pkgconf (options as of 2.5.1)
 #
 # --enable-largefile
 # --enable-year2038

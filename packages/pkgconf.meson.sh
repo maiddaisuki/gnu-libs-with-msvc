@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: meson
 
 ##
-# Build pkgconf (options as of 2.5.0)
+# Build pkgconf (options as of 2.5.1)
 #
 # --with-system-includedir=STRING
 # --with-system-libdir=STRING
