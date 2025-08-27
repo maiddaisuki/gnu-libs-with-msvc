@@ -75,10 +75,75 @@ fi
 
 # Verify dependencies
 
+if ${WITH_LIBINTL}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libintl: missing dependency: libiconv"
+	fi
+fi
+
+if ${WITH_TRE}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libtre: missing dependency: libiconv"
+	fi
+	if ! ${WITH_LIBINTL}; then
+		_die=true
+		error "libtre: missing dependency: libintl"
+	fi
+fi
+
+if ${WITH_LIBTEXTSTYLE}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libtextstyle: missing dependency: libiconv"
+	fi
+fi
+
+if ${WITH_LIBUNISTRING}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libunistring: missing dependency: libiconv"
+	fi
+fi
+
+if ${WITH_LIBXML2}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libxml2: missing dependency: libiconv"
+	fi
+fi
+
+if ${WITH_M4}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "m4: missing dependency: libiconv"
+	fi
+	if ! ${WITH_LIBINTL}; then
+		_die=true
+		error "m4: missing dependency: libintl"
+	fi
+fi
+
 if ${WITH_BISON}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "bison: missing dependency: libiconv"
+	fi
+	if ! ${WITH_LIBINTL}; then
+		_die=true
+		error "bison: missing dependency: libintl"
+	fi
 	if ! ${WITH_M4}; then
 		_die=true
 		error "bison: missing dependency: m4"
+	fi
+fi
+
+if ${WITH_GETTEXT}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "gettext: missing dependency: libiconv"
 	fi
 fi
 

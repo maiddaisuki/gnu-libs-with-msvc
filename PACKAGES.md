@@ -35,6 +35,17 @@ You can build from `master` with recent enough `gnulib` sources.
 
 Warning: `bison` does not function properly on native Windows.
 
+Dependencies:
+
+- libiconv
+- libintl
+- m4
+
+Optional dependencies:
+
+- libtextstyle
+- readline (TODO)
+
 ### gettext
 
 In releases from `0.23` to `0.25`, `gettextlib.dll` and `gettextsrc.dll` are
@@ -47,6 +58,10 @@ script in [gettext.sh](/packages/gettext.sh).
 
 Note that this does not affect `libintl`, `libasprintf` and `libtextstyle`.
 
+Dependencies:
+
+- libiconv
+
 Optional dependencies:
 
 - libunistring
@@ -56,15 +71,22 @@ Optional dependencies:
 
 Optional part of `gettext` package.
 
+No dependencies.
+
 ### libiconv
 
-Part of `gettext` package.
-
-Always built.
+Has optional circular dependency on `libintl`.
 
 ### libintl
 
-Always built.
+Part of `gettext` package.
+
+`libintl` is required for `gettext-tools` and will always be built with
+`WITH_GETTEXT=true` regardless of `WITH_LIBINTL`.
+
+Dependencies:
+
+- libiconv
 
 ### libtextstyle
 
@@ -72,6 +94,10 @@ Optional part of `gettext` package.
 
 `libtextstyle` is required for `gettext-tools` and will always be built with
 `WITH_GETTEXT=true` regardless of `WITH_LIBTEXTSTYLE`.
+
+Dependencies:
+
+- libiconv
 
 Optional dependencies:
 
@@ -85,14 +111,31 @@ Also installs `libltdl` library.
 
 Required by `libgnurx` (`libsystre`) which is not yet supported.
 
+Dependencies:
+
+- libiconv
+- libintl
+
+Optional dependencies:
+
+- libutf8 (TODO?)
+
 ### libunistring
 
 Building `libunistring-1.3` from source tarball fails due to a `libtool` bug.
 Use any later version, release `1.2`, or build from `master`.
 
+Dependencies:
+
+- libiconv
+
 ### libxml2
 
 Will be configured to use `libiconv`.
+
+Dependencies:
+
+- libiconv
 
 Optional dependencies:
 
@@ -106,6 +149,15 @@ Building `m4-1.4.20` fails. You can build from `master` or a recent stable tag
 with recent enough `gnulib` sources.
 
 Warning: `m4` seems to have issues on native Windows.
+
+Dependencies:
+
+- libiconv
+- libintl
+
+Optional dependencies:
+
+- libsigsegv (TODO)
 
 ### ncurses
 
@@ -123,10 +175,14 @@ build `ncurses`.
 
 While not required, it is highly recommended to build `pkgconf`.
 
+No dependencies.
+
 ### winpthreads
 
 `WINPTHREADS_SRCDIR` must point to `mingw-w64-libraries/winpthreads`
 subdirectory of `mingw-w64` repository.
+
+No dependencies.
 
 ## External Build System
 

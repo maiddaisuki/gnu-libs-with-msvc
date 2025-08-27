@@ -170,8 +170,10 @@ if ${opt_enable_stage1}; then
 	stage=1
 	. ${dir_include}/env.sh
 
-	libiconv_main
-	libintl_main
+	${WITH_LIBICONV} && libiconv_main
+	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
+		libintl_main
+	fi
 
 	if ${WITH_NCURSES}; then
 		libtool_main
@@ -188,8 +190,10 @@ if ${opt_enable_stage2}; then
 
 	${WITH_WINPTHREADS} && winpthreads_main
 
-	libiconv_main
-	libintl_main
+	${WITH_LIBICONV} && libiconv_main
+	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
+		libintl_main
+	fi
 
 	${WITH_PKGCONF} && pkgconf_main
 
