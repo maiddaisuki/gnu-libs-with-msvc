@@ -50,7 +50,7 @@ _make_stage() {
 ##
 # Convert unix-style paths in *.pc files to windows-style paths.
 #
-_make_pack_hook() {
+_make_pack_patch_pc_files() {
 	local file
 
 	if test -d lib/pkgconfig; then
@@ -77,7 +77,7 @@ _make_pack() {
 		cd "${destdir}${prefix}" || exit
 	fi
 
-	_make_pack_hook
+	_make_pack_patch_pc_files
 	test ${1+y} && $1
 
 	tar -c -f ${package_tar} -h $(dir) &&
