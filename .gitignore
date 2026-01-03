@@ -1,3 +1,9 @@
+# git
+*.patch
+
+# output of vs2sh.sh
 vs.sh
 
+# Visual Studio Code
+.vscode/
 *.code-workspace
