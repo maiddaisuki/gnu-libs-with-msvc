@@ -1,8 +1,8 @@
 # Static Libraries and MSVC
 
-By default, the scripts will build only shared libraries.
+By default, the script will build only shared libraries.
 You may request build of static libraries by setting `ENABLE_STATIC=true` in
-[config/options.sh](/config/options.sh). Also, by default the scripts will link
+[config/options.sh](/config/options.sh). Also, by default the script will link
 against shared version of CRT.
 
 You may also use `--static` option to:

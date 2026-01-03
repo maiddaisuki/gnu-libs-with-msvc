@@ -1,22 +1,11 @@
 # Build GNU Packages with MSVC Tools
 
-This repository contains two shell scripts:
-
-- `libs-with-msvc.sh`
-- `progs-with-msvc.sh`
-
-These scripts are used to automate building of software packages.
-
-The main goal is to simplify building of packages such as `libiconv` and
-`libintl` with MSVC tools. But scripts' usage is not limited to that.
-
-The `libs-with-msvc.sh` is used to build libraries alone, while
-`progs-with-msvc.sh` is used to optionally build programs after libraries
-are built.
+The `libs-with-msvc.sh` is a shell script to simplify building of software
+packages with MSVC tools.
 
 ## Getting Started
 
-You should run the scripts from one of the following environments:
+You should run the script from one of the following environments:
 
 - [Cygwin](https://www.cygwin.com/)
 - [Msys2](https://www.msys2.org/)
@@ -42,9 +31,9 @@ Cygwin's `cmake`, `meson` and `ninja` won't work. They must be native tools.
 
 Visual Studio's `cmake` and `ninja` work well, but you still might need `meson`.
 
-### Running Scripts
+## Running the Script
 
-See [BUILD.md](/BUILD.md) for details.
+See [BUILD.md](/BUILD.md) for details on how to run `libs-with-msvc.sh`.
 
 ## Supported Packages
 

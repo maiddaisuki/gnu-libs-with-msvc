@@ -146,7 +146,11 @@ dir_packages=${selfdir}/packages
 . ${dir_include}/cmake.sh
 . ${dir_include}/meson.sh
 # Packages
+. ${dir_packages}/autoconf.sh
+. ${dir_packages}/automake.sh
+. ${dir_packages}/bison.sh
 . ${dir_packages}/bzip2.sh
+. ${dir_packages}/gettext.sh
 . ${dir_packages}/libasprintf.sh
 . ${dir_packages}/libiconv.sh
 . ${dir_packages}/libintl.sh
@@ -156,6 +160,7 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/libunistring.sh
 #. ${dir_packages}/libxml2.sh
 . ${dir_packages}/libxml2.cmake.sh
+. ${dir_packages}/m4.sh
 . ${dir_packages}/ncurses.sh
 #. ${dir_packages}/pkgconf.sh
 . ${dir_packages}/pkgconf.meson.sh
@@ -202,6 +207,11 @@ if ${opt_enable_stage2}; then
 	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
 		libintl_main
 	fi
+
+	# This removes stage 1 directories from PATH, INCLUDE, LIB etc.
+	stage=3
+	. ${dir_include}/env.sh
+
 	${WITH_LIBASPRINTF} && libasprintf_main
 	${WITH_LIBUNISTRING} && libunistring_main
 
@@ -220,6 +230,17 @@ if ${opt_enable_stage2}; then
 	${WITH_ZLIB} && : zlib_main # not implemented
 
 	${WITH_LIBXML2} && libxml2_main
+
+	: perl_main # not implemented
+
+	${WITH_M4} && m4_main
+	${WITH_BISON} && bison_main
+	: flex_main # not implemented
+	${WITH_GETTEXT} && gettext_main
+
+	${WITH_AUTOCONF} && autoconf_main
+	${WITH_LIBTOOL} && libtool_main
+	${WITH_AUTOMAKE} && automake_main
 fi
 
 ##

@@ -1,10 +1,10 @@
 # BUILD.md
 
-This file describes how to run `libs-with-msvc.sh` and `progs-with-msvc.sh`.
+This file describes how to run `libs-with-msvc.sh`.
 
 ## Invocation
 
-Run the scripts directly from the source tree:
+Run the script directly from the source tree:
 
 ```shell
 ./libs-with-msvc.sh [OPTIONS]
@@ -12,7 +12,7 @@ Run the scripts directly from the source tree:
 
 ### Options
 
-`libs-with-msvc.sh` and `progs-with-msvc.sh` accept the following options:
+The following options are accepted:
 
 - `--buildtype=BUILDTYPE`: controls optimizations and
   generation of debug information
@@ -23,24 +23,16 @@ Run the scripts directly from the source tree:
 - `--legacy`: support older versions of build tools
 - `--llvm`: use LLVM tools instead of MSVC tools
 - `--static`: build only static libraries and link against static version of CRT
-
-See below for more details on each option.
-
-The `libs-with-msvc.sh` also accepts the following options:
-
 - `--disable-stage1`: disable stage 1 of the build
 - `--disable-stage2`: disable stage 2 of the build
 
-### Building Programs (`progs-with-msvc.sh`)
-
-Not many packages are supported yet, and in most cases it is easier to install
-them from `Msys2` or `Cygwin`. More packages may be added in the future.
+See below for more details on each option.
 
 ## Linking Against Debug Version of CRT
 
 The `--debug` option.
 
-When `--debug` option is passed, the scripts will pass required options
+When `--debug` option is passed, the script will pass required options
 to the build systems to link against debug verion of CRT.
 
 This option is useful if you're building debug versions of you projects with
@@ -51,7 +43,7 @@ libraries compiled for different flavors of CRT (e.g. debug vs non-debug).
 
 The `--static` option.
 
-When `--static` option is passed, the scripts will pass required options
+When `--static` option is passed, the script will pass required options
 to the build systems to link against static version of CRT.
 
 See [STATIC.md](/STATIC.md) for more details.
@@ -78,7 +70,7 @@ generated if `-debug` option is passed to the linker.
 
 The `--legacy` options.
 
-The scripts assumes that you use at least `Visual Studio 2017`.  
+The script assumes that you use at least `Visual Studio 2017`.  
 By default, they will pass extra flags to `configure` scripts.
 
 `CFLAGS`:
@@ -111,7 +103,7 @@ as a submodule.
 Fetch it if you didn't and read `vs2sh/README.md` for more information.
 
 By default `vs2sh.sh` produces file named `vs.sh`. This is the default file
-the scripts attempt to read.  
+the script attempts to read.  
 Use `--env` option to specify a different file.
 
 ## Internals
