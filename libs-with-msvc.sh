@@ -202,6 +202,8 @@ if ${opt_enable_stage2}; then
 	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
 		libintl_main
 	fi
+	${WITH_LIBASPRINTF} && libasprintf_main
+	${WITH_LIBUNISTRING} && libunistring_main
 
 	${WITH_TRE} && libtre_main
 	: libgnurx_main # not implemented
@@ -209,11 +211,9 @@ if ${opt_enable_stage2}; then
 	${WITH_NCURSES} && ncurses_main
 	${WITH_READLINE} && : readline_main # not implemented
 
-	${WITH_LIBASPRINTF} && libasprintf_main
 	if ${WITH_LIBTEXTSTYLE} || ${WITH_GETTEXT}; then
 		libtextstyle_main
 	fi
-	${WITH_LIBUNISTRING} && libunistring_main
 
 	${WITH_BZIP2} && bzip2_main
 	${WITH_LZMA} && : lzma_main # not implemented
