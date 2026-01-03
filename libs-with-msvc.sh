@@ -188,19 +188,19 @@ if ${opt_enable_stage2}; then
 	stage=2
 	. ${dir_include}/env.sh
 
-	${WITH_WINPTHREADS} && winpthreads_main
-
-	${WITH_LIBICONV} && libiconv_main
-	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
-		libintl_main
-	fi
-
 	${WITH_PKGCONF} && pkgconf_main
 
 	if ${WITH_PKGCONF}; then
 		PKG_CONFIG=${PREFIX}/bin/pkgconf.exe
 	else
 		PKG_CONFIG=pkgconf.exe
+	fi
+
+	${WITH_WINPTHREADS} && winpthreads_main
+
+	${WITH_LIBICONV} && libiconv_main
+	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
+		libintl_main
 	fi
 
 	${WITH_TRE} && libtre_main
