@@ -48,16 +48,10 @@ _make_stage() {
 }
 
 ##
-# Convert unix-style paths in *.la and *.pc files to windows-style paths.
+# Convert unix-style paths in *.pc files to windows-style paths.
 #
 _make_pack_hook() {
 	local file
-
-	if test -d lib; then
-		for file in $(find lib -name '*.la'); do
-			sed -i "s|${_prefix}|${prefix}|g" $file
-		done
-	fi
 
 	if test -d lib/pkgconfig; then
 		for file in $(find lib/pkgconfig -name '*.pc'); do
