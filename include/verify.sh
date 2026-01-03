@@ -82,7 +82,7 @@ if ${WITH_LIBINTL}; then
 	fi
 fi
 
-if ${WITH_TRE}; then
+if ${WITH_LIBTRE}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true
 		error "libtre: missing dependency: libiconv"

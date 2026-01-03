@@ -205,7 +205,7 @@ if ${opt_enable_stage2}; then
 	${WITH_LIBASPRINTF} && libasprintf_main
 	${WITH_LIBUNISTRING} && libunistring_main
 
-	${WITH_TRE} && libtre_main
+	${WITH_LIBTRE} && libtre_main
 	: libgnurx_main # not implemented
 
 	${WITH_NCURSES} && ncurses_main

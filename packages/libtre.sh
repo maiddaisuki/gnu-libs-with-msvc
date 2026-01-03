@@ -5,34 +5,29 @@
 ##
 # Build tre (options as of version 0.9.0)
 #
-# --disable-nls
+# --enable-nls
 #
-# --disable-largefile
+# --enable-largefile
 # --enable-year2038
 #
-# --disable-approx
-# --disable-agrep
-# --disable-wchar
-# --disable-multibyte
+# --enable-approx
+# --enable-agrep
+# --enable-wchar
+# --enable-multibyte
 #
 # --enable-system-abi
 #
-# --without-alloca
+# --with-alloca
 #
 ## Dependencies
 #
 # --with-libiconv-prefix[=DIR]
-# --without-libiconv-prefix
-#
 # --with-libintl-prefix[=DIR]
-# --without-libintl-prefix
-#
 # --with-libutf8[=DIR]
-# --without-libutf8
 #
 ## Developer Options
 #
-# --disable-warnings
+# --enable-warnings
 #
 # --enable-profile
 # --enable-debug
@@ -119,5 +114,5 @@ libtre_install() {
 }
 
 libtre_main() {
-	_make_main libtre "${TRE_SRCDIR}"
+	_make_main libtre "${LIBTRE_SRCDIR}"
 }
