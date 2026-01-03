@@ -3,20 +3,21 @@
 # BUILD_SYSTEM: cmake
 
 ##
-# Build libxml2 (options as of version 2.14.5)
+# Build libxml2 (options as of version 2.15.1)
 #
-# LIBXML2_WITH_PROGRAMS [ON]
-# LIBXML2_WITH_TESTS [ON]
+# LIBXML2_WITH_PROGRAMS     [ON]
+# LIBXML2_WITH_TESTS        [ON]
+# LIBXML2_WITH_DOCS         [OFF]
 #
 ## Features
 #
-# LIBXML2_WITH_LEGACY [OFF]
+# LIBXML2_WITH_LEGACY       [OFF]
 #
-# LIBXML2_WITH_READER [ON]
-# LIBXML2_WITH_WRITER [ON]
+# LIBXML2_WITH_READER       [ON]
+# LIBXML2_WITH_WRITER       [ON]
 #
-# LIBXML2_WITH_HTML [ON]
-# LIBXML2_WITH_HTTP [OFF]
+# LIBXML2_WITH_HTML         [ON]
+# LIBXML2_WITH_HTTP         [OFF]
 #
 # LIBXML2_WITH_C14N         [ON]
 # LIBXML2_WITH_CATALOG      [ON]
@@ -42,26 +43,24 @@
 #
 ## Dependencies
 #
-# LIBXML2_WITH_ISO8859X [ON]
-# LIBXML2_WITH_ICONV    [ON]
-# LIBXML2_WITH_ICU      [OFF]
-# LIBXML2_WITH_LZMA     [OFF]
-# LIBXML2_WITH_PYTHON   [OFF]
-# LIBXML2_WITH_READLINE [OFF]
-# LIBXML2_WITH_ZLIB     [OFF]
+# LIBXML2_WITH_ISO8859X={ON|OFF}
+# LIBXML2_WITH_ICONV={ON|OFF}
+# LIBXML2_WITH_ICU={ON|OFF}
+# LIBXML2_WITH_PYTHON={ON|OFF}
+# LIBXML2_WITH_READLINE={ON|OFF}
+# LIBXML2_WITH_ZLIB={ON|OFF}
 #
 
 libxml2_configure() {
 	print "${package}: configuring"
 
+	# Dependencies
+	local with_iconv=ON
+	local with_icu=OFF
+
 	# Optional dependencies
-	local with_lzma=OFF
 	local with_readline=OFF
 	local with_zlib=OFF
-
-	if ${WITH_LZMA}; then
-		with_lzma=ON
-	fi
 
 	if ${WITH_READLINE}; then
 		with_readline=ON
@@ -89,8 +88,8 @@ libxml2_configure() {
 		-DLIBXML2_WITH_THREAD_ALLOC=ON
 		-DLIBXML2_WITH_TLS=ON
 
-		-DLIBXML2_WITH_ICONV=ON
-		-DLIBXML2_WITH_LZMA=${with_lzma}
+		-DLIBXML2_WITH_ICONV=${with_iconv}
+		-DLIBXML2_WITH_ICU=${with_icu}
 		-DLIBXML2_WITH_PYTHON=OFF
 		-DLIBXML2_WITH_READLINE=${with_readline}
 		-DLIBXML2_WITH_ZLIB=${with_zlib}

@@ -3,7 +3,11 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libxml2 (options as of version 2.14.5)
+# Build libxml2 (options as of version 2.15.1)
+#
+# --with-docs         [off]
+#
+## Features
 #
 # --with-minimum      [off]
 # --with-legacy       [off]
@@ -47,7 +51,6 @@
 # --with-icu         [off]
 #
 # --with-lzma[=DIR]  [off]
-# --with-zlib[=DIR]  [off]
 #
 ## Python
 #
@@ -61,14 +64,13 @@
 libxml2_configure() {
 	print "${package}: configuring"
 
+	# Dependencies
+	local with_iconv=--with-iconv
+	local with_icu=--without-icu
+
 	# Optional dependencies
-	local with_lzma=--without-lzma
 	local with_readline=--without-readline
 	local with_zlib=--without-zlib
-
-	if ${WITH_LZMA}; then
-		with_lzma=--with-zlib
-	fi
 
 	if ${WITH_READLINE}; then
 		with_readline=--with-readline
@@ -96,7 +98,8 @@ libxml2_configure() {
 		--with-thread-alloc
 		--with-tls
 
-		${with_lzma}
+		${with_iconv}
+		${with_icu}
 		${with_readline}
 		${with_zlib}
 	"

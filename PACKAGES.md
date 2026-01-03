@@ -139,7 +139,6 @@ Dependencies:
 
 Optional dependencies:
 
-- lzma (TODO)
 - readline (TODO)
 - zlib (TODO)
 
