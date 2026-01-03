@@ -1,13 +1,13 @@
 # BUILD.md
 
-This file describes how to run `libs-with-msvc.sh`.
+This file describes how to run `msvc-build.sh`.
 
 ## Invocation
 
 Run the script directly from the source tree:
 
 ```shell
-./libs-with-msvc.sh [OPTIONS]
+./msvc-build.sh [OPTIONS]
 ```
 
 ### Options
@@ -110,7 +110,7 @@ Use `--env` option to specify a different file.
 
 ### Build Stages
 
-The `libs-with-msvc.sh` internally has two build stages.
+The `msvc-build.sh` internally has two build stages.
 
 The first stage is used to build some libraries and programs needed in stage 2.
 

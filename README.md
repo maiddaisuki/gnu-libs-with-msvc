@@ -1,6 +1,6 @@
-# Build GNU Packages with MSVC Tools
+# Build Packages with MSVC Tools
 
-The `libs-with-msvc.sh` is a shell script to simplify building of software
+The `msvc-build.sh` is a shell script to simplify building of software
 packages with MSVC tools.
 
 ## Getting Started
@@ -33,7 +33,7 @@ Visual Studio's `cmake` and `ninja` work well, but you still might need `meson`.
 
 ## Running the Script
 
-See [BUILD.md](/BUILD.md) for details on how to run `libs-with-msvc.sh`.
+See [BUILD.md](/BUILD.md) for details on how to run `msvc-build.sh`.
 
 ## Supported Packages
 

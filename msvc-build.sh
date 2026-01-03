@@ -1,6 +1,6 @@
 #!/bin/env sh
 
-# Build GNU Libraries with MSVC tools
+# Build packages with MSVC tools
 
 export LC_ALL=C
 
