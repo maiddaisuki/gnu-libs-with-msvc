@@ -48,6 +48,7 @@ opt_env=${selfdir}/vs.sh
 opt_host=x86_64-w64-mingw32
 
 opt_toolchain=msvc
+opt_winver=win10
 
 opt_buildtype=release
 opt_debug=false
@@ -99,6 +100,13 @@ while [ $# -gt 0 ]; do
 		;;
 	--static)
 		opt_static=true
+		;;
+	--winver)
+		opt_winver=$1
+		shift || die "${opt}: missing argument"
+		;;
+	--winver=*)
+		opt_winver=${opt#--winver=}
 		;;
 	*)
 		die "${opt}: unrecognized option"

@@ -66,14 +66,14 @@ fi
 # Build type: optimizations and debug info
 #
 
-build_cppflags=
+build_cppflags="-D_WIN32_WINNT=${winver}"
 build_cflags=
 build_cxxflags=
 build_ldflags=
 
 case ${opt_buildtype} in
 release)
-	build_cppflags="-DNDEBUG"
+	build_cppflags="${build_cppflags} -DNDEBUG"
 	build_cflags="-O2 -Ob2"
 	build_cxxflags="-O2 -Ob2"
 	build_ldflags="-release"
@@ -82,7 +82,7 @@ release)
 	b_ndebug=true
 	;;
 small-release)
-	build_cppflags="-DNDEBUG"
+	build_cppflags="${build_cppflags} -DNDEBUG"
 	build_cflags="-O1 -Ob1"
 	build_cxxflags="-O1 -Ob1"
 	build_ldflags="-release"
@@ -91,6 +91,7 @@ small-release)
 	b_ndebug=true
 	;;
 debug)
+	build_cppflags="${build_cppflags}"
 	build_cflags="-Od -Ob0 -Z7"
 	build_cxxflags="-Od -Ob0 -Z7"
 	build_ldflags="-debug"

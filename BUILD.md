@@ -23,10 +23,34 @@ The following options are accepted:
 - `--legacy`: support older versions of build tools
 - `--llvm`: use LLVM tools instead of MSVC tools
 - `--static`: build only static libraries and link against static version of CRT
+- `--winver`: Windows version to target
 - `--disable-stage1`: disable stage 1 of the build
 - `--disable-stage2`: disable stage 2 of the build
 
 See below for more details on each option.
+
+## Windows Version to Target
+
+The `--winver` option.
+
+This option allows to control which Windows version to target when building
+packages; it sets value of `_WIN32_WINNT` macro.
+
+The following values are accepted:
+
+| Value    | Meaning       | Value of \_WIN32_WINT |
+| -------- | ------------- | --------------------- |
+| winxp    | Windows XP    | 0x0501                |
+| winvista | Windows Vista | 0x0600                |
+| win7     | Windows 7     | 0x0601                |
+| win8     | Windows 8     | 0x0602                |
+| win8.1   | Windows 8.1   | 0x0603                |
+| win10    | Windows 10    | 0x0A00                |
+
+If `--winver` option is not used, it defaults to `win10`.
+
+**WARNING**: this may not work as expected with `cmake` and `meson` since
+value of `_WIN32_WINNT` macro may be unused during configuration checks.
 
 ## Linking Against Debug Version of CRT
 

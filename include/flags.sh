@@ -26,7 +26,7 @@ if ! ${opt_legacy}; then
 	cxxflags="-utf-8 -std:c++20 -Zc:__cplusplus"
 fi
 
-cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS"
+cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=${winver}"
 cflags="${cflags}"
 cxxflags="${cxxflags} -EHsc -permissive-"
 

@@ -18,6 +18,30 @@ release | small-release | debug)
 	;;
 esac
 
+case ${opt_winver} in
+winxp)
+	winver=0x0501
+	;;
+winvista)
+	winver=0x0600
+	;;
+win7)
+	winver=0x0601
+	;;
+win8)
+	winver=0x0602
+	;;
+win8.1)
+	winver=0x0603
+	;;
+win10)
+	winver=0x0A00
+	;;
+*)
+	die "--winver: ${opt_winver}: invalid value"
+	;;
+esac
+
 # Verify directories
 
 if [ -z "${PREFIX}" ]; then
