@@ -48,4 +48,6 @@ else # stage 2 and 3
 fi
 
 # Compiler and Linker flags for configure-based packages
-. ${dir_include}/flags.sh
+if ${_need_flags-true}; then
+	. ${dir_include}/flags.sh
+fi
