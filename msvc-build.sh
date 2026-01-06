@@ -17,22 +17,20 @@ fi
 self=$(realpath "$0")
 selfdir=$(dirname "${self}")
 
-self_log=/dev/null
-
 print() {
-	printf "%s\n" "$*" | tee -a "${self_log}"
+	printf "%s\n" "$*"
 }
 
 note() {
-	printf "NOTE: %s\n" "$*" | tee -a "${self_log}"
+	printf "NOTE: %s\n" "$*"
 }
 
 warning() {
-	printf "WARNING: %s\n" "$*" | tee -a "${self_log}" >&2
+	printf "WARNING: %s\n" "$*" >&2
 }
 
 error() {
-	printf "ERROR: %s\n" "$*" | tee -a "${self_log}" >&2
+	printf "ERROR: %s\n" "$*" >&2
 }
 
 die() {
