@@ -142,7 +142,7 @@ dir_packages=${selfdir}/packages
 . ${selfdir}/config/options.sh
 . ${selfdir}/config/packages.sh
 # Internal configs
-. ${dir_include}/verify.sh
+. ${dir_include}/config.sh
 . ${dir_include}/dirs.sh
 . ${dir_include}/options.sh
 # Functions

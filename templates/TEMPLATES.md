@@ -26,4 +26,4 @@ used to conditionally pass options which control linking to optional libraries.
 
 If a package uses an optional library which is not yet supported, add it to
 `packages.sh` and simply set it to `false`.
-Update `verify.sh` to error out if this unsupported package is requested.
+Update `config.sh` to error out if this unsupported package is requested.

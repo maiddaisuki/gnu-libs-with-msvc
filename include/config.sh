@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##
-# Verify user config
+# Verify configuration
 #
 
 _die=false
