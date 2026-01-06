@@ -60,8 +60,16 @@ elif [ ${opt_toolchain} = llvm ]; then
 	as=llvm-ml.exe
 	ld=lld-link.exe
 
-	ar=llvm-ar.exe
-	ranlib=llvm-ranlib.exe
+	# Use llvm-ar.exe and llvm-ranlib.exe only from environments where we
+	# can pass filenames to native Windows programs without extra conversion
+	if [ ${pathstyle} = cygwin ]; then
+		# llvm-lib.exe does not support extracting object files from archives
+		ar="${ar_lib} lib.exe"
+		ranlib=:
+	else
+		ar=llvm-ar.exe
+		ranlib=llvm-ranlib.exe
+	fi
 
 	objdump=llvm-objdump.exe
 	# llvm-nm.exe cannot be used
