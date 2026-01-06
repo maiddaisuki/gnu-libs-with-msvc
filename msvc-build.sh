@@ -157,7 +157,7 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/autoconf.sh
 . ${dir_packages}/automake.sh
 . ${dir_packages}/bison.sh
-. ${dir_packages}/bzip2.sh
+. ${dir_packages}/bzip2.meson.sh
 . ${dir_packages}/gettext.sh
 . ${dir_packages}/libasprintf.sh
 . ${dir_packages}/libiconv.sh
