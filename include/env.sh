@@ -39,6 +39,10 @@ else # stage 2 and 3
 	PATH=${u_prefix}/bin:${PATH}
 	INCLUDE="${PREFIX}/include;${INCLUDE}"
 	LIB="${PREFIX}/lib;${LIB}"
-	CMAKE_PREFIX_PATH="${PREFIX}"
+	if [ -z "${CMAKE_PREFIX_PATH}" ]; then
+		CMAKE_PREFIX_PATH="${PREFIX}"
+	else
+		CMAKE_PREFIX_PATH="${PREFIX};${CMAKE_PREFIX_PATH}"
+	fi
 	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"
 fi
