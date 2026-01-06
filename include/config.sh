@@ -55,6 +55,22 @@ fi
 
 # Command-line options
 
+_bad_host=false
+
+if case ${opt_host} in x86_64-* | aarch64-* | i?86-*) false ;; *) true ;; esac then
+	_bad_host=true
+fi
+
+if case ${opt_host} in *-mingw32 | *-mingw64 | *-windows) false ;; *) true ;; esac then
+	_bad_host=true
+fi
+
+if ${_bad_host}; then
+	_die=true
+	error "--host: ${opt_host}: unsupported value"
+	error "--host: supported values are (i*86|x86_64|aarch64)-*-(mingw32|mingw64|windows)"
+fi
+
 case ${opt_buildtype} in
 release | small-release | debug)
 	:

@@ -29,6 +29,16 @@ The following options are accepted:
 
 See below for more details on each option.
 
+## Specifying Host Machine
+
+The `--host` option.
+
+The script always passes `--host` option to `configure` script to ensure they
+do not assume native cygwin/msys2 compilation. You can use this option to
+control value passed to `configure` scripts.
+
+Supported values are `(i?86|x86_64|aarch64)-*-(mingw32|mingw64|windows)`.
+
 ## Windows Version to Target
 
 The `--winver` option.
