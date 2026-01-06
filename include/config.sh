@@ -71,15 +71,10 @@ if ${_bad_host}; then
 	error "--host: supported values are (i*86|x86_64|aarch64)-*-(mingw32|mingw64|windows)"
 fi
 
-case ${opt_buildtype} in
-release | small-release | debug)
-	:
-	;;
-*)
+if case ${opt_buildtype} in release | small-release | debug) false ;; *) true ;; esac then
 	_die=true
 	error "--buildtype: ${opt_buildtype}: invalid value"
-	;;
-esac
+fi
 
 case ${opt_winver} in
 winxp)
