@@ -144,6 +144,8 @@ dir_packages=${selfdir}/packages
 # Internal configs
 . ${dir_include}/config.sh
 . ${dir_include}/dirs.sh
+. ${dir_include}/tools.sh
+. ${dir_include}/flags.sh
 . ${dir_include}/options.sh
 # Functions
 . ${dir_include}/devenv.sh

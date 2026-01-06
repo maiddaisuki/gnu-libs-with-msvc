@@ -4,10 +4,6 @@
 # Set stage-specific variables
 #
 
-if ${_need_tools-true}; then
-	. ${dir_include}/tools.sh
-fi
-
 # Restore values, if they were saved
 test ${save_INCLUDE+y} && INCLUDE=${save_INCLUDE}
 test ${save_LIB+y} && LIB=${save_LIB}
@@ -45,9 +41,4 @@ else # stage 2 and 3
 	LIB="${PREFIX}/lib;${LIB}"
 	CMAKE_PREFIX_PATH="${PREFIX}"
 	PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig;${PREFIX}/share/pkgconfig"
-fi
-
-# Compiler and Linker flags for configure-based packages
-if ${_need_flags-true}; then
-	. ${dir_include}/flags.sh
 fi

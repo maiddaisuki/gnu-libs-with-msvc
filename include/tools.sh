@@ -4,9 +4,6 @@
 # Build tools
 #
 
-# make sure this file is only read once
-_need_tools=false
-
 # Find GNU Automake's `compile` and `ar-lib` wrapper scripts
 
 _automake_version=$(automake --version | sed -E '1s/.* ([[:digit:]]+\.[[:digit:]]+)(\.[[:digit:]])*$/\1/ ; q')

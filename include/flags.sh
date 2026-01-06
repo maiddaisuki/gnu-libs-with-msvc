@@ -4,9 +4,6 @@
 # Set compiler and linker flags
 #
 
-# Make sure this file is read only once
-_need_flags=false
-
 # workaround libtool bug...
 _Wl="-Wl,-Xlinker,"
 
