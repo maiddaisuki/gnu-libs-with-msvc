@@ -6,6 +6,22 @@
 
 _die=false
 
+# Build environment
+
+# Check if we can expect native Windows tools in the build environment.
+# This includes tools like pkgconf, meson and cmake.
+#
+# If we build from such environment, prefer cmake and meson over autotools;
+# otherwise, prefer autotools over cmake and meson.
+case $(uname) in
+CYGWIN_NT* | MSYS_NT*)
+	cygwin=true
+	;;
+*)
+	cygwin=false
+	;;
+esac
+
 # Command-line options
 
 case ${opt_buildtype} in

@@ -166,12 +166,18 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/libtool.sh
 . ${dir_packages}/libtre.sh
 . ${dir_packages}/libunistring.sh
-#. ${dir_packages}/libxml2.sh
-. ${dir_packages}/libxml2.cmake.sh
+if ${cygwin}; then
+	. ${dir_packages}/libxml2.sh
+else
+	. ${dir_packages}/libxml2.cmake.sh
+fi
 . ${dir_packages}/m4.sh
 . ${dir_packages}/ncurses.sh
-#. ${dir_packages}/pkgconf.sh
-. ${dir_packages}/pkgconf.meson.sh
+if ${cygwin}; then
+	. ${dir_packages}/pkgconf.sh
+else
+	. ${dir_packages}/pkgconf.meson.sh
+fi
 . ${dir_packages}/winpthreads.sh
 #. ${dir_packages}/winpthreads.meson.sh
 
