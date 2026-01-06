@@ -158,6 +158,12 @@ fi
 
 # Verify dependencies
 
+# Enable libintl and libtextstyle if gettext is requested.
+if ${WITH_GETTEXT}; then
+	WITH_LIBINTL=true
+	WITH_LIBTEXTSTYLE=true
+fi
+
 if ${WITH_LIBINTL}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true

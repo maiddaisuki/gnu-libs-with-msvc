@@ -192,9 +192,7 @@ if ${opt_enable_stage1}; then
 	. ${dir_include}/env.sh
 
 	${WITH_LIBICONV} && libiconv_main
-	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
-		libintl_main
-	fi
+	${WITH_LIBINTL} && libintl_main
 
 	if ${WITH_NCURSES}; then
 		libtool_main
@@ -220,9 +218,7 @@ if ${opt_enable_stage2}; then
 	${WITH_WINPTHREADS} && winpthreads_main
 
 	${WITH_LIBICONV} && libiconv_main
-	if ${WITH_LIBINTL} || ${WITH_GETTEXT}; then
-		libintl_main
-	fi
+	${WITH_LIBINTL} && libintl_main
 
 	# This removes stage 1 directories from PATH, INCLUDE, LIB etc.
 	stage=3
@@ -237,9 +233,7 @@ if ${opt_enable_stage2}; then
 	${WITH_NCURSES} && ncurses_main
 	${WITH_READLINE} && : readline_main # not implemented
 
-	if ${WITH_LIBTEXTSTYLE} || ${WITH_GETTEXT}; then
-		libtextstyle_main
-	fi
+	${WITH_LIBTEXTSTYLE} && libtextstyle_main
 
 	${WITH_BZIP2} && bzip2_main
 	${WITH_LZMA} && : lzma_main # not implemented
