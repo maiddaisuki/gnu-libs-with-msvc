@@ -38,7 +38,8 @@ win10)
 	winver=0x0A00
 	;;
 *)
-	die "--winver: ${opt_winver}: invalid value"
+	_die=true
+	error "--winver: ${opt_winver}: invalid value"
 	;;
 esac
 
