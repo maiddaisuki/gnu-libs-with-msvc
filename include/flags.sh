@@ -18,8 +18,8 @@ ldflags=
 
 # Request specific C and C++ standards
 if ! ${opt_legacy}; then
-	cppflags="-external:W0 -external:env:INCLUDE -D_CRT_DECLARE_NONSTDC_NAMES"
-	cflags="-utf-8 -std:c17 -Zc:__STDC__"
+	cppflags="-external:W0 -external:env:INCLUDE"
+	cflags="-utf-8 -std:c17 -Zc:__STDC__ -D_CRT_DECLARE_NONSTDC_NAMES"
 	cxxflags="-utf-8 -std:c++20 -Zc:__cplusplus"
 fi
 
