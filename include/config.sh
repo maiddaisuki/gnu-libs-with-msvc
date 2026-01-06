@@ -8,6 +8,9 @@ _die=false
 
 # Build environment
 
+# Make Msys2 behave
+export MSYS2_ARG_CONV_EXCL='-Tp;-Tc'
+
 # Check if we can expect native Windows tools in the build environment.
 # This includes tools like pkgconf, meson and cmake.
 #
