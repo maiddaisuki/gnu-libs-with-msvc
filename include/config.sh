@@ -25,6 +25,34 @@ CYGWIN_NT* | MSYS_NT*)
 	;;
 esac
 
+# Make sure PATH_SEPARATOR is set.
+#
+# If it is unset, assume Cygwin-like environment which uses unix-style paths
+# and set it to ':'.
+#
+# If it is set to ';', assume that shell understands native Windows paths.
+#
+export PATH_SEPARATOR=${PATH_SEPARATOR-':'}
+
+# Set `pathstyle` variable.
+#
+# Possible values are:
+#
+#  cygwin:      unix-style paths; explicit conversion is required
+#  cygwin-like: unix-style paths; no explicit conversion required
+#  windows:     windows-style paths
+#
+if case $(uname) in CYGWIN_NT*) true ;; *) false ;; esac then
+	pathstyle=cygwin
+elif [ "x${PATH_SEPARATOR}" = "x:" ]; then
+	pathstyle=cygwin-like
+elif [ "x${PATH_SEPARATOR}" = "x;" ]; then
+	pathstyle=windows
+else
+	_die=true
+	error "PATH_SEPARATOR contains unexpected value '${PATH_SEPARATOR}'"
+fi
+
 # Command-line options
 
 case ${opt_buildtype} in
