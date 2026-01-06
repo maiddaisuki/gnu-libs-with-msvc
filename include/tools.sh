@@ -28,13 +28,14 @@ if [ ${opt_toolchain} = msvc ]; then
 	cc="${compile} cl.exe -nologo"
 	cxx="${compile} cl.exe -nologo"
 
-	if type ml64.exe >/dev/null 2>&1; then
+	case ${opt_host} in
+	x86_64-* | aarch64-*)
 		as='ml64.exe -nologo'
-	elif type ml.exe >/dev/null 2>&1; then
+		;;
+	*)
 		as='ml.exe -nologo'
-	else
-		as=:
-	fi
+		;;
+	esac
 
 	ld='link.exe -nologo'
 
