@@ -191,8 +191,10 @@ if ${opt_enable_stage1}; then
 	stage=1
 	. ${dir_include}/env.sh
 
-	${WITH_LIBICONV} && libiconv_main
-	${WITH_LIBINTL} && libintl_main
+	if ${WITH_LIBICONV} && ${WITH_LIBINTL}; then
+		libiconv_main
+		libintl_main
+	fi
 
 	if ${WITH_NCURSES}; then
 		libtool_main
