@@ -187,6 +187,13 @@ if ${WITH_GETTEXT}; then
 	WITH_LIBTEXTSTYLE=true
 fi
 
+if ${WITH_LIBIDN2}; then
+	if ! ${WITH_LIBICONV}; then
+		_die=true
+		error "libidn2: missing dependency: libiconv"
+	fi
+fi
+
 if ${WITH_LIBINTL}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true

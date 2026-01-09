@@ -161,6 +161,7 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/gettext.sh
 . ${dir_packages}/libasprintf.sh
 . ${dir_packages}/libiconv.sh
+. ${dir_packages}/libidn2.sh
 . ${dir_packages}/libintl.sh
 . ${dir_packages}/libtextstyle.sh
 . ${dir_packages}/libtool.sh
@@ -226,6 +227,8 @@ if ${opt_enable_stage2}; then
 
 	${WITH_LIBASPRINTF} && libasprintf_main
 	${WITH_LIBUNISTRING} && libunistring_main
+
+	${WITH_LIBIDN2} && libidn2_main
 
 	${WITH_LIBTRE} && libtre_main
 	: libgnurx_main # not implemented

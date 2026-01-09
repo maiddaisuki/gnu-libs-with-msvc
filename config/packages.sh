@@ -14,6 +14,7 @@ WITH_EMACS=false # TODO
 WITH_GETTEXT=false
 WITH_LIBASPRINTF=false
 WITH_LIBICONV=false
+WITH_LIBIDN2=false
 WITH_LIBINTL=false
 WITH_LIBSIGSEGV=false # TODO: only 32-bit windows is supported
 WITH_LIBTEXTSTYLE=false

@@ -9,6 +9,7 @@ The following packages are supported:
 - [gettext](https://www.gnu.org/software/gettext)
   (`libintl`, `libasprintf`, `libtextstyle` and `gettext`)
 - [libiconv](https://www.gnu.org/software/libiconv)
+- [libidn2](https://gitlab.com/libidn/libidn2)
 - [libtool](https://www.gnu.org/software/libtool)
 - [libtre](https://laurikari.net/tre)
 - [libunistring](https://www.gnu.org/software/libunistring)
@@ -76,6 +77,17 @@ No dependencies.
 ### libiconv
 
 Has optional circular dependency on `libintl`.
+
+### libidn2
+
+Dependencies:
+
+- libiconv
+
+Optional dependencies:
+
+- libintl
+- libunistring
 
 ### libintl
 
