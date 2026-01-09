@@ -4,17 +4,6 @@
 # Shared and Static libraries
 #
 
-# true if building shared libraries
-build_shared=${ENABLE_SHARED}
-# true if building static libraries
-build_static=${ENABLE_STATIC}
-
-# --static
-if ${opt_static}; then
-	build_shared=false
-	build_static=true
-fi
-
 if ${build_shared}; then
 	enable_shared=--enable-shared
 	build_shared_libs=ON

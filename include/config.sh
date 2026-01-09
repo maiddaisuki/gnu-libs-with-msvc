@@ -123,10 +123,33 @@ fi
 
 # Build options
 
-# NOTE: --static overrides ENABLE_SHARED and ENABLE_STATIC
-if ! ${ENABLE_SHARED} && ! ${ENABLE_STATIC} && ! ${opt_static}; then
+# Handle ENABLE_SHARED, ENABLE_STATIC and --static option
+#
+# build_shared: true if building shared libraries
+# build_static: true if building static libraries
+#
+if ${opt_static}; then
+	build_shared=false
+	build_static=true
+else
+	build_shared=${ENABLE_SHARED}
+	build_static=${ENABLE_STATIC}
+fi
+
+if ! ${build_shared} && ! ${build_static}; then
 	_die=true
 	error "either ENABLE_SHARED or ENABLE_STATIC must be enabled"
+fi
+
+# true if building only shared libraries
+only_shared=false
+# true if building only static libraries
+only_static=false
+
+if ${build_shared} && ! ${build_static}; then
+	only_shared=true
+elif ${build_static} && ! ${build_shared}; then
+	only_static=true
 fi
 
 # Unsupported packages
