@@ -197,6 +197,13 @@ if ${WITH_GETTEXT}; then
 	WITH_LIBTEXTSTYLE=true
 fi
 
+if ${WITH_CURL}; then
+	if ! ${WITH_LIBPSL}; then
+		_die=true
+		error "curl: missing dependency: libpsl"
+	fi
+fi
+
 if ${WITH_LIBIDN2}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true

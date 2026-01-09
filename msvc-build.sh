@@ -158,6 +158,12 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/automake.sh
 . ${dir_packages}/bison.sh
 . ${dir_packages}/bzip2.meson.sh
+# TODO: we cannot build curl with autotools due to libtool bug
+if false && ${cygwin}; then
+	. ${dir_packages}/curl.sh
+else
+	. ${dir_packages}/curl.cmake.sh
+fi
 . ${dir_packages}/gettext.sh
 . ${dir_packages}/json-c.cmake.sh
 . ${dir_packages}/libasprintf.sh
@@ -248,6 +254,8 @@ if ${opt_enable_stage2}; then
 	${WITH_JSON_C} && json_c_main
 
 	${WITH_LIBXML2} && libxml2_main
+
+	${WITH_CURL} && curl_main
 
 	: perl_main # not implemented
 

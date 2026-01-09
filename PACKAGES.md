@@ -6,6 +6,7 @@ The following packages are supported:
 - [automake](https://www.gnu.org/software/automake)
 - [bison](https://www.gnu.org/software/bison)
 - [bzip2](https://sourceware.org/bzip2)
+- [curl](https://curl.se/)
 - [gettext](https://www.gnu.org/software/gettext)
   (`libintl`, `libasprintf`, `libtextstyle` and `gettext`)
 - [json-c](https://github.com/json-c/json-c)
@@ -48,6 +49,53 @@ Optional dependencies:
 
 - libtextstyle
 - readline (TODO)
+
+### curl
+
+Dependencies:
+
+- libpsl
+
+All other dependencies are optional for native Windows build.
+
+Compression libraries:
+
+- brtoli (TODO)
+- zlib (TODO)
+- zstd (TODO)
+
+IDN libraries:
+
+- libidn2
+
+SSH libraries:
+
+- libssh (TODO?)
+- libssh2 (TODO?)
+
+SSL libraries:
+
+- gnutls (TODO)
+- mbedtls (TODO?)
+- openssl (TODO)
+- rustls (TODO?)
+- wolftls (TODO?)
+
+HTTP libraries:
+
+- nghttp2 (TODO?)
+- ngtcp2+nghttp3 (TODO?)
+- openssl+nghttp3 (TODO?)
+- quiche (TODO?)
+
+Other:
+
+- c-ares (TODO?)
+- gssapi (TODO?)
+- libgsasl (TODO?)
+- librtmp (TODO?)
+- libuv (TODO?)
+- openldap (TODO?)
 
 ### gettext
 
