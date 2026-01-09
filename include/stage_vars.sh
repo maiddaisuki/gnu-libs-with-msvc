@@ -3,10 +3,27 @@
 ##
 # The stage_vars function
 #
+# This function sets package-specific variables used by functions defined
+# in cmake.sh, make.sh and meson.sh.
+#
 
-# $1: package name
-# $2: srcdir
-# $3: builddir
+##
+# Arguments:
+#
+#  $1: package name
+#  $2: source directory
+#  $3: build directory
+#
+# Output variables:
+#
+#  builddir: absolute path to build tree (windows-style)
+#  destdir:  absolute path to directory used for staged installation
+#  logdir:   absolute path to directory where to store build logs
+#  pkgdir:   absolute path to directory where to store created archive
+#  pkgfile:  name of archive stored in pkgdir
+#  prefix:   installation prefix (windows-style)
+#  srcdir:   absolute path to source tree (windows-style)
+#  statedir: absolute path to directory where to store timestamp files
 #
 stage_vars() {
 
