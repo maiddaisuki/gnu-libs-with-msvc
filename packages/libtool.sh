@@ -81,6 +81,7 @@ libtool_stage() {
 }
 
 libtool_pack() {
+	local libs='ltdl'
 	_make_pack
 }
 

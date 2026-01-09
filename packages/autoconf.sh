@@ -65,6 +65,7 @@ autoconf_stage() {
 }
 
 autoconf_pack() {
+	local libs=''
 	_make_pack
 }
 

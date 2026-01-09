@@ -81,6 +81,7 @@ winpthreads_pack_hook() {
 }
 
 winpthreads_pack() {
+	local libs='pthread winpthread'
 	_make_pack winpthreads_pack_hook
 }
 

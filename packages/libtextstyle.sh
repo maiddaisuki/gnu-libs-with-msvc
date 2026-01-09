@@ -110,6 +110,7 @@ libtextstyle_stage() {
 }
 
 libtextstyle_pack() {
+	local libs='textstyle'
 	_make_pack
 }
 

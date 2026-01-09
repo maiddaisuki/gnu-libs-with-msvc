@@ -451,6 +451,7 @@ ncurses_pack_hook() {
 }
 
 ncurses_pack() {
+	local libs='form menu ncurses ncurses++ panel'
 	_make_pack ncurses_pack_hook
 }
 

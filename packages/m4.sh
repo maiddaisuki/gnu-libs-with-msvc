@@ -128,6 +128,7 @@ m4_stage() {
 }
 
 m4_pack() {
+	local libs=''
 	_make_pack
 }
 

@@ -103,6 +103,7 @@ libiconv_stage() {
 }
 
 libiconv_pack() {
+	local libs='charset iconv'
 	_make_pack
 }
 

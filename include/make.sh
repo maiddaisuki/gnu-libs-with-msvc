@@ -48,6 +48,50 @@ _make_stage() {
 }
 
 ##
+# Link import and static libraries created by libtool so that
+# they can be used with other build systems such as meson and cmake.
+#
+# Naming convention used by libtool with MSVC is not compatible with
+# meson and cmake:
+#
+# libtool names import libraries LIB.dll.lib; create one link named LIB.lib
+#  if such file does not exist yet.
+#
+# libtool names static libraries LIB.lib; create two links named libLIB.a and
+#  libLIB.lib if such files do not exist yet.
+#
+_make_pack_rename_libs() {
+	local lib
+
+	for lib in ${libs}; do
+		if ${only_shared}; then
+			# link LIB.dll.lib as LIB.lib
+			if [ -f lib/${lib}.dll.lib ]; then
+				(cd lib && ln ${lib}.dll.lib ${lib}.lib) || exit
+			fi
+		elif ${only_static}; then
+			if [ -f lib/${lib}.lib ]; then
+				# link LIB.lib as libLIB.a
+				(cd lib && ln ${lib}.lib lib${lib}.a) || exit
+
+				# link LIB.lib as libLIB.lib
+				(cd lib && ln ${lib}.lib lib${lib}.lib) || exit
+			fi
+		else # both
+			if [ -f lib/${lib}.dll.lib ] && [ -f lib/${lib}.lib ]; then
+				# link LIB.lib as libLIB.a
+				(cd lib && ln ${lib}.lib lib${lib}.a) || exit
+
+				# link LIB.lib as libLIB.lib
+				(cd lib && ln ${lib}.lib lib${lib}.lib) || exit
+
+			fi
+		fi
+
+	done
+}
+
+##
 # Convert unix-style paths in *.pc files to windows-style paths.
 #
 _make_pack_patch_pc_files() {
@@ -77,6 +121,7 @@ _make_pack() {
 		cd "${destdir}${prefix}" || exit
 	fi
 
+	_make_pack_rename_libs
 	_make_pack_patch_pc_files
 	test ${1+y} && $1
 

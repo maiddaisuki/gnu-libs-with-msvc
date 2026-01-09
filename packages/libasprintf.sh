@@ -73,6 +73,7 @@ libasprintf_stage() {
 }
 
 libasprintf_pack() {
+	local libs='asprintf'
 	_make_pack
 }
 

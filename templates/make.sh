@@ -67,6 +67,19 @@ PACKAGE_stage() {
 }
 
 PACKAGE_pack() {
+	# This variable should contain space-separated list of libraries
+	# installed by this packages.
+	#
+	# This list may contain libraries which may not be installed,
+	# for example, if their installation is optional.
+	#
+	# If package installs libfoo and libbar, this list may contain 'foo bar'.
+	# If package does not install any libraries, leave this list empty.
+	#
+	# If default _make_pack_rename_libs function is unable to correctly rename
+	# package's libraries, you may need to write custom PACKAGE_pack_hook
+	# function. In this case, leave this list empty.
+	local libs=''
 	_make_pack
 }
 

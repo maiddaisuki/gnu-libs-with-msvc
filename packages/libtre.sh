@@ -106,6 +106,7 @@ libtre_stage() {
 }
 
 libtre_pack() {
+	local libs='tre'
 	_make_pack
 }
 

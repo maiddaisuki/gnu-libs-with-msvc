@@ -94,6 +94,7 @@ automake_stage() {
 }
 
 automake_pack() {
+	local libs=''
 	_make_pack
 }
 

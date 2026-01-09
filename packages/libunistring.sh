@@ -81,6 +81,7 @@ libunistring_stage() {
 }
 
 libunistring_pack() {
+	local libs='unistring'
 	_make_pack
 }
 

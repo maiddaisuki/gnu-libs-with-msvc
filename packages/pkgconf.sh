@@ -77,6 +77,7 @@ pkgconf_stage() {
 }
 
 pkgconf_pack() {
+	local libs='pkgconf'
 	_make_pack
 }
 

@@ -185,6 +185,7 @@ gettext_stage() {
 }
 
 gettext_pack() {
+	local libs='gettextlib gettextpo gettextsrc'
 	_make_pack
 }
 

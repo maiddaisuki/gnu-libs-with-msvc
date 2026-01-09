@@ -110,6 +110,7 @@ bison_stage() {
 }
 
 bison_pack() {
+	local libs=''
 	_make_pack
 }
 

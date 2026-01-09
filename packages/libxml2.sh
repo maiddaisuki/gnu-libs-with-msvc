@@ -147,6 +147,7 @@ libxml2_stage() {
 }
 
 libxml2_pack() {
+	local libs='xml2'
 	_make_pack
 }
 

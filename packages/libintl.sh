@@ -106,6 +106,7 @@ libintl_stage() {
 }
 
 libintl_pack() {
+	local libs='intl'
 	_make_pack
 }
 
