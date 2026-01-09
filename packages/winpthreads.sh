@@ -90,5 +90,5 @@ winpthreads_install() {
 }
 
 winpthreads_main() {
-	_make_main winpthreads "${WINPTHREADS_SRCDIR}"
+	_make_main winpthreads winpthreads "${WINPTHREADS_SRCDIR}"
 }

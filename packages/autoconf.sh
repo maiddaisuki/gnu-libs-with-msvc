@@ -74,5 +74,5 @@ autoconf_install() {
 }
 
 autoconf_main() {
-	_make_main autoconf "${AUTOCONF_SRCDIR}"
+	_make_main autoconf autoconf "${AUTOCONF_SRCDIR}"
 }

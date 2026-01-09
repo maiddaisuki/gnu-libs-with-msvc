@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: meson
 
 ##
-# Build PACKAGE (options as of VERSION)
+# Build PACKAGE_NAME (options as of VERSION)
 #
 # List package-specific options, if any
 #
@@ -73,5 +73,5 @@ PACKAGE_install() {
 }
 
 PACKAGE_main() {
-	_meson_main PACKAGE "${package_SRCDIR}"
+	_meson_main PACKAGE_NAME PACKAGE "${package_SRCDIR}"
 }

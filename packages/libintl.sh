@@ -115,5 +115,5 @@ libintl_install() {
 }
 
 libintl_main() {
-	_make_main libintl "${GETTEXT_SRCDIR}" gettext/gettext-runtime
+	_make_main libintl libintl "${GETTEXT_SRCDIR}" gettext/gettext-runtime
 }

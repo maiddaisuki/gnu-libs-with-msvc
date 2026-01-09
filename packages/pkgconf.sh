@@ -86,5 +86,5 @@ pkgconf_install() {
 }
 
 pkgconf_main() {
-	_make_main pkgconf "${PKGCONF_SRCDIR}"
+	_make_main pkgconf pkgconf "${PKGCONF_SRCDIR}"
 }

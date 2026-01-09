@@ -61,5 +61,5 @@ bzip2_install() {
 }
 
 bzip2_main() {
-	_meson_main bzip2 "${BZIP2_SRCDIR}"
+	_meson_main bzip2 bzip2 "${BZIP2_SRCDIR}"
 }

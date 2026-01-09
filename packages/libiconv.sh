@@ -112,5 +112,5 @@ libiconv_install() {
 }
 
 libiconv_main() {
-	_make_main libiconv "${LIBICONV_SRCDIR}"
+	_make_main libiconv libiconv "${LIBICONV_SRCDIR}"
 }

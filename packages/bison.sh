@@ -119,5 +119,5 @@ bison_install() {
 }
 
 bison_main() {
-	_make_main bison "${BISON_SRCDIR}"
+	_make_main bison bison "${BISON_SRCDIR}"
 }

@@ -103,5 +103,5 @@ automake_install() {
 }
 
 automake_main() {
-	_make_main automake "${AUTOMAKE_SRCDIR}"
+	_make_main automake automake "${AUTOMAKE_SRCDIR}"
 }

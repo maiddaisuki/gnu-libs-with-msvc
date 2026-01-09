@@ -115,5 +115,5 @@ libtre_install() {
 }
 
 libtre_main() {
-	_make_main libtre "${LIBTRE_SRCDIR}"
+	_make_main libtre libtre "${LIBTRE_SRCDIR}"
 }

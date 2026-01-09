@@ -119,5 +119,5 @@ libtextstyle_install() {
 }
 
 libtextstyle_main() {
-	_make_main libtextstyle "${GETTEXT_SRCDIR}" gettext/libtextstyle
+	_make_main libtextstyle libtextstyle "${GETTEXT_SRCDIR}" gettext/libtextstyle
 }

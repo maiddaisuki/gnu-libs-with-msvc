@@ -194,5 +194,5 @@ gettext_install() {
 }
 
 gettext_main() {
-	_make_main gettext "${GETTEXT_SRCDIR}" gettext/gettext-tools
+	_make_main gettext gettext "${GETTEXT_SRCDIR}" gettext/gettext-tools
 }

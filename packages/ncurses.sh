@@ -460,5 +460,5 @@ ncurses_install() {
 }
 
 ncurses_main() {
-	_make_main ncurses "${NCURSES_SRCDIR}"
+	_make_main ncurses ncurses "${NCURSES_SRCDIR}"
 }

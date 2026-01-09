@@ -82,5 +82,5 @@ libasprintf_install() {
 }
 
 libasprintf_main() {
-	_make_main libasprintf "${GETTEXT_SRCDIR}" gettext/gettext-runtime/libasprintf
+	_make_main libasprintf libasprintf "${GETTEXT_SRCDIR}" gettext/gettext-runtime/libasprintf
 }

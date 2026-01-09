@@ -140,5 +140,5 @@ libxml2_install() {
 }
 
 libxml2_main() {
-	_cmake_main libxml2 "${LIBXML2_SRCDIR}"
+	_cmake_main libxml2 libxml2 "${LIBXML2_SRCDIR}"
 }

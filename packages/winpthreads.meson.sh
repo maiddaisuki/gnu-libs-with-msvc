@@ -61,5 +61,5 @@ winpthreads_install() {
 }
 
 winpthreads_main() {
-	_meson_main winpthreads "${WINPTHREADS_SRCDIR}"
+	_meson_main winpthreads winpthreads "${WINPTHREADS_SRCDIR}"
 }

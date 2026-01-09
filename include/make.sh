@@ -160,7 +160,7 @@ _make_main() {
 	local pkgdir
 	local pkgfile
 
-	set_package_vars "${package}" "$2" "${3-${package}}"
+	set_package_vars "${package}" "$3" "${4-${package}}"
 
 	local _srcdir=$(cygpath -u "${srcdir}")
 	local _prefix=$(cygpath -u "${prefix}")
@@ -179,21 +179,21 @@ _make_main() {
 	cd "${builddir}" || exit
 
 	if [ ! -f "${build_stamp}" ]; then
-		${package}_configure
-		${package}_build
+		${2}_configure
+		${2}_build
 	fi
 
 	if [ ! -f "${test_stamp}" ] || [ "${build_stamp}" -nt "${test_stamp}" ]; then
-		${package}_test
+		${2}_test
 	fi
 
 	if [ ! -f "${pkgfile}" ] || [ "${build_stamp}" -nt "${pkgfile}" ]; then
-		${package}_stage
-		${package}_pack
+		${2}_stage
+		${2}_pack
 	fi
 
 	if [ ! -f "${install_stamp}" ] || [ "${pkgfile}" -nt "${install_stamp}" ]; then
-		${package}_install
+		${2}_install
 	fi
 
 	cd "${old_pwd}" || exit

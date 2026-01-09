@@ -122,7 +122,7 @@ _meson_main() {
 	local pkgdir
 	local pkgfile
 
-	set_package_vars "${package}" "$2" "${package}"
+	set_package_vars "${package}" "$3" "${package}"
 
 	local _srcdir=$(cygpath -u "${srcdir}")
 	local _prefix=$(cygpath -u "${prefix}")
@@ -144,23 +144,23 @@ _meson_main() {
 	export CXX="${cxx_compiler}"
 
 	if [ ! -f "${build_stamp}" ]; then
-		${package}_configure
-		${package}_build
+		${2}_configure
+		${2}_build
 	fi
 
 	unset CC CXX
 
 	if [ ! -f "${test_stamp}" ] || [ "${build_stamp}" -nt "${test_stamp}" ]; then
-		${package}_test
+		${2}_test
 	fi
 
 	if [ ! -f "${pkgfile}" ] || [ "${build_stamp}" -nt "${pkgfile}" ]; then
-		${package}_stage
-		${package}_pack
+		${2}_stage
+		${2}_pack
 	fi
 
 	if [ ! -f "${install_stamp}" ] || [ "${pkgfile}" -nt "${install_stamp}" ]; then
-		${package}_install
+		${2}_install
 	fi
 
 	cd "${old_pwd}" || exit

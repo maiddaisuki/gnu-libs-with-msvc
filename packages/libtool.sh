@@ -90,5 +90,5 @@ libtool_install() {
 }
 
 libtool_main() {
-	_make_main libtool "${LIBTOOL_SRCDIR}"
+	_make_main libtool libtool "${LIBTOOL_SRCDIR}"
 }

@@ -137,5 +137,5 @@ m4_install() {
 }
 
 m4_main() {
-	_make_main m4 "${M4_SRCDIR}"
+	_make_main m4 m4 "${M4_SRCDIR}"
 }

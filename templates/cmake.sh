@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: cmake
 
 ##
-# Build PACKAGE (options as of VERSION)
+# Build PACKAGE_NAME (options as of VERSION)
 #
 # List package-specific options, if any
 #
@@ -88,5 +88,5 @@ PACKAGE_install() {
 }
 
 PACKAGE_main() {
-	_cmake_main PACKAGE "${package_SRCDIR}"
+	_cmake_main PACKAGE_NAME PACKAGE "${package_SRCDIR}"
 }

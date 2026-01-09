@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: BUILD SYSTEM
 
 ##
-# Build PACKAGE (options as of VERSION)
+# Build PACKAGE_NAME (options as of VERSION)
 #
 # List package-specific options, if any
 #
@@ -88,5 +88,10 @@ PACKAGE_install() {
 }
 
 PACKAGE_main() {
-	_make_main PACKAGE "${package_SRCDIR}"
+	# An optional fourth argument is name of build directory to use instead of
+	# PACKAGE. This may include subdirectories to construct relative names.
+	#
+	# This may be useful if package contains multiple subdirectories which
+	# can be configured on their own. An example of such package is gettext.
+	_make_main PACKAGE_NAME PACKAGE "${package_SRCDIR}"
 }

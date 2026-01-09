@@ -90,5 +90,5 @@ libunistring_install() {
 }
 
 libunistring_main() {
-	_make_main libunistring "${LIBUNISTRING_SRCDIR}"
+	_make_main libunistring libunistring "${LIBUNISTRING_SRCDIR}"
 }

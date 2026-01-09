@@ -64,5 +64,5 @@ pkgconf_install() {
 }
 
 pkgconf_main() {
-	_meson_main pkgconf "${PKGCONF_SRCDIR}"
+	_meson_main pkgconf pkgconf "${PKGCONF_SRCDIR}"
 }
