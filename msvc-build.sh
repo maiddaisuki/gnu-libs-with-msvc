@@ -148,7 +148,7 @@ dir_packages=${selfdir}/packages
 # Functions
 . ${dir_include}/devenv.sh
 . ${dir_include}/post_install.sh
-. ${dir_include}/stage_vars.sh
+. ${dir_include}/set_package_vars.sh
 # Functions for build systems
 . ${dir_include}/make.sh
 . ${dir_include}/cmake.sh

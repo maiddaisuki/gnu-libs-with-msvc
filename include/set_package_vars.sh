@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##
-# The stage_vars function
+# The set_package_vars function
 #
 # This function sets package-specific variables used by functions defined
 # in cmake.sh, make.sh and meson.sh.
@@ -25,7 +25,7 @@
 #  srcdir:   absolute path to source tree (windows-style)
 #  statedir: absolute path to directory where to store timestamp files
 #
-stage_vars() {
+set_package_vars() {
 
 	case $2 in
 	/* | [a-zA-Z]:[\\/]*)
