@@ -8,6 +8,7 @@ The following packages are supported:
 - [bzip2](https://sourceware.org/bzip2)
 - [gettext](https://www.gnu.org/software/gettext)
   (`libintl`, `libasprintf`, `libtextstyle` and `gettext`)
+- [json-c](https://github.com/json-c/json-c)
 - [libiconv](https://www.gnu.org/software/libiconv)
 - [libidn2](https://gitlab.com/libidn/libidn2)
 - [libpsl](https://github.com/rockdaboot/libpsl)
@@ -68,6 +69,10 @@ Optional dependencies:
 
 - libunistring
 - libxml2
+
+### json-c
+
+No dependencies.
 
 ### libasprintf
 

@@ -159,6 +159,7 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/bison.sh
 . ${dir_packages}/bzip2.meson.sh
 . ${dir_packages}/gettext.sh
+. ${dir_packages}/json-c.cmake.sh
 . ${dir_packages}/libasprintf.sh
 . ${dir_packages}/libiconv.sh
 . ${dir_packages}/libidn2.sh
@@ -243,6 +244,8 @@ if ${opt_enable_stage2}; then
 	${WITH_BZIP2} && bzip2_main
 	${WITH_LZMA} && : lzma_main # not implemented
 	${WITH_ZLIB} && : zlib_main # not implemented
+
+	${WITH_JSON_C} && json_c_main
 
 	${WITH_LIBXML2} && libxml2_main
 
