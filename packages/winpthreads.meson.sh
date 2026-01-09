@@ -52,6 +52,7 @@ winpthreads_stage() {
 }
 
 winpthreads_pack() {
+	local libs='pthread winpthread'
 	_meson_pack
 }
 

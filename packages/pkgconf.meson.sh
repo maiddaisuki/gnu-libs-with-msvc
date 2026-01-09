@@ -54,20 +54,9 @@ pkgconf_stage() {
 	_meson_stage
 }
 
-pkgconf_pack_hook() {
-	# make libtool happy
-
-	if [ -f lib/pkgconf.lib ]; then
-		(cd lib && mv pkgconf.lib pkgconf.dll.lib) || exit
-	fi
-
-	if [ -f lib/pkgconf.a ]; then
-		(cd lib && ln pkgconf.a pkgconf.lib) || exit
-	fi
-}
-
 pkgconf_pack() {
-	_meson_pack pkgconf_pack_hook
+	local libs='pkgconf'
+	_meson_pack
 }
 
 pkgconf_install() {

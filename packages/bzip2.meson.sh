@@ -51,20 +51,9 @@ bzip2_stage() {
 	_meson_stage
 }
 
-bzip2_pack_hook() {
-	# make libtool happy
-
-	if [ -f lib/bz2.lib ]; then
-		(cd lib && mv bz2.lib bz2.dll.lib) || exit
-	fi
-
-	if [ -f lib/libbz2.a ]; then
-		(cd lib && ln libbz2.a bz2.lib) || exit
-	fi
-}
-
 bzip2_pack() {
-	_meson_pack bzip2_pack_hook
+	local libs='bz2'
+	_meson_pack
 }
 
 bzip2_install() {

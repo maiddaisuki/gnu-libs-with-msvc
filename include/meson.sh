@@ -47,6 +47,35 @@ _meson_stage() {
 	test $? -eq 0 || die "${package}: staged installation failed"
 }
 
+##
+# Link import and static libraries so that they can be used with libtool.
+#
+# For each import library named LIB.lib add a link named LIB.dll.lib.
+#
+# For each static library named libLIB.a add a link named libLIB.lib.
+# If we're building only static libraries, add one more link named LIB.lib.
+#
+_meson_pack_rename_libs() {
+	local lib
+
+	for lib in ${libs}; do
+		# link LIB.lib as LIB.dll.lib
+		if [ -f lib/${lib}.lib ]; then
+			(cd lib && ln ${lib}.lib ${lib}.dll.lib) || exit
+		fi
+
+		if [ -f lib/lib${lib}.a ]; then
+			# link libLIB.a as libLIB.lib
+			(cd lib && ln lib${lib}.a lib${lib}.lib) || exit
+
+			# link libLIB.a as LIB.lib
+			if [ ! -f lib/${lib}.lib ]; then
+				(cd lib && ln lib${lib}.a ${lib}.lib) || exit
+			fi
+		fi
+	done
+}
+
 _meson_pack() {
 	print "${package}: creating ${package_tar_x}"
 
@@ -55,6 +84,7 @@ _meson_pack() {
 	local old_pwd=$(pwd)
 	cd "${destdir}${_prefix_no_drive}" || exit
 
+	_meson_pack_rename_libs
 	test ${1+y} && $1
 
 	tar -c -f ${package_tar} -h $(dir) &&
