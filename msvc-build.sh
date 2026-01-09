@@ -163,6 +163,7 @@ dir_packages=${selfdir}/packages
 . ${dir_packages}/libiconv.sh
 . ${dir_packages}/libidn2.sh
 . ${dir_packages}/libintl.sh
+. ${dir_packages}/libpsl.sh
 . ${dir_packages}/libtextstyle.sh
 . ${dir_packages}/libtool.sh
 . ${dir_packages}/libtre.sh
@@ -229,6 +230,7 @@ if ${opt_enable_stage2}; then
 	${WITH_LIBUNISTRING} && libunistring_main
 
 	${WITH_LIBIDN2} && libidn2_main
+	${WITH_LIBPSL} && libpsl_main
 
 	${WITH_LIBTRE} && libtre_main
 	: libgnurx_main # not implemented

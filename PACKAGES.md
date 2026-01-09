@@ -10,6 +10,7 @@ The following packages are supported:
   (`libintl`, `libasprintf`, `libtextstyle` and `gettext`)
 - [libiconv](https://www.gnu.org/software/libiconv)
 - [libidn2](https://gitlab.com/libidn/libidn2)
+- [libpsl](https://github.com/rockdaboot/libpsl)
 - [libtool](https://www.gnu.org/software/libtool)
 - [libtre](https://laurikari.net/tre)
 - [libunistring](https://www.gnu.org/software/libunistring)
@@ -99,6 +100,18 @@ Part of `gettext` package.
 Dependencies:
 
 - libiconv
+
+### libpsl
+
+One of the following sets of libraries is required:
+
+- libiconv + libidn2 + libunistring
+- libiconv + libidn (TODO) + libunistring
+- libicu (TODO)
+
+Optional dependencies:
+
+- libintl
 
 ### libtextstyle
 

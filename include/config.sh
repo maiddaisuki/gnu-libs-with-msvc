@@ -159,6 +159,16 @@ if ${WITH_EMACS}; then
 	error "WITH_EMACS=true; package not supported"
 fi
 
+if ${WITH_ICU}; then
+	_die=true
+	error "WITH_ICU=true; package not supported"
+fi
+
+if ${WITH_LIBIDN}; then
+	_die=true
+	error "WITH_LIBIDN=true; package not supported"
+fi
+
 if ${WITH_LIBSIGSEGV}; then
 	_die=true
 	error "WITH_LIBSIGSEGV=true; package not supported"
@@ -198,6 +208,19 @@ if ${WITH_LIBINTL}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true
 		error "libintl: missing dependency: libiconv"
+	fi
+fi
+
+if ${WITH_LIBPSL}; then
+	if ${WITH_LIBUNISTRING} && ${WITH_LIBIDN2}; then
+		note "libpsl: configuring with libiconv+libidn2+libunisting"
+	elif ${WITH_LIBUNISTRING} && ${WITH_LIBIDN}; then
+		note "libpsl: configuring with libiconv+libidn+libunisting"
+	elif ${WITH_ICU}; then
+		note "libpsl: configuring with libicu"
+	else
+		_die=true
+		error "libpsl: missing dependency: libiconv+libunistring+libidn[2] or libicu"
 	fi
 fi
 
