@@ -51,6 +51,35 @@ PACKAGE_stage() {
 }
 
 PACKAGE_pack() {
+	# This variable should contain space-separated list of libraries
+	# installed by this packages.
+	#
+	# This list may contain libraries which may not be installed,
+	# for example, if their installation is optional.
+	#
+	# If package installs libfoo and libbar, this list may contain 'foo bar'.
+	# If package does not install any libraries, leave this list empty.
+	#
+	# If default _cmake_pack_rename_libs function is unable to correctly rename
+	# package's libraries, you may need to write custom PACKAGE_pack_hook
+	# function. In this case, leave this list empty.
+	local libs=''
+	# Prefix and suffix of installed DLLs, so that
+	# ${dll_prefix}${lib}${dll_suffix}.dll will match names of installed DLLs.
+	#
+	# These two may contain shell wildcards such as '*'.
+	local dll_prefix=
+	local dll_suffix=
+	# Prefix and suffix of installed import libraries, so that
+	# ${shared_prefix}${lib}${shared_suffix}.lib will match names of installed
+	# import libraries.
+	local shared_prefix=
+	local shared_suffix=
+	# Prefix and suffix of installed static libraries, so that
+	# ${shared_prefix}${lib}${shared_suffix}.lib will match names of installed
+	# static libraries.
+	local static_prefix=
+	local static_suffix=
 	_cmake_pack
 }
 

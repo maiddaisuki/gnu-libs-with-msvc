@@ -33,12 +33,86 @@ _cmake_stage() {
 	test $? -eq 0 || die "${package}: staged installation failed"
 }
 
+##
+# For each installed DLL named ${dll_prefix}${lib}${dll_suffix}.dll create
+# a link named ${lib}.dll, if it does not exist yet; this makes libtool happy.
+#
+# For each installed import library named
+# ${shared_prefix}${lib}${shared_suffix}.lib create following links if such
+# files do not exist yet:
+#
+#  - ${lib}.dll.lib; this makes it usable with libtool
+#  - ${lib}.lib; this makes it usable with pkgconf
+#
+# For each installed static library named
+# ${static_prefix}${lib}${static_suffix}.lib create following links if such
+# files do not exist yet:
+#
+#  - lib${lib}.a
+#  - lib${lib}.lib
+#  - ${lib}.lib; this makes it usable with libtool and pkgconf
+#
+_cmake_pack_rename_libs() {
+	local dll lib libname
+
+	if [ -d bin ] && [ -n "${libs}" ]; then
+		for dll in $(ls bin | grep 'dll$'); do
+			for lib in ${libs}; do
+				if case ${dll} in ${dll_prefix}${lib}${dll_suffix}.dll) true ;; *) false ;; esac then
+					if [ ! -f bin/${lib}.dll ]; then
+						(cd bin && ln ${dll} ${lib}.dll) || exit
+					fi
+				fi
+			done
+		done
+	fi
+
+	for lib in ${libs}; do
+		if ${build_shared}; then
+			# name of import library
+			libname=${shared_prefix}${lib}${shared_suffix}.lib
+
+			if [ -f lib/${libname} ]; then
+				# link ${libname} as ${lib}.dll.lib
+				(cd lib && ln ${libname} ${lib}.dll.lib) || exit
+
+				# link ${libname} as ${lib}.lib
+				if [ ${libname} != ${lib}.lib ] && [ ! -f lib/${lib}.lib ]; then
+					(cd lib && ln ${libname} ${lib}.lib) || exit
+				fi
+			fi
+		fi
+
+		if ${build_static}; then
+			# name of static library
+			libname=${static_prefix}${lib}${static_suffix}.lib
+
+			if [ -f lib/${libname} ]; then
+				# link ${libname} as lib${lib}.a
+				(cd lib && ln ${libname} lib${lib}.a) || exit
+
+				# link ${libname} as lib${lib}.lib
+				if [ ${libname} != lib${lib}.lib ] && [ ! -f lib/lib${lib}.lib ]; then
+					(cd lib && ln ${libname} lib${lib}.lib) || exit
+				fi
+
+				# link ${libname} as ${lib}.lib
+				if [ ${libname} != ${lib}.lib ] && [ ! -f lib/${lib}.lib ]; then
+					(cd lib && ln ${libname} ${lib}.lib) || exit
+				fi
+
+			fi
+		fi
+	done
+}
+
 _cmake_pack() {
 	print "${package}: creating ${package_tar_x}"
 
 	local old_pwd=$(pwd)
 	cd "${destdir}" || exit
 
+	_cmake_pack_rename_libs
 	test ${1+y} && $1
 
 	tar -c -f ${package_tar} -h $(dir) &&

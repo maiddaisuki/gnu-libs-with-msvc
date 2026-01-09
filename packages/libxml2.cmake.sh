@@ -124,24 +124,15 @@ libxml2_stage() {
 	_cmake_stage
 }
 
-libxml2_pack_hook() {
-	# make libtool happy
-
-	if [ -f bin/libxml2.dll ]; then
-		(cd bin && ln libxml2.dll xml2.dll) || exit
-
-		if [ -f lib/libxml2.lib ]; then
-			(cd lib && ln libxml2.lib xml2.dll.lib) || exit
-		fi
-	fi
-
-	if [ -f lib/libxml2s.lib ]; then
-		(cd lib && ln libxml2s.lib xml2.lib) || exit
-	fi
-}
-
 libxml2_pack() {
-	_cmake_pack libxml2_pack_hook
+	local libs='xml2'
+	local dll_prefix=lib
+	local dll_suffix=
+	local shared_prefix=lib
+	local shared_suffix=
+	local static_prefix=lib
+	local static_suffix=s
+	_cmake_pack
 }
 
 libxml2_install() {
