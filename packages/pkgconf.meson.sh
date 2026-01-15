@@ -54,9 +54,20 @@ pkgconf_stage() {
 	_meson_stage
 }
 
+pkgconf_pack_hook() {
+	if [ ! -f bin/${opt_host}-pkgconf.exe ]; then
+		(cd bin && ln pkgconf.exe ${opt_host}-pkgconf.exe) || exit
+	fi
+
+	if [ ! -f bin/pkg-config.exe ]; then
+		(cd bin && ln pkgconf.exe pkg-config.exe) || exit
+		(cd bin && ln pkgconf.exe ${opt_host}-pkg-config.exe) || exit
+	fi
+}
+
 pkgconf_pack() {
 	local libs='pkgconf'
-	_meson_pack
+	_meson_pack pkgconf_pack_hook
 }
 
 pkgconf_install() {
