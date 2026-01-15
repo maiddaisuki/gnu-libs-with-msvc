@@ -118,7 +118,7 @@ if [ -z "${SRCDIR}" ]; then
 	error "SRCDIR is not set"
 elif [ ! -d "${SRCDIR}" ]; then
 	_die=true
-	error "SRCDIR=${SRCDOR}: directory does not exist"
+	error "SRCDIR=${SRCDIR}: directory does not exist"
 fi
 
 # Build options
