@@ -70,14 +70,17 @@ winpthreads_pack_hook() {
 	# make libtool happy
 	local dll link
 
-	for dll in $(dir bin); do
-		case ${dll} in
-		*winpthread*.dll)
-			link=$(printf %s ${dll} | sed 's|winpthread|pthread|')
-			(cd bin && ln ${dll} ${link}) || exit
-			;;
-		esac
-	done
+	if [ -d bin ]; then
+		for dll in $(ls bin | grep 'dll$'); do
+			if case ${dll} in *winpthread*.dll) true ;; *) false ;; esac then
+				link=$(printf %s ${dll} | sed 's|winpthread|pthread|')
+
+				if [ ! -f ${link} ]; then
+					(cd bin && ln ${dll} ${link}) || exit
+				fi
+			fi
+		done
+	fi
 }
 
 winpthreads_pack() {
