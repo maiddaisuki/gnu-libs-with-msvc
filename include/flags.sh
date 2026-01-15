@@ -19,8 +19,22 @@ ldflags=
 # Request specific C and C++ standards
 if ! ${opt_legacy}; then
 	cppflags="-external:W0 -external:env:INCLUDE"
-	cflags="-utf-8 -std:c17 -Zc:__STDC__ -D_CRT_DECLARE_NONSTDC_NAMES"
-	cxxflags="-utf-8 -std:c++20 -Zc:__cplusplus"
+
+	# There is no need to pass /std switches to clang-cl.exe.
+	#
+	# It uses C17 and C++14 by default and properly reports them with
+	# __STDC_VERSION__ and __cplusplus macros.
+	#
+	# We still pass /Zc:__STDC__ to clang-cl.exe to make it define __STDC__,
+	# which is otherwise undefined.
+	#
+	if [ ${opt_toolchain} = llvm ]; then
+		cflags="-utf-8 -Zc:__STDC__ -D_CRT_DECLARE_NONSTDC_NAMES"
+		cxxflags="-utf-8"
+	else
+		cflags="-utf-8 -std:c17 -Zc:__STDC__ -D_CRT_DECLARE_NONSTDC_NAMES"
+		cxxflags="-utf-8 -std:c++20 -Zc:__cplusplus"
+	fi
 fi
 
 cppflags="${cppflags} -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=${winver}"
