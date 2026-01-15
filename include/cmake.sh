@@ -68,7 +68,7 @@ _cmake_pack_rename_libs() {
 	fi
 
 	for lib in ${libs}; do
-		if ${build_shared}; then
+		if [ ${build_shared_libs} = ON ]; then
 			# name of import library
 			libname=${shared_prefix}${lib}${shared_suffix}.lib
 
@@ -83,7 +83,7 @@ _cmake_pack_rename_libs() {
 			fi
 		fi
 
-		if ${build_static}; then
+		if [ ${build_static_libs} = ON ]; then
 			# name of static library
 			libname=${static_prefix}${lib}${static_suffix}.lib
 

@@ -78,7 +78,7 @@ json_c_pack() {
 	local dll_suffix=
 	local shared_prefix=
 	local shared_suffix=
-	if ${build_shared}; then
+	if [ ${build_shared_libs} = ON ]; then
 		local static_prefix=
 		local static_suffix='-static'
 	else
