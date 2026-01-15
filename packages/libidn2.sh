@@ -127,7 +127,7 @@ libidn2_stage() {
 	_make_stage
 }
 
-libidn2_pack_hock() {
+libidn2_pack_hook() {
 	local filename=
 
 	if [ -d lib/pkgconfig ] && [ -f lib/pkgconfig/libidn2.pc ]; then
@@ -145,7 +145,7 @@ libidn2_pack_hock() {
 
 libidn2_pack() {
 	local libs='idn2'
-	_make_pack libidn2_pack_hock
+	_make_pack libidn2_pack_hook
 }
 
 libidn2_install() {
