@@ -81,6 +81,27 @@ winpthreads_pack_hook() {
 			fi
 		done
 	fi
+
+	# install winpthreads.pc
+	test -d lib/pkgconfig || install -d lib/pkgconfig || exit
+
+	if [ ! -f lib/pkgconfig/winpthreads.pc ]; then
+		cat <<-EOF >lib/pkgconfig/winpthreads.pc
+			prefix=${prefix}
+			includedir=\${prefix}/include
+			libdir=\${prefix}/lib
+
+			Name: winpthreads
+			Description: The Winpthreads Library
+			Version: 1.0
+			URL: https://www.mingw-w64.org/
+
+			Cflags: -I\${includedir} -DWINPTHREADS_USE_DLLIMPORT
+			Cflags.private: -UWINPTHREADS_USE_DLLIMPORT
+			Libs: -L\${libdir} -lpthread
+			Libs.private:
+		EOF
+	fi
 }
 
 winpthreads_pack() {

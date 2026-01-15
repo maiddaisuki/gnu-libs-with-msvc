@@ -259,6 +259,9 @@ No dependencies.
 `WINPTHREADS_SRCDIR` must point to `mingw-w64-libraries/winpthreads`
 subdirectory of `mingw-w64` repository.
 
+The script will install `winpthreads.pc` into `PREFIX/lib/pkgconfig` which
+allows to use `winpthreads` with build systems like meson.
+
 No dependencies.
 
 ## External Build System
