@@ -138,7 +138,7 @@ libpsl_stage() {
 	_make_stage
 }
 
-libpsl_pack_hock() {
+libpsl_pack_hook() {
 	local filename=
 
 	if [ -d lib/pkgconfig ] && [ -f lib/pkgconfig/libpsl.pc ]; then
@@ -156,7 +156,7 @@ libpsl_pack_hock() {
 
 libpsl_pack() {
 	local libs='psl'
-	_make_pack libpsl_pack_hock
+	_make_pack libpsl_pack_hook
 }
 
 libpsl_install() {
