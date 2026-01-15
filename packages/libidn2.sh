@@ -82,6 +82,8 @@ libidn2_configure() {
 
 		--enable-nls
 		--disable-gcc-warnings
+
+		${with_libunistring}
 	"
 
 	if [ -f Makefile ]; then
