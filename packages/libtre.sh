@@ -39,9 +39,11 @@ libtre_configure() {
 	# Dependencies
 	local libs=
 
-	# FIXME: required to link against static libintl
 	if ! ${build_shared}; then
-		libs='-ladvapi32'
+		# FIXME: required to link against static libintl
+		if ${WITH_LIBINTL}; then
+			libs='-ladvapi32'
+		fi
 	fi
 
 	local configure_options="

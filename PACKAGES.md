@@ -42,11 +42,11 @@ Warning: `bison` does not function properly on native Windows.
 Dependencies:
 
 - libiconv
-- libintl
 - m4
 
 Optional dependencies:
 
+- libintl
 - libtextstyle
 - readline (TODO)
 
@@ -192,10 +192,10 @@ Required by `libgnurx` (`libsystre`) which is not yet supported.
 Dependencies:
 
 - libiconv
-- libintl
 
 Optional dependencies:
 
+- libintl
 - libutf8 (TODO?)
 
 ### libunistring
@@ -230,10 +230,10 @@ Warning: `m4` seems to have issues on native Windows.
 Dependencies:
 
 - libiconv
-- libintl
 
 Optional dependencies:
 
+- libintl
 - libsigsegv (TODO)
 
 ### ncurses

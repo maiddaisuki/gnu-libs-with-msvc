@@ -236,10 +236,6 @@ if ${WITH_LIBTRE}; then
 		_die=true
 		error "libtre: missing dependency: libiconv"
 	fi
-	if ! ${WITH_LIBINTL}; then
-		_die=true
-		error "libtre: missing dependency: libintl"
-	fi
 fi
 
 if ${WITH_LIBTEXTSTYLE}; then
@@ -268,20 +264,12 @@ if ${WITH_M4}; then
 		_die=true
 		error "m4: missing dependency: libiconv"
 	fi
-	if ! ${WITH_LIBINTL}; then
-		_die=true
-		error "m4: missing dependency: libintl"
-	fi
 fi
 
 if ${WITH_BISON}; then
 	if ! ${WITH_LIBICONV}; then
 		_die=true
 		error "bison: missing dependency: libiconv"
-	fi
-	if ! ${WITH_LIBINTL}; then
-		_die=true
-		error "bison: missing dependency: libintl"
 	fi
 	if ! ${WITH_M4}; then
 		_die=true
