@@ -170,8 +170,18 @@ _cmake_main() {
 	local build_static_libs=OFF
 	local msvc_runtime_library=
 
-	${build_shared} && build_shared_libs=ON
-	${build_static} && build_static_libs=ON
+	if $4; then
+		${build_shared} && build_shared_libs=ON
+		${build_static} && build_static_libs=ON
+	else
+		if ${build_shared}; then
+			build_shared_libs=ON
+			build_static_libs=OFF
+		else
+			build_shared_libs=OFF
+			build_static_libs=ON
+		fi
+	fi
 
 	if ${opt_static}; then
 		if ${opt_debug}; then

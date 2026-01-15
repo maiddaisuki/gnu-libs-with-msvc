@@ -88,5 +88,10 @@ PACKAGE_install() {
 }
 
 PACKAGE_main() {
-	_cmake_main PACKAGE_NAME PACKAGE "${package_SRCDIR}"
+	# Many packages which use cmake as their build system allow to build
+	# only shared or static libraries, not both at the same time.
+	#
+	# The fourh argument must be `true` if it allows to build both shared
+	# and static libraries; it must be `false` otherwise.
+	_cmake_main PACKAGE_NAME PACKAGE "${package_SRCDIR}" false
 }

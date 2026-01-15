@@ -93,5 +93,5 @@ json_c_install() {
 }
 
 json_c_main() {
-	_cmake_main json-c json_c "${JSON_C_SRCDIR}"
+	_cmake_main json-c json_c "${JSON_C_SRCDIR}" true
 }

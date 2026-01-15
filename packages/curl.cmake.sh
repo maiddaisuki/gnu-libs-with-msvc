@@ -259,5 +259,5 @@ curl_install() {
 }
 
 curl_main() {
-	_cmake_main curl curl "${CURL_SRCDIR}"
+	_cmake_main curl curl "${CURL_SRCDIR}" true
 }
