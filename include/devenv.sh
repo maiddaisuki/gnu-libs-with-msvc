@@ -10,6 +10,8 @@
 # in order to setup environment to use packages installed in PREFIX.
 #
 devenv() {
+	test -d ${u_prefix} || return
+
 	# Absolute path to pkgconf
 	local pkgconf=${PREFIX}/bin/pkgconf.exe
 	# Absolute path to pkg-config
