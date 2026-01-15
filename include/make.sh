@@ -175,6 +175,13 @@ _make_main() {
 	local test_stamp=${statedir}/tested
 	local install_stamp=${statedir}/installed
 
+	# autotools-specific options
+	local enable_shared=--disable-shared
+	local enable_static=--disable-static
+
+	${build_shared} && enable_shared=--enable-shared
+	${build_static} && enable_static=--enable-static
+
 	local old_pwd=$(pwd)
 	cd "${builddir}" || exit
 

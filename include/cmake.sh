@@ -165,6 +165,55 @@ _cmake_main() {
 	local test_stamp=${statedir}/tested
 	local install_stamp=${statedir}/installed
 
+	# cmake-specific options
+	local build_shared_libs=OFF
+	local build_static_libs=OFF
+	local msvc_runtime_library=
+
+	${build_shared} && build_shared_libs=ON
+	${build_static} && build_static_libs=ON
+
+	if ${opt_static}; then
+		if ${opt_debug}; then
+			msvc_runtime_library=MultiThreadedDebug
+		else
+			msvc_runtime_library=MultiThreaded
+		fi
+	else
+		if ${opt_debug}; then
+			msvc_runtime_library=MultiThreadedDebugDLL
+		else
+			msvc_runtime_library=MultiThreadedDLL
+		fi
+	fi
+
+	# compiler and linker flags
+	local build_cppflags="-D_WIN32_WINNT=${winver}"
+	local build_cflags=
+	local build_cxxflags=
+	local build_ldflags=
+
+	case ${opt_buildtype} in
+	release)
+		build_cppflags="${build_cppflags} -DNDEBUG"
+		build_cflags="-O2 -Ob2"
+		build_cxxflags="-O2 -Ob2"
+		build_ldflags="-release"
+		;;
+	small-release)
+		build_cppflags="${build_cppflags} -DNDEBUG"
+		build_cflags="-O1 -Ob1"
+		build_cxxflags="-O1 -Ob1"
+		build_ldflags="-release"
+		;;
+	debug)
+		build_cppflags="${build_cppflags}"
+		build_cflags="-Od -Ob0 -Z7"
+		build_cxxflags="-Od -Ob0 -Z7"
+		build_ldflags="-debug"
+		;;
+	esac
+
 	local old_pwd=$(pwd)
 	cd "${builddir}" || exit
 
