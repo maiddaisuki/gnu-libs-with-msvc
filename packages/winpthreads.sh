@@ -32,13 +32,14 @@ winpthreads_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -53,7 +54,10 @@ winpthreads_configure() {
 }
 
 winpthreads_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 winpthreads_test() {

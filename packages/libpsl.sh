@@ -47,22 +47,25 @@
 libpsl_configure() {
 	print "${package}: configuring"
 
-	local local_cppflags=
-	local local_libs=
-
 	# Whether to use libidn[2]+libunistring or libicu
 	local runtime=
 
 	if ${WITH_LIBIDN2} && ${WITH_LIBUNISTRING}; then
 		runtime=libidn2
 
+		local libidn2_cflags=
+		local libidn2_libs=
+
 		if ${build_shared}; then
-			local_cppflags=$(${PKG_CONFIG} --cflags libidn2)
-			local_libs=$(${PKG_CONFIG} --libs libidn2)
+			libidn2_cflags=$(${PKG_CONFIG} --cflags libidn2)
+			libidn2_libs=$(${PKG_CONFIG} --libs libidn2)
 		else
-			local_cppflags=$(${PKG_CONFIG} --static --cflags libidn2)
-			local_libs=$(${PKG_CONFIG} --static --libs libidn2)
+			libidn2_cflags=$(${PKG_CONFIG} --static --cflags libidn2)
+			libidn2_libs=$(${PKG_CONFIG} --static --libs libidn2)
 		fi
+
+		build_cppflags="${build_cppflags} ${libidn2_cflags}"
+		build_libs="${build_libs} ${libidn2_libs}"
 	elif ${WITH_LIBIDN} && ${WITH_LIBUNISTRING}; then
 		runtime=libidn
 	else
@@ -70,11 +73,11 @@ libpsl_configure() {
 	fi
 
 	if ! ${build_shared}; then
-		local_cppflags="${local_cppflags} -DPSL_STATIC"
+		build_cppflags="${build_cppflags} -DPSL_STATIC"
 
 		# FIXME: required to link against static libintl
 		if ${WITH_LIBINTL}; then
-			local_libs="${local_libs} -ladvapi32"
+			build_libs="${build_libs} -ladvapi32"
 		fi
 	fi
 
@@ -102,14 +105,14 @@ libpsl_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags} ${local_cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
-		LIBS="${local_libs}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -124,13 +127,16 @@ libpsl_configure() {
 }
 
 libpsl_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 libpsl_test() {
 	if ${MAKE_CHECK}; then
 		# FIXME: this should be fixed in upstream
-		_make_test check CPPFLAGS="-I\$(top_builddir)/include ${cppflags}"
+		_make_test check CPPFLAGS="-I\$(top_builddir)/include ${cppflags} ${build_cppflags}"
 	fi
 }
 

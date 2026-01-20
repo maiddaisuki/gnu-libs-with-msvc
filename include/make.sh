@@ -182,6 +182,14 @@ _make_main() {
 	${build_shared} && enable_shared=--enable-shared
 	${build_static} && enable_static=--enable-static
 
+	# compiler and linker flags
+	# these are used in addition to flags set in `include/flags.sh`
+	local build_cppflags=
+	local build_cflags=
+	local build_cxxflags=
+	local build_ldflags=
+	local build_libs=
+
 	local old_pwd=$(pwd)
 	cd "${builddir}" || exit
 

@@ -191,6 +191,11 @@
 curl_configure() {
 	print "${package}: configuring"
 
+	# configure will error out if compiler does not issue an error diagnostic
+	# on mismatching function declaration.
+	build_cflags='-we4028'
+	build_cxxflags='-we4028'
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -217,13 +222,14 @@ curl_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags} -Oi- -we4028" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi- -we4028" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -238,7 +244,10 @@ curl_configure() {
 }
 
 curl_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 curl_test() {

@@ -78,8 +78,6 @@ gettext_configure() {
 	# Dependencies
 	local with_libunistring=--with-included-libunistring
 	local with_libxml2=--with-included-libxml
-	local libxml2_cflags=
-	local libxml2_ldflags=
 
 	if ${WITH_LIBUNISTRING}; then
 		with_libunistring=--without-included-libunistring
@@ -88,6 +86,9 @@ gettext_configure() {
 	if ${WITH_LIBXML2}; then
 		with_libxml2=--without-included-libxml
 
+		local libxml2_cflags=
+		local libxml2_ldflags=
+
 		if ${build_shared}; then
 			libxml2_cflags=$(${PKG_CONFIG} --cflags libxml-2.0)
 			libxml2_ldflags=$(${PKG_CONFIG} --libs libxml-2.0)
@@ -95,6 +96,9 @@ gettext_configure() {
 			libxml2_cflags=$(${PKG_CONFIG} --static --cflags libxml-2.0)
 			libxml2_ldflags=$(${PKG_CONFIG} --static --libs libxml-2.0)
 		fi
+
+		build_cppflags="${build_cppflags} ${libxml2_cflags}"
+		build_libs="${build_libs} ${libxml2_ldflags}"
 	fi
 
 	# Features
@@ -149,13 +153,14 @@ gettext_configure() {
 	${_srcdir}/gettext-tools/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags} ${libxml2_cflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -163,7 +168,6 @@ gettext_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS="${libxml2_ldflags}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 
@@ -171,7 +175,10 @@ gettext_configure() {
 }
 
 gettext_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 gettext_test() {

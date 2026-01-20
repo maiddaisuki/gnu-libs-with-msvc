@@ -18,6 +18,9 @@
 pkgconf_configure() {
 	print "${package}: configuring"
 
+	# FIXME: configure should check whether -ladvapi32 is required
+	build_libs='-ladvapi32'
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -39,13 +42,14 @@ pkgconf_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -53,7 +57,6 @@ pkgconf_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS=-ladvapi32 \
 		${configure_options} \
 		--with-system-libdir="${prefix}/lib" \
 		--with-system-includedir="${prefix}/include" \
@@ -63,7 +66,10 @@ pkgconf_configure() {
 }
 
 pkgconf_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 pkgconf_test() {

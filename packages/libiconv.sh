@@ -26,12 +26,9 @@
 libiconv_configure() {
 	print "${package}: configuring"
 
-	# Dependencies
-	local libs=
-
 	# FIXME: required to link against static libintl
 	if ! ${build_shared}; then
-		libs='-ladvapi32'
+		build_libs='-ladvapi32'
 	fi
 
 	# Features
@@ -67,13 +64,14 @@ libiconv_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -81,7 +79,6 @@ libiconv_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS="${libs}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 
@@ -89,7 +86,10 @@ libiconv_configure() {
 }
 
 libiconv_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 libiconv_test() {

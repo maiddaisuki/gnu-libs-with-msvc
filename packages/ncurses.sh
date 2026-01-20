@@ -313,6 +313,9 @@
 ncurses_configure() {
 	print "${package}: configuring"
 
+	# FIMXE: configure should check whether -luser32 is required
+	build_libs='-luser32'
+
 	# Library types
 	local with_normal='--without-normal'
 	local with_shared='--without-shared --without-cxx-shared'
@@ -392,13 +395,14 @@ ncurses_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -406,7 +410,6 @@ ncurses_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS='-luser32' \
 		PKG_CONFIG_LIBDIR="${u_prefix}/lib/pkgconfig:${u_prefix}/share/pkgconfig" \
 		PKG_CONFIG_PATH= \
 		${configure_options} \
@@ -418,7 +421,10 @@ ncurses_configure() {
 }
 
 ncurses_build() {
-	_make_build CFLAGS="${cflags}" CXXFLAGS="${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 ncurses_test() {

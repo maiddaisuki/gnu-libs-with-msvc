@@ -49,15 +49,12 @@
 libidn2_configure() {
 	print "${package}: configuring"
 
-	local local_cppflags=
-	local local_libs=
-
 	if ! ${build_shared}; then
-		local_cppflags='-DIDN2_STATIC'
+		build_cppflags='-DIDN2_STATIC'
 
 		# FIXME: required to link against static libintl
 		if ${WITH_LIBINTL}; then
-			local_libs='-ladvapi32'
+			build_libs='-ladvapi32'
 		fi
 	fi
 
@@ -94,14 +91,14 @@ libidn2_configure() {
 	${_srcdir}/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags} ${local_cppflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
-		LIBS="${local_libs}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -116,7 +113,10 @@ libidn2_configure() {
 }
 
 libidn2_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 libidn2_test() {

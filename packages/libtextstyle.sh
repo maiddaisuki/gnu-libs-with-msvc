@@ -35,11 +35,12 @@ libtextstyle_configure() {
 
 	# Dependencies
 	local enable_curses=--disable-curses
-	local ncurses_cflags=
-	local ncurses_ldflags=
 
 	if ${WITH_NCURSES}; then
 		enable_curses=--enable-curses
+
+		local ncurses_cflags=
+		local ncurses_ldflags=
 
 		if ${build_shared}; then
 			ncurses_cflags=$(${PKG_CONFIG} --cflags ncurses)
@@ -48,6 +49,9 @@ libtextstyle_configure() {
 			ncurses_cflags=$(${PKG_CONFIG} --static --cflags ncurses)
 			ncurses_ldflags=$(${PKG_CONFIG} --static --libs ncurses)
 		fi
+
+		build_cppflags="${build_cppflags} ${ncurses_cflags}"
+		build_libs="${build_libs} ${ncurses_ldflags}"
 	fi
 
 	local configure_options="
@@ -74,13 +78,14 @@ libtextstyle_configure() {
 	${_srcdir}/libtextstyle/configure \
 		-C \
 		CC="${cc}" \
-		CPPFLAGS="${cppflags} ${ncurses_cflags}" \
-		CFLAGS="${cflags} -Oi-" \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags} -Oi-" \
 		CXX="${cxx}" \
-		CXXFLAGS="${cxxflags} -Oi-" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags} -Oi-" \
 		AS="${as}" \
 		LD="${ld}" \
-		LDFLAGS="${ldflags}" \
+		LDFLAGS="${ldflags} ${build_ldflags}" \
+		LIBS="${build_libs}" \
 		AR="${ar}" \
 		RANLIB="${ranlib}" \
 		NM="${nm}" \
@@ -88,7 +93,6 @@ libtextstyle_configure() {
 		OBJCOPY="${objcopy}" \
 		STRIP="${strip}" \
 		DLLTOOL="${dlltool}" \
-		LIBS="${ncurses_ldflags}" \
 		${configure_options} \
 		>>"${configure_log}" 2>&1
 
@@ -96,7 +100,10 @@ libtextstyle_configure() {
 }
 
 libtextstyle_build() {
-	_make_build "CFLAGS=${cflags}" "CXXFLAGS=${cxxflags}"
+	_make_build \
+		CPPFLAGS="${cppflags} ${build_cppflags}" \
+		CFLAGS="${cflags} ${build_cflags}" \
+		CXXFLAGS="${cxxflags} ${build_cxxflags}"
 }
 
 libtextstyle_test() {
