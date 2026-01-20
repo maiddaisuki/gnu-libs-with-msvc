@@ -76,6 +76,12 @@ if case ${opt_buildtype} in release | small-release | debug) false ;; *) true ;;
 	error "--buildtype: ${opt_buildtype}: invalid value"
 fi
 
+# --posix-threads requires WITH_WINPTHREADS=true
+if ${opt_posix_threads} && ! ${WITH_WINPTHREADS}; then
+	_die=true
+	error "--posix-threads: using this option requires building winpthreads"
+fi
+
 case ${opt_winver} in
 winxp)
 	winver=0x0501

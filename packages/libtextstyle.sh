@@ -59,7 +59,12 @@ libtextstyle_configure() {
 	fi
 
 	# Features
+	local enable_threads=windows
 	local enable_warnings=--disable-more-warnings
+
+	if ${opt_posix_threads}; then
+		enable_threads=posix
+	fi
 
 	if [ ${opt_toolchain} = llvm ]; then
 		enable_warnings=--enable-more-warnings
@@ -78,7 +83,7 @@ libtextstyle_configure() {
 		${enable_static}
 
 		${enable_curses}
-		--enable-threads=windows
+		--enable-threads=${enable_threads}
 		${enable_warnings}
 	"
 

@@ -27,6 +27,13 @@ libunistring_configure() {
 		build_cppflags='-DNDEBUG'
 	fi
 
+	# Features
+	local enable_threads=windows
+
+	if ${opt_posix_threads}; then
+		enable_threads=posix
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -39,7 +46,7 @@ libunistring_configure() {
 		${enable_shared}
 		${enable_static}
 
-		--enable-threads=windows
+		--enable-threads=${enable_threads}
 	"
 
 	if [ -f Makefile ]; then

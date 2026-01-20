@@ -23,6 +23,7 @@ The following options are accepted:
   (by default `x86_64-w64-mingw32` is used)
 - `--legacy`: support older versions of build tools
 - `--llvm`: use LLVM tools instead of MSVC tools
+- `--posix-threads`: force use of POSIX threads
 - `--static`: build only static libraries and link against static version of CRT
 - `--winver`: Windows version to target
 - `--disable-stage1`: disable stage 1 of the build
@@ -82,6 +83,16 @@ When `--static` option is passed, the script will pass required options
 to the build systems to link against static version of CRT.
 
 See [STATIC.md](/STATIC.md) for more details.
+
+## Using POSIX threads
+
+The `--posix-threads` options.
+
+Some packages allow to choose which threading implementation to use.
+Using this option will make such packages use POSIX threads instead of
+Win32 threads.
+
+You must enable building `winpthreads` when you use this option.
 
 ## Build Type
 

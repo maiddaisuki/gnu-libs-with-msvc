@@ -52,6 +52,7 @@ opt_assert=false
 opt_buildtype=release
 opt_debug=false
 opt_legacy=false
+opt_posix_threads=false
 opt_static=false
 
 opt_enable_stage1=true
@@ -99,6 +100,9 @@ while [ $# -gt 0 ]; do
 		;;
 	--llvm)
 		opt_toolchain=llvm
+		;;
+	--posix-threads)
+		opt_posix_threads=true
 		;;
 	--static)
 		opt_static=true

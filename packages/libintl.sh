@@ -44,7 +44,13 @@ libintl_configure() {
 	fi
 
 	# Features
+	local enable_threads=windows
 	local enable_warnings=--disable-more-warnings
+
+	# Use Win32 threads for stage 1 build
+	if [ ${stage} = 2 ] && ${opt_posix_threads}; then
+		enable_threads=posix
+	fi
 
 	if [ ${opt_toolchain} = llvm ]; then
 		enable_warnings=--enable-more-warnings
@@ -71,7 +77,7 @@ libintl_configure() {
 		--disable-modula2
 
 		--enable-nls
-		--enable-threads=windows
+		--enable-threads=${enable_threads}
 		${enable_warnings}
 	"
 

@@ -107,10 +107,15 @@ gettext_configure() {
 
 	# Features
 	local enable_libasprintf=--disable-libasprintf
+	local enable_threads=windows
 	local enable_warnings=--disable-more-warnings
 
 	if ${WITH_LIBASPRINTF}; then
 		enable_libasprintf=--enable-libasprintf
+	fi
+
+	if ${opt_posix_threads}; then
+		enable_threads=posix
 	fi
 
 	if [ ${opt_toolchain} = llvm ]; then
@@ -145,7 +150,7 @@ gettext_configure() {
 		--disable-modula2
 
 		--enable-nls
-		--enable-threads=windows
+		--enable-threads=${enable_threads}
 		${enable_warnings}
 
 		${with_emacs}

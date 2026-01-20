@@ -41,10 +41,15 @@ bison_configure() {
 
 	# Features
 	local enable_assert=--disable-assert
+	local enable_threads=windows
 	local enable_warnings=--disable-gcc-warnings
 
 	if ${opt_assert}; then
 		enable_assert=--enable-assert
+	fi
+
+	if ${opt_posix_threads}; then
+		enable_threads=posix
 	fi
 
 	if [ ${opt_toolchain} = llvm ]; then
@@ -64,7 +69,7 @@ bison_configure() {
 
 		${enable_assert}
 		--enable-nls
-		--enable-threads=windows
+		--enable-threads=${enable_threads}
 		${enable_warnings}
 	"
 
