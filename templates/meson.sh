@@ -26,7 +26,7 @@ PACKAGE_configure() {
 		-Db_ndebug=${b_ndebug}
 	"
 
-	meson setup "${srcdir}" --vsenv --wipe \
+	meson setup "${srcdir}" --wrap-mode nofallback --vsenv --wipe \
 		-Dc_args="${c_args}" \
 		-Dc_link_args="${link_args}" \
 		-Dcpp_args="${cpp_args}" \
