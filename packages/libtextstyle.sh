@@ -58,6 +58,13 @@ libtextstyle_configure() {
 		build_libs="${build_libs} ${ncurses_ldflags}"
 	fi
 
+	# Features
+	local enable_warnings=--disable-more-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-more-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -72,6 +79,7 @@ libtextstyle_configure() {
 
 		${enable_curses}
 		--enable-threads=windows
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then

@@ -342,9 +342,14 @@ ncurses_configure() {
 
 	# Features
 	local enable_assertions=--disable-assertions
+	local enable_warnings=--disable-warnings
 
 	if ${opt_assert}; then
 		enable_assertions=--enable-assertions
+	fi
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-warnings
 	fi
 
 	local configure_options="
@@ -394,6 +399,7 @@ ncurses_configure() {
 		--enable-pc-files
 
 		${enable_assertions}
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then

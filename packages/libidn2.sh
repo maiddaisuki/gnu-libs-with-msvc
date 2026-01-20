@@ -69,6 +69,13 @@ libidn2_configure() {
 		with_libunistring=--without-included-libunistring
 	fi
 
+	# Features
+	local enable_warnings=--disable-gcc-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-gcc-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -82,7 +89,7 @@ libidn2_configure() {
 		${enable_static}
 
 		--enable-nls
-		--disable-gcc-warnings
+		${enable_warnings}
 
 		${with_libunistring}
 	"

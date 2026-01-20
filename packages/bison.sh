@@ -41,9 +41,14 @@ bison_configure() {
 
 	# Features
 	local enable_assert=--disable-assert
+	local enable_warnings=--disable-gcc-warnings
 
 	if ${opt_assert}; then
 		enable_assert=--enable-assert
+	fi
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-gcc-warnings
 	fi
 
 	local configure_options="
@@ -60,6 +65,7 @@ bison_configure() {
 		${enable_assert}
 		--enable-nls
 		--enable-threads=windows
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then

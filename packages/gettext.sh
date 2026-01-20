@@ -107,9 +107,14 @@ gettext_configure() {
 
 	# Features
 	local enable_libasprintf=--disable-libasprintf
+	local enable_warnings=--disable-more-warnings
 
 	if ${WITH_LIBASPRINTF}; then
 		enable_libasprintf=--enable-libasprintf
+	fi
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-more-warnings
 	fi
 
 	# TODO
@@ -141,6 +146,7 @@ gettext_configure() {
 
 		--enable-nls
 		--enable-threads=windows
+		${enable_warnings}
 
 		${with_emacs}
 		${with_libunistring}

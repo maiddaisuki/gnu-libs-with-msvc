@@ -47,6 +47,13 @@ libtre_configure() {
 		fi
 	fi
 
+	# Features
+	local enable_warnings=--disable-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -61,6 +68,7 @@ libtre_configure() {
 
 		--enable-nls
 		--disable-agrep
+		${enable_warnings}
 
 		--without-alloca
 	"

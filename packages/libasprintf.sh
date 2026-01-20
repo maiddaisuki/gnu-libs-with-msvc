@@ -21,6 +21,13 @@ libasprintf_configure() {
 		build_cppflags='-DNDEBUG'
 	fi
 
+	# Features
+	local enable_warnings=--disable-more-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-more-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -32,6 +39,8 @@ libasprintf_configure() {
 
 		${enable_shared}
 		${enable_static}
+
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then

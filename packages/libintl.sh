@@ -43,6 +43,13 @@ libintl_configure() {
 		build_cppflags='-DNDEBUG'
 	fi
 
+	# Features
+	local enable_warnings=--disable-more-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-more-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -65,6 +72,7 @@ libintl_configure() {
 
 		--enable-nls
 		--enable-threads=windows
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then

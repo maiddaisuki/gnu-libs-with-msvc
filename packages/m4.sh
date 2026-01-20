@@ -61,9 +61,14 @@ m4_configure() {
 
 	# Features
 	local enable_assert=--disable-assert
+	local enable_warnings=--disable-gcc-warnings
 
 	if ${opt_assert}; then
 		enable_assert=--enable-assert
+	fi
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-gcc-warnings
 	fi
 
 	local configure_options="
@@ -78,6 +83,7 @@ m4_configure() {
 		${enable_assert}
 		--enable-nls
 		--enable-threads=windows
+		${enable_warnings}
 
 		--with-syscmd-shell=$(cygpath -m $(which cmd.exe))
 		${with_libsigsegv}

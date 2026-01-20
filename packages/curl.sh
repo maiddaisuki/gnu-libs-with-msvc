@@ -200,6 +200,13 @@ curl_configure() {
 	build_cflags='-we4028'
 	build_cxxflags='-we4028'
 
+	# Features
+	local enable_warnings=--disable-warnings
+
+	if [ ${opt_toolchain} = llvm ]; then
+		enable_warnings=--enable-warnings
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking
@@ -216,6 +223,8 @@ curl_configure() {
 		--enable-windows-unicode
 
 		--with-schannel
+
+		${enable_warnings}
 	"
 
 	if [ -f Makefile ]; then
