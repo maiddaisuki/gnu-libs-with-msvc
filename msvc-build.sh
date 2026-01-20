@@ -48,6 +48,7 @@ opt_host=x86_64-w64-mingw32
 opt_toolchain=msvc
 opt_winver=win10
 
+opt_assert=false
 opt_buildtype=release
 opt_debug=false
 opt_legacy=false
@@ -60,6 +61,9 @@ while [ $# -gt 0 ]; do
 	opt=$1 && shift
 
 	case ${opt} in
+	--assert)
+		opt_assert=true
+		;;
 	--buildtype=*)
 		opt_buildtype=${opt#--buildtype=}
 		;;

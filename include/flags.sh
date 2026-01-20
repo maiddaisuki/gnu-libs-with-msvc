@@ -74,13 +74,11 @@ fi
 
 case ${opt_buildtype} in
 release)
-	cppflags="${cppflags} -DNDEBUG"
 	cflags="${cflags} -O2 -Ob2"
 	cxxflags="${cxxflags} -O2 -Ob2"
 	ldflags="${ldflags} ${_Wl}-release"
 	;;
 small-release)
-	cppflags="${cppflags} -DNDEBUG"
 	cflags="${cflags} -O1 -Ob1"
 	cxxflags="${cxxflags} -O1 -Ob1"
 	ldflags="${ldflags} ${_Wl}-release"

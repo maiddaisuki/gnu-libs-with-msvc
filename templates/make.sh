@@ -24,6 +24,12 @@ PACKAGE_configure() {
 	# Note that this is intended as a mean to handle some build options in a
 	# package-specific way or work around some issues.
 
+	# Some packages may support --{enable|disable}-assert or similar options,
+	# which should be preferred to defining -DNDEBUG.
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	local configure_options="
 		--disable-silent-rules
 		--disable-dependency-tracking

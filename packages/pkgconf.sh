@@ -18,6 +18,10 @@
 pkgconf_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# FIXME: configure should check whether -ladvapi32 is required
 	build_libs='-ladvapi32'
 

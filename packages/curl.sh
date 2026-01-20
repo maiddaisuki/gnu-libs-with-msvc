@@ -191,6 +191,10 @@
 curl_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# configure will error out if compiler does not issue an error diagnostic
 	# on mismatching function declaration.
 	build_cflags='-we4028'

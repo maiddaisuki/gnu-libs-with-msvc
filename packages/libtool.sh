@@ -14,6 +14,10 @@
 libtool_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# Features
 	local enable_ltdl=--disable-ltdl-install
 

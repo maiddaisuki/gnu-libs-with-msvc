@@ -14,6 +14,7 @@ Run the script directly from the source tree:
 
 The following options are accepted:
 
+- `--assert`: enable assertions
 - `--buildtype=BUILDTYPE`: controls optimizations and
   generation of debug information
 - `--debug`: link against debug version of CRT
@@ -92,13 +93,20 @@ flags used:
 
 | Value         | CPPFLAGS | C[XX]FLAGS   | LDFLAGS  |
 | ------------- | -------- | ------------ | -------- |
-| release       | -DNDEBUG | -O2 -Ob2     | -release |
-| small-release | -DNDEBUG | -O1 -Ob1     | -release |
+| release       |          | -O2 -Ob2     | -release |
+| small-release |          | -O1 -Ob1     | -release |
 | debug         |          | -Od -Ob0 -Z7 | -debug   |
 
 When buildtype is `debug`, object files will be compiled with `-Z7`, which will
 store debug info in object files. Note, however, that `.pdb` files will only be
 generated if `-debug` option is passed to the linker.
+
+## Assertions
+
+The `--assert` option.  
+This options allows to compile code with enabled assertions.
+
+This option can be used with any `--buildtype` value, and does not depend on it.
 
 ## Older Versions of Tools
 

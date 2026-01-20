@@ -26,6 +26,10 @@
 libiconv_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# FIXME: required to link against static libintl
 	if ! ${build_shared}; then
 		build_libs='-ladvapi32'

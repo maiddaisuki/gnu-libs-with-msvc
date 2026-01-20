@@ -64,6 +64,10 @@
 libxml2_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# Dependencies
 	local with_iconv=--with-iconv
 	local with_icu=--without-icu

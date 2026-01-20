@@ -49,8 +49,12 @@
 libidn2_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	if ! ${build_shared}; then
-		build_cppflags='-DIDN2_STATIC'
+		build_cppflags="${build_cppflags} -DIDN2_STATIC"
 
 		# FIXME: required to link against static libintl
 		if ${WITH_LIBINTL}; then

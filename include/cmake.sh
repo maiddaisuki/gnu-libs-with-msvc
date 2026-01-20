@@ -203,15 +203,19 @@ _cmake_main() {
 	local build_cxxflags=
 	local build_ldflags=
 
+	if ! ${opt_assert}; then
+		build_cppflags="${build_cppflags} -DNDEBUG"
+	fi
+
 	case ${opt_buildtype} in
 	release)
-		build_cppflags="${build_cppflags} -DNDEBUG"
+		build_cppflags="${build_cppflags}"
 		build_cflags="-O2 -Ob2"
 		build_cxxflags="-O2 -Ob2"
 		build_ldflags="-release"
 		;;
 	small-release)
-		build_cppflags="${build_cppflags} -DNDEBUG"
+		build_cppflags="${build_cppflags}"
 		build_cflags="-O1 -Ob1"
 		build_cxxflags="-O1 -Ob1"
 		build_ldflags="-release"

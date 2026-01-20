@@ -33,6 +33,10 @@
 libtextstyle_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# Dependencies
 	local enable_curses=--disable-curses
 

@@ -142,6 +142,10 @@ _meson_main() {
 	local b_vscrt=
 	local default_library=both
 
+	if ${opt_assert}; then
+		b_ndebug=false
+	fi
+
 	if ${only_shared}; then
 		default_library=shared
 	elif ${only_static}; then
@@ -182,8 +186,6 @@ _meson_main() {
 		build_ldflags="-release"
 		;;
 	debug)
-		b_ndebug=false
-
 		build_cppflags="${build_cppflags}"
 		build_cflags="-Od -Ob0 -Z7"
 		build_cxxflags="-Od -Ob0 -Z7"

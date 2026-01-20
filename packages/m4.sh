@@ -62,7 +62,7 @@ m4_configure() {
 	# Features
 	local enable_assert=--disable-assert
 
-	if [ ${opt_buildtype} = debug ]; then
+	if ${opt_assert}; then
 		enable_assert=--enable-assert
 	fi
 

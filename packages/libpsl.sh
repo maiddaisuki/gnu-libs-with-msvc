@@ -47,6 +47,10 @@
 libpsl_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# Whether to use libidn[2]+libunistring or libicu
 	local runtime=
 

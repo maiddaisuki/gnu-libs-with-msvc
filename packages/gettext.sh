@@ -75,6 +75,10 @@
 gettext_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	# Dependencies
 	local with_libunistring=--with-included-libunistring
 	local with_libxml2=--with-included-libxml

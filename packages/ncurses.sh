@@ -340,6 +340,13 @@ ncurses_configure() {
 		with_normal=--with-normal
 	fi
 
+	# Features
+	local enable_assertions=--disable-assertions
+
+	if ${opt_assert}; then
+		enable_assertions=--enable-assertions
+	fi
+
 	local configure_options="
 		--host=${opt_host}
 
@@ -385,6 +392,8 @@ ncurses_configure() {
 		--disable-symlinks
 
 		--enable-pc-files
+
+		${enable_assertions}
 	"
 
 	if [ -f Makefile ]; then

@@ -36,6 +36,10 @@
 libtre_configure() {
 	print "${package}: configuring"
 
+	if ! ${opt_assert}; then
+		build_cppflags='-DNDEBUG'
+	fi
+
 	if ! ${build_shared}; then
 		# FIXME: required to link against static libintl
 		if ${WITH_LIBINTL}; then
