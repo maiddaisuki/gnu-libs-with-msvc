@@ -132,6 +132,12 @@ No dependencies.
 
 Has optional circular dependency on `libintl`.
 
+When building only static libraries, and also building `libintl`,
+`libiconv-1.19` or newer is required to enable NLS.
+
+Option `--posix-threads` has no effect; build fails when configured with
+`--enable-threads=posix`. This will be changed once fixed in a new release.
+
 ### libidn2
 
 Dependencies:

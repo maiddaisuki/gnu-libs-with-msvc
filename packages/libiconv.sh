@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libiconv (options as of version 1.18)
+# Build libiconv (options as of version 1.19)
 #
 # --enable-extra-encodings
 # --enable-nls
@@ -13,6 +13,7 @@
 # --enable-cross-guesses=conservative|risky
 # --enable-largefile
 # --enable-relocatable
+# --enable-threads=isoc|posix|isoc+posix|windows
 # --enable-year2038
 #
 # --with-gnulib-prefix=DIR
@@ -30,19 +31,20 @@ libiconv_configure() {
 		build_cppflags='-DNDEBUG'
 	fi
 
-	# FIXME: required to link against static libintl
-	if ! ${build_shared}; then
-		build_libs='-ladvapi32'
-	fi
-
 	# Features
 	local enable_nls=--disable-nls
 	local enable_extra_encodings=--disable-extra-encodings
+	local enable_threads=windows
 
 	if [ ${stage} = 2 ]; then
 		enable_nls=--enable-nls
 		enable_extra_encodings=--enable-extra-encodings
 	fi
+
+	# FIXME: linking iconv.exe fails
+	#if [ ${stage} = 2 ] && ${opt_posix_threads}; then
+	#	enable_threads=posix
+	#fi
 
 	local configure_options="
 		--disable-silent-rules
@@ -58,6 +60,7 @@ libiconv_configure() {
 
 		${enable_nls}
 		${enable_extra_encodings}
+		--enable-threads=${enable_threads}
 	"
 
 	if [ -f Makefile ]; then
