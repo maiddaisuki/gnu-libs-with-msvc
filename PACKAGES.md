@@ -58,15 +58,34 @@ Dependencies:
 
 All other dependencies are optional for native Windows build.
 
+Misc libraries:
+
+- c-ares (TODO?)
+- gssapi (TODO?)
+- libgsasl (TODO?)
+- librtmp (TODO?)
+- libuv (TODO?)
+
 Compression libraries:
 
 - brtoli (TODO)
 - zlib (TODO)
 - zstd (TODO)
 
+HTTP libraries:
+
+- nghttp2 (TODO?)
+- ngtcp2+nghttp3 (TODO?)
+- openssl+nghttp3 (TODO?)
+- quiche (TODO?)
+
 IDN libraries:
 
 - libidn2
+
+LDAP libraries:
+
+- openldap (TODO?)
 
 SSH libraries:
 
@@ -80,22 +99,6 @@ SSL libraries:
 - openssl (TODO)
 - rustls (TODO?)
 - wolftls (TODO?)
-
-HTTP libraries:
-
-- nghttp2 (TODO?)
-- ngtcp2+nghttp3 (TODO?)
-- openssl+nghttp3 (TODO?)
-- quiche (TODO?)
-
-Other:
-
-- c-ares (TODO?)
-- gssapi (TODO?)
-- libgsasl (TODO?)
-- librtmp (TODO?)
-- libuv (TODO?)
-- openldap (TODO?)
 
 ### gettext
 
