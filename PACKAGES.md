@@ -99,6 +99,8 @@ Other:
 
 ### gettext
 
+Use of `gettext-1.0` or newer is recommended.
+
 In releases from `0.23` to `0.25`, `gettextlib.dll` and `gettextsrc.dll` are
 affected by a bug which causes programs linked against them crash at runtime.
 This bug has been fixed in release `0.26`.
@@ -115,6 +117,8 @@ Dependencies:
 
 Optional dependencies:
 
+- json-c (`> 0.18` is required, use `master` if no newer version is available)
+- libcurl
 - libunistring
 - libxml2
 

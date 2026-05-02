@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build gettext-tools (options as of gettext 0.26)
+# Build gettext-tools (options as of gettext 1.0)
 #
 # --enable-c++
 # --enable-csharp[=dotnet|mono]
@@ -82,16 +82,47 @@ gettext_configure() {
 	# Dependencies
 	local with_libunistring=--with-included-libunistring
 	local with_libxml2=--with-included-libxml
+	local libcurl_cflags=
+	local libcurl_ldflags
+	local libjsonc_cflags=
+	local libjsonc_ldflags=
+	local libxml2_cflags=
+	local libxml2_ldflags=
 
 	if ${WITH_LIBUNISTRING}; then
 		with_libunistring=--without-included-libunistring
 	fi
 
+	if ${WITH_CURL}; then
+		if ${build_shared}; then
+			libcurl_cflags=$(${PKG_CONFIG} --cflags libcurl)
+			libcurl_ldflags=$(${PKG_CONFIG} --libs libcurl)
+		else
+			libcurl_cflags=$(${PKG_CONFIG} --static --cflags libcurl)
+			libcurl_ldflags=$(${PKG_CONFIG} --static --libs libcurl)
+		fi
+
+		build_cflags="${build_cflags} ${libcurl_cflags}"
+		build_cxxflags="${build_cxxflags} ${libcurl_cflags}"
+		build_libs="${build_ldflags} ${libcurl_ldflags}"
+	fi
+
+	if ${WITH_JSON_C}; then
+		if ${build_shared}; then
+			libjsonc_cflags=$(${PKG_CONFIG} --cflags json-c)
+			libjsonc_ldflags=$(${PKG_CONFIG} --libs json-c)
+		else
+			libjsonc_cflags=$(${PKG_CONFIG} --static --cflags json-c)
+			libjsonc_ldflags=$(${PKG_CONFIG} --static --libs json-c)
+		fi
+
+		build_cflags="${build_cflags} ${libjsonc_cflags}"
+		build_cxxflags="${build_cxxflags} ${libjsonc_cflags}"
+		build_libs="${build_ldflags} ${libcurl_ldflags}"
+	fi
+
 	if ${WITH_LIBXML2}; then
 		with_libxml2=--without-included-libxml
-
-		local libxml2_cflags=
-		local libxml2_ldflags=
 
 		if ${build_shared}; then
 			libxml2_cflags=$(${PKG_CONFIG} --cflags libxml-2.0)
@@ -101,8 +132,9 @@ gettext_configure() {
 			libxml2_ldflags=$(${PKG_CONFIG} --static --libs libxml-2.0)
 		fi
 
-		build_cppflags="${build_cppflags} ${libxml2_cflags}"
-		build_libs="${build_libs} ${libxml2_ldflags}"
+		build_cflags="${build_cflags} ${libxml2_cflags}"
+		build_cxxflags="${build_cxxflags} ${libxml2_cflags}"
+		build_libs="${build_ldflags} ${libxml2_ldflags}"
 	fi
 
 	# Features

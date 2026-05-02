@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libasprintf (options as of gettext 0.26)
+# Build libasprintf (options as of gettext 1.0)
 #
 ## gnulib options
 #

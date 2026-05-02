@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libtextstyle (options as of gettext 0.26)
+# Build libtextstyle (options as of gettext 1.0)
 #
 # --enable-curses
 # --enable-namespacing
@@ -39,12 +39,11 @@ libtextstyle_configure() {
 
 	# Dependencies
 	local enable_curses=--disable-curses
+	local ncurses_cflags=
+	local ncurses_ldflags=
 
 	if ${WITH_NCURSES}; then
 		enable_curses=--enable-curses
-
-		local ncurses_cflags=
-		local ncurses_ldflags=
 
 		if ${build_shared}; then
 			ncurses_cflags=$(${PKG_CONFIG} --cflags ncurses)
@@ -54,7 +53,8 @@ libtextstyle_configure() {
 			ncurses_ldflags=$(${PKG_CONFIG} --static --libs ncurses)
 		fi
 
-		build_cppflags="${build_cppflags} ${ncurses_cflags}"
+		build_cflags="${build_cflags} ${ncurses_cflags}"
+		build_cxxflags="${build_cxxflags} ${ncurses_cflags}"
 		build_libs="${build_libs} ${ncurses_ldflags}"
 	fi
 
