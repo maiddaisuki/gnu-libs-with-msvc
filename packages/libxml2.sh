@@ -50,7 +50,7 @@
 # --with-iso8859x    [on]
 # --with-icu         [off]
 #
-# --with-lzma[=DIR]  [off]
+# --with-zlib[=DIR]  [off]
 #
 ## Python
 #
@@ -81,7 +81,7 @@ libxml2_configure() {
 	fi
 
 	if ${WITH_ZLIB}; then
-		with_zlib=--with-lzma
+		with_zlib=--with-zlib
 	fi
 
 	local configure_options="
