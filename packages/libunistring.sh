@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libunistring (options as of version 1.3)
+# Build libunistring (options as of version 1.4.2)
 #
 # --enable-namespacing
 #
