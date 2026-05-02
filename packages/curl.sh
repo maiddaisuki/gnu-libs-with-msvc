@@ -233,8 +233,7 @@ curl_configure() {
 	local with_librtmp=--without-librtmp
 	local with_libuv=--without-libuv
 
-	# FIXME: do not enforce dependency on libpsl
-	if true; then
+	if ${WITH_LIBPSL}; then
 		with_libpsl=--with-libpsl
 	fi
 

@@ -361,8 +361,7 @@ curl_configure() {
 	local use_libuv=OFF
 	local use_gssapi=OFF
 
-	# FIXME: do not enforce dependency on libpsl
-	if true; then
+	if ${WITH_LIBPSL}; then
 		use_libpsl=ON
 	fi
 

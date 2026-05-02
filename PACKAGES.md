@@ -52,17 +52,14 @@ Optional dependencies:
 
 ### curl
 
-Dependencies:
-
-- libpsl
-
-All other dependencies are optional for native Windows build.
+All dependencies are optional.
 
 Misc libraries:
 
 - c-ares (TODO?)
 - gssapi (TODO?)
 - libgsasl (TODO?)
+- libpsl
 - librtmp (TODO?)
 - libuv (TODO?)
 
