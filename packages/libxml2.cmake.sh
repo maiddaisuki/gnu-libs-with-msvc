@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: cmake
 
 ##
-# Build libxml2 (options as of version 2.15.1)
+# Build libxml2 (options as of version 2.15.3)
 #
 # LIBXML2_WITH_PROGRAMS     [ON]
 # LIBXML2_WITH_TESTS        [ON]

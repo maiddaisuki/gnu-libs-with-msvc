@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build libxml2 (options as of version 2.15.1)
+# Build libxml2 (options as of version 2.15.3)
 #
 # --with-docs         [off]
 #
