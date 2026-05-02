@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools (automake + libtool)
 
 ##
-# Build curl (options as of version 8.17.0)
+# Build curl (options as of version 8.20)
 #
 # --enable-largefile
 # --enable-year2038
@@ -14,6 +14,8 @@
 #
 
 ## CA
+#
+# --enable-ca-native
 #
 # --with-ca-bundle=FILE
 # --with-ca-embed=FILE
@@ -43,7 +45,6 @@
 
 ## Features
 #
-# --enable-curldebug
 # --enable-libcurl-option
 #
 # --enable-alt-svc
@@ -82,6 +83,7 @@
 # --enable-tftp
 # --enable-threaded-resolver
 # --enable-tls-srp
+# --enable-typecheck
 # --enable-unix-sockets
 # --enable-verbose
 # --enable-websockets
@@ -113,7 +115,6 @@
 #
 # --with-libgsasl=PATH
 # --with-libpsl=PATH
-# --with-librtmp=PATH
 # --with-libuv=PATH
 #
 # --with-gssapi=DIR
@@ -123,6 +124,10 @@
 # [Apple]
 #
 # --with-apple-sectrust
+#
+# [Not applicable]
+#
+# --enable-backtrace
 #
 ## Compression Libraries
 #
@@ -135,7 +140,6 @@
 # --with-nghttp2=PATH
 # --with-nghttp3=PATH
 # --with-ngtcp2=PATH
-# --with-openssl-quic
 # --with-quiche=PATH
 #
 ## IDN Libraries
@@ -188,6 +192,7 @@
 # --with-test-danted=PATH
 # --with-test-httpd=PATH
 # --with-test-nghttpx=PATH
+# --with-test-sshd=PATH
 # --with-test-vsftpd=PATH
 #
 
@@ -204,6 +209,8 @@
 #
 # --enable-debug
 # --enable-code-coverage
+#
+# --enable-init-mem-debug
 #
 
 curl_configure() {
@@ -230,7 +237,6 @@ curl_configure() {
 	local with_libgsasl=--without-libgsasl
 	local with_lgssapi=--without-gssapi
 	local with_libpsl=--without-libpsl
-	local with_librtmp=--without-librtmp
 	local with_libuv=--without-libuv
 
 	if ${WITH_LIBPSL}; then
@@ -250,7 +256,6 @@ curl_configure() {
 	local with_nghttp2=--without-nghttp2
 	local with_nghttp3=--without-nghttp3
 	local with_ngtcp2=--without-ngtcp2
-	local with_openssl_quic=--without-openssl-quic
 	local with_quiche=--without-quiche
 
 	# IDN libraries
@@ -302,7 +307,6 @@ curl_configure() {
 		${with_libgsasl}
 		${with_lgssapi}
 		${with_libpsl}
-		${with_librtmp}
 		${with_libuv}
 
 		${with_brotli}
@@ -312,7 +316,6 @@ curl_configure() {
 		${with_nghttp2}
 		${with_nghttp3}
 		${with_ngtcp2}
-		${with_openssl_quic}
 		${with_quiche}
 
 		${with_libidn2}

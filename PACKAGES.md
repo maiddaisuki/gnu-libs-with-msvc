@@ -60,7 +60,6 @@ Misc libraries:
 - gssapi (TODO?)
 - libgsasl (TODO?)
 - libpsl
-- librtmp (TODO?)
 - libuv (TODO?)
 
 Compression libraries:
@@ -73,7 +72,6 @@ HTTP libraries:
 
 - nghttp2 (TODO?)
 - ngtcp2+nghttp3 (TODO?)
-- openssl+nghttp3 (TODO?)
 - quiche (TODO?)
 
 IDN libraries:

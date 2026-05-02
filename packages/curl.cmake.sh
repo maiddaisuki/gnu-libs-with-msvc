@@ -3,13 +3,15 @@
 # BUILD_SYSTEM: cmake
 
 ##
-# Build curl (options as of version 8.17.0)
+# Build curl (options as of version 8.20)
 #
 # BUILD_SHARED_LIBS={ON|OFF} [ON]
 # BUILD_STATIC_LIBS={ON|OFF} [OFF]
 #
 # BUILD_CURL_EXE={ON|OFF}    [ON]
 # BUILD_STATIC_CURL={ON|OFF} [OFF]
+#
+# CURL_BUILD_EVERYTHING={ON|OFF} [OFF]
 #
 # BUILD_EXAMPLES={ON|OFF}    [ON]
 #
@@ -35,6 +37,7 @@
 # CURL_CA_BUNDLE={STRING|auto|none} [auto]
 # CURL_CA_EMBED=STRING              []
 # CURL_CA_FALLBACK={ON|OFF}         [OFF]
+# CURL_CA_NATIVE={ON|OFF}           [OFF]
 # CURL_CA_PATH={STRING|auto|none}   [auto]
 #
 # [Windows]
@@ -61,8 +64,8 @@
 
 ## Features
 #
-# ENABLE_CURLDEBUG={ON|OFF}             [OFF]
 # CURL_DISABLE_LIBCURL_OPTION={ON|OFF}  [OFF]
+# CURL_PATCHSTAMP=STRING
 #
 # HTTP_ONLY={ON|OFF}                    [OFF]
 #
@@ -89,19 +92,20 @@
 # CURL_DISABLE_MIME={ON|OFF}            [OFF]
 # CURL_DISABLE_MQTT={ON|OFF}            [OFF]
 # CURL_DISABLE_NETRC={ON|OFF}           [OFF]
-# CURL_DISABLE_NTLM={ON|OFF}            [OFF]
+# CURL_ENABLE_NTLM={ON|OFF}             [OFF]
 # CURL_DISABLE_POP3={ON|OFF}            [OFF]
 # CURL_DISABLE_PROGRESS_METER={ON|OFF}  [OFF]
 # CURL_DISABLE_PROXY={ON|OFF}           [OFF]
 # CURL_DISABLE_RTSP={ON|OFF}            [OFF]
 # CURL_DISABLE_SHA512_256={ON|OFF}      [OFF]
-# CURL_DISABLE_SMB={ON|OFF}             [OFF]
+# CURL_ENABLE_SMB={ON|OFF}              [OFF]
 # CURL_DISABLE_SMTP={ON|OFF}            [OFF]
 # CURL_DISABLE_SOCKETPAIR={ON|OFF}      [OFF]
 # CURL_DISABLE_TELNET={ON|OFF}          [OFF]
 # CURL_DISABLE_TFTP={ON|OFF}            [OFF]
 # ENABLE_THREADED_RESOLVER={ON|OFF}     [ON]
 # CURL_DISABLE_SRP={ON|OFF}             [OFF]
+# CURL_DISABLE_TYPECHECK={ON|OFF}       [OFF]
 # ENABLE_UNIX_SOCKETS={ON|OFF}          [ON]
 # CURL_DISABLE_VERBOSE_STRINGS={ON|OFF} [OFF]
 # CURL_DISABLE_WEBSOCKETS={ON|OFF}      [ON]
@@ -128,11 +132,13 @@
 
 ## Dependencies
 #
-# CURL_USE_PKGCONFIG={ON|OFF} [OFF]
+# CURL_USE_CMAKECONFIG={ON|OFF} [ON]
+# CURL_USE_PKGCONFIG={ON|OFF}   [OFF]
 #
 # ENABLE_ARES={ON|OFF} [OFF]
 #   CARES_INCLUDE_DIR
 #   CARES_LIBRARY
+#   CARES_USE_STATIC_LIBS
 #
 # CURL_USE_GSASL={ON|OFF} [OFF]
 #   LIBGSASL_INCLUDE_DIR
@@ -141,10 +147,6 @@
 # CURL_USE_LIBPSL={ON|OFF} [ON]
 #   LIBPSL_INCLUDE_DIR
 #   LIBPSL_LIBRARY
-#
-# USE_LIBRTMP={ON|OFF} [OFF]
-#    LIBRTMP_INCLUDE_DIR
-#    LIBRTMP_LIBRARY
 #
 # CURL_USE_LIBUV={ON|OFF} [OFF]
 #   LIBUV_INCLUDE_DIR
@@ -164,12 +166,19 @@
 #
 # WATT_ROOT
 #
+# [Not applicable]
+#
+# CURL_USE_LIBBACKTRACE={ON|OFF}
+#   LIBBACKTRACE_INCLUDE_DIR
+#   LIBBACKTRACE_LIBRARY
+#
 ## Compression Libraries
 #
 # CURL_BROTLI={AUTO|ON|OFF} [AUTO]
 #   BROTLI_INCLUDE_DIR=
 #   BROTLICOMMON_LIBRARY
 #   BROTLIDEC_LIBRARY
+#   BROTLI_USE_STATIC_LIBS
 #
 # CURL_ZLIB={AUTO|ON|OFF} [AUTO]
 #   ZLIB_INCLUDE_DIR
@@ -179,16 +188,19 @@
 # CURL_ZSTD={AUTO|ON|OFF} [AUTO]
 #   ZSTD_INCLUDE_DIR
 #   ZSTD_LIBRARY
+#   ZSTD_USE_STATIC_LIBS
 #
 ## HTTP Libraries
 #
 # USE_NGHTTP2={ON|OFF} [ON]
 #   NGHTTP2_INCLUDE_DIR
 #   NGHTTP2_LIBRARY
+#   NGHTTP2_USE_STATIC_LIBS
 #
 # USE_NGTCP2={ON|OFF} [OFF]
 #   NGHTTP3_INCLUDE_DIR
 #   NGHTTP3_LIBRARY
+#   NGHTTP3_USE_STATIC_LIBS
 #   NGTCP2_INCLUDE_DIR
 #   NGTCP2_LIBRARY
 #   NGTCP2_CRYPTO_BORINGSSL_LIBRARY
@@ -197,8 +209,7 @@
 #   NGTCP2_CRYPTO_OSSL_LIBRARY
 #   NGTCP2_CRYPTO_QUICTLS_LIBRARY
 #   NGTCP2_CRYPTO_WOLFSSL_LIBRARY
-#
-# USE_OPENSSL_QUIC={ON|OFF} [OFF]
+#   NGTCP2_USE_STATIC_LIBS
 #
 # USE_QUICHE={ON|OFF} [OFF]
 #   QUICHE_INCLUDE_DIR
@@ -229,12 +240,16 @@
 # CURL_USE_LIBSSH={ON|OFF} [OFF]
 #   LIBSSH_INCLUDE_DIR
 #   LIBSSH_LIBRARY
+#   LIBSSH_USE_STATIC_LIBS
 #
 # CURL_USE_LIBSSH2={ON|OFF} [ON]
 #   LIBSSH2_INCLUDE_DIR
 #   LIBSSH2_LIBRARY
+#   LIBSSH2_USE_STATIC_LIBS
 #
 ## SSL Libraries
+#
+# BORINGSSL_VERSION=STRING
 #
 # CURL_USE_GNUTLS={ON|OFF} [OFF]
 #   GNUTLS_INCLUDE_DIR
@@ -245,6 +260,7 @@
 #   MBEDCRYPTO_LIBRARY
 #   MBEDTLS_LIBRARY
 #   MBEDX509_LIBRARY
+#   MBEDTLS_USE_STATIC_LIBS
 #
 # CURL_USE_OPENSSL={ON|OFF} [ON]
 #   OPENSSL_ROOT_DIR
@@ -281,6 +297,7 @@
 # PICKY_COMPILER={ON|OFF}   [ON]
 # CURL_WERROR={ON|OFF}      [OFF]
 #
+# CURL_DROP_UNUSED={ON|OFF} [OFF]
 # CURL_LTO={ON|OFF}         [OFF]
 #
 
@@ -299,6 +316,7 @@
 # HTTPD_NGHTTPX=STRING [nghttpx]
 # TEST_NGHTTPX=STRING  [nghttpx]
 # SFTPD=STRING         [sftp-server]
+# SSHD=STRING          [sshd]
 # VSFTPD=STRING        [vsftps]
 #
 
@@ -323,11 +341,14 @@
 #
 # ENABLE_DEBUG={ON|OFF}       [OFF]
 #
+# CURL_GCC_ANALYZER={ON|OFF}  [OFF]
+#
 # CLANG_TIDY=STRING           [clang-tidy]
 # CURL_CLANG_TIDY={ON|OFF}    [OFF]
 # CURL_CLANG_TIDYFLAGS=STRING []
 #
 # CURL_CODE_COVERAGE={ON|OFF} [OFF]
+# CURL_LINT={ON|OFF}          [OFF]
 #
 
 curl_configure() {
@@ -357,7 +378,6 @@ curl_configure() {
 	local use_ares=OFF
 	local use_gsasl=OFF
 	local use_libpsl=OFF
-	local use_librtmp=OFF
 	local use_libuv=OFF
 	local use_gssapi=OFF
 
@@ -377,7 +397,6 @@ curl_configure() {
 	# HTTP libraries
 	local use_nghttp2=OFF
 	local use_ngtcp2=Off
-	local use_openssl_quic=OFF
 	local use_quiche=OFF
 
 	# IDN libraries
@@ -433,7 +452,6 @@ curl_configure() {
 		-DENABLE_ARES=${use_ares}
 		-DCURL_USE_GSASL=${use_gsasl}
 		-DCURL_USE_LIBPSL=${use_libpsl}
-		-DUSE_LIBRTMP=${use_librtmp}
 		-DCURL_USE_LIBUV=${use_libuv}
 		-DCURL_USE_GSSAPI=${use_gssapi}
 
@@ -443,7 +461,6 @@ curl_configure() {
 
 		-DUSE_NGHTTP2=${use_nghttp2}
 		-DUSE_NGTCP2=${use_ngtcp2}
-		-DUSE_OPENSSL_QUIC=${use_openssl_quic}
 		-DUSE_QUICHE=${use_quiche}
 
 		-DUSE_LIBIDN2=${use_libidn2}
