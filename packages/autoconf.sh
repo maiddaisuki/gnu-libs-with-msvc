@@ -3,7 +3,7 @@
 # BUILD_SYSTEM: autotools
 
 ##
-# Build autoconf (options as of version 2.72)
+# Build autoconf (options as of version 2.73)
 #
 # --with-lispdir
 #
