@@ -105,8 +105,8 @@ winpthreads_pack_hook() {
 			URL: https://www.mingw-w64.org/
 
 			Cflags: -I\${includedir} -DWINPTHREADS_USE_DLLIMPORT
-			Cflags.private: -UWINPTHREADS_USE_DLLIMPORT
-			Libs: -L\${libdir} -lpthread
+			Cflags.private: -DWINPTHREADS_STATIC
+			Libs: -L\${libdir} -lwinpthread
 			Libs.private:
 		EOF
 	fi
